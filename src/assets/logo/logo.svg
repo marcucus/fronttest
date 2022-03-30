@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="277px" height="429px" viewBox="0 0 277 429" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Group</title>
+    <defs>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-1">
+            <stop stop-color="#FCD34D" offset="0%"></stop>
+            <stop stop-color="#F59E0B" offset="100%"></stop>
+        </linearGradient>
+        <path d="M117.354166,5.64170315 L17.2647348,223.037694 C16.8027966,224.041032 17.2416878,225.228873 18.2450256,225.690811 C18.5510072,225.831685 18.8876138,225.892993 19.2236151,225.869047 L74.6600755,221.918173 C75.7618505,221.839651 76.7186701,222.669162 76.7971919,223.770937 C76.8202034,224.09382 76.7644988,224.417465 76.6348622,224.714075 L4.26325641e-14,400.055648 L4.26325641e-14,400.055648 L248.251921,143.947911 C249.020711,143.154793 249.000989,141.888617 248.207871,141.119827 C247.752196,140.678129 247.113935,140.478904 246.487909,140.582964 L167.583465,153.698635 C166.493846,153.879754 165.463709,153.143269 165.282591,152.05365 C165.209017,151.611028 165.286419,151.156523 165.502353,150.763205 L246.579618,3.08319576 C247.111192,2.11494841 246.757198,0.899103028 245.78895,0.367529081 C245.473387,0.19428281 245.116913,0.109421294 244.757137,0.121897426 L119.101557,4.47931773 C118.346258,4.50550961 117.670227,4.95521314 117.354166,5.64170315 Z" id="path-2"></path>
+        <filter x="-10.3%" y="-4.0%" width="119.1%" height="113.0%" filterUnits="objectBoundingBox" id="filter-4">
+            <feOffset dx="0" dy="10" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="7" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.213168911 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+        <linearGradient x1="50%" y1="17.2718475%" x2="50%" y2="87.2412832%" id="linearGradient-5">
+            <stop stop-color="#FDE68A" offset="0%"></stop>
+            <stop stop-color="#FCD34D" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group" transform="translate(14.130338, 4.005886)">
+            <mask id="mask-3" fill="white">
+                <use xlink:href="#path-2"></use>
+            </mask>
+            <g id="Path">
+                <use fill="black" fill-opacity="1" filter="url(#filter-4)" xlink:href="#path-2"></use>
+                <use fill="url(#linearGradient-1)" fill-rule="evenodd" xlink:href="#path-2"></use>
+            </g>
+            <polygon id="Path" fill="url(#linearGradient-1)" mask="url(#mask-3)" points="117.869662 4.52203674 15.8504965 226.109444 77.9596164 221.68302 0 400.055648 252.47895 139.58712 163.519961 154.374079 248.272312 0"></polygon>
+            <polygon id="Path" fill="url(#linearGradient-5)" opacity="0.510337466" mask="url(#mask-3)" points="117.869662 4.52203674 15.8504965 226.109444 77.9596164 221.68302 1.13686838e-13 400.055648 170 177.386034 110.101826 190.027126 205.092311 2.84217094e-14"></polygon>
+        </g>
+    </g>
+</svg>

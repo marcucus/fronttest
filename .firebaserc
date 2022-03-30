@@ -1,0 +1,17 @@
+{
+  "projects": {
+    "default": "app-foudroyer"
+  },
+  "targets": {
+    "foudroyer-com": {
+      "hosting": {
+        "dashboard-foudroyer-com": [
+          "dashboard-foudroyer-com"
+        ],
+        "beta-foudroyer-com": [
+          "beta-foudroyer-com"
+        ]
+      }
+    }
+  }
+}
