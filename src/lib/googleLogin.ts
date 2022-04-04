@@ -2,7 +2,7 @@ import {GoogleLoginResponse, GoogleLoginResponseOffline} from "react-google-logi
 
 export default async (
     response: GoogleLoginResponse | GoogleLoginResponseOffline
-): Promise<{ accessToken: string; refreshToken: string; } | undefined> => {
+    ): Promise<{ accessToken: string; refreshToken: string; } | undefined> => {
     if ("accessToken" in response) {
         try {
             const token = response.accessToken;
