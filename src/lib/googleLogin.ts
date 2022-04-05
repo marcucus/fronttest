@@ -6,7 +6,7 @@ export default async (
     if ("accessToken" in response) {
         try {
             const token = response.accessToken;
-            const result = await fetch("http://127.0.0.1:3000/auth/google/login", {
+            const result = await fetch("http://localhost:3333/authentication", {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',

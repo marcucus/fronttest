@@ -2,8 +2,9 @@ import React, { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import { DotsVerticalIcon} from "@heroicons/react/solid";
 import { RouteComponentProps, Link } from "@reach/router";
+import { Props } from "@headlessui/react/dist/types";
 
-export const ListSite: React.FC<RouteComponentProps> = () => {
+export const ListSite: React.FC<RouteComponentProps> = (props) => {
   const [showModal, setShowModal] = React.useState(false);
     
   const sites=[

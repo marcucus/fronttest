@@ -3,6 +3,8 @@ import { Router } from '@reach/router';
 import { AuthenticationPage } from './routes/authentification';
 import { ListSite } from './components/listSite';
 import { TableRank } from './components/tableRank';
+import { RankingSite } from './routes/site';
+import { RankingTable } from './routes/ranking';
 
 function App() {
   return (
@@ -10,8 +12,8 @@ function App() {
       <header className="App-header">
         <Router>
           <AuthenticationPage path='/'/>
-            <ListSite path='/ranking/list'/>
-            <TableRank path='/ranking/list/table'/>
+            <RankingSite path='/ranking/list'/>
+            <RankingTable path='/ranking/list/table'/>
         </Router>
       </header>
     </div>
