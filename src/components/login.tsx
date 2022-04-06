@@ -2,6 +2,7 @@ import { Redirect, redirectTo, RouteComponentProps } from "@reach/router";
 import { render } from "@testing-library/react";
 import GoogleLogin from "react-google-login";
 import googleLogin from "../lib/googleLogin";
+import { ListSite } from "./listSite";
 
 export const Login: React.FC<RouteComponentProps> = () => {
     return(
@@ -11,7 +12,7 @@ export const Login: React.FC<RouteComponentProps> = () => {
             buttonText="Login with Google"
             onSuccess={async (response) => {
                 const tokens = await googleLogin(response);
-                alert('tu es connecté !');
+                alert(tokens);
             } }
             onFailure={(response) => {
                 alert("Error while logging in w/Google 2");
