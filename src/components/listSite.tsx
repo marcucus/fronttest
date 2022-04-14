@@ -2,6 +2,7 @@ import React, { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import { DotsVerticalIcon} from "@heroicons/react/solid";
 import { RouteComponentProps, Link } from "@reach/router";
+import { Navbar } from "./navbar";
 
 export const ListSite: React.FC<RouteComponentProps> = (props) => {
   const [showModal, setShowModal] = React.useState(false);
@@ -87,7 +88,7 @@ export const ListSite: React.FC<RouteComponentProps> = (props) => {
               </svg>
             </div>
             <div className="min-w-0 flex-1">
-              <p className="text-sm font-medium hover:text-yellow-500">
+              <p className="text-sm font-medium text-yellow-600 hover:text-yellow-500">
                 <Link to="/ranking/list/table/">
                   {sites.url}
                 </Link>

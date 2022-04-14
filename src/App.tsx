@@ -1,17 +1,16 @@
-import React from 'react';
 import { Router } from '@reach/router';
-import { AuthenticationPage } from './routes/authentification';
-import { ListSite } from './components/listSite';
-import { TableRank } from './components/tableRank';
 import { RankingSite } from './routes/site';
 import { RankingTable } from './routes/ranking';
+import { HomePage } from './routes/home';
+import { PricingPage } from './routes/pricing';
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
         <Router>
-          <AuthenticationPage path='/'/>
+          <HomePage path='/'/>
+            <PricingPage path='/pricing'/>
             <RankingSite path='/ranking/list'/>
             <RankingTable path='/ranking/list/table'/>
         </Router>
