@@ -7,8 +7,7 @@ import { Footer } from "../components/footer";
 export const RankingTable: React.FC<RouteComponentProps> = () => {
   return (
     <>
-    <Navbar></Navbar>
-      <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
+      <Navbar></Navbar>
        <div className="absolute top-15 left-0 p-4">
         <Link to="/ranking/list" className="group flex items-center cursor-pointer transform duration-300 transition-all">
           <div className="relative z-10 p-2 text-gray-500 transition-all duration-300 ease-in-out rounded bg-gray-50 group-hover:bg-gray-200 group-hover:text-gray-700">
@@ -17,15 +16,15 @@ export const RankingTable: React.FC<RouteComponentProps> = () => {
               </path>
             </svg>
           </div>
-              <div className="p-2 text-sm font-semibold text-gray-600 uppercase transition-all duration-300 ease-in-out transform -translate-x-8 opacity-0 group-hover:opacity-100 group-hover:translate-x-0">
+              <div className="p-2 text-sm font-semibold text-gray-200 uppercase transition-all duration-300 ease-in-out transform -translate-x-8 opacity-0 group-hover:opacity-100 group-hover:translate-x-0">
                 Retour
               </div>
         </Link>
           </div>
-
         <TableRank></TableRank>
-      </div>
+        <div className="text-white top-full">
     <Footer></Footer>
+  </div>
     </>
   );
 };

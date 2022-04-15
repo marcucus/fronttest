@@ -1,20 +1,16 @@
-import { Fragment } from 'react'
-import { Popover, Transition } from '@headlessui/react'
-import { MenuIcon, XIcon } from '@heroicons/react/outline'
 import { ChevronRightIcon } from '@heroicons/react/solid'
 import { Link, RouteComponentProps } from '@reach/router'
 import { Login } from './login'
-import Google from "../assets/socials/google.svg"
-import Logo from "../assets/logo/logo.svg"
-import { Navbar } from './navbar'
 import { Faq } from './faq'
 import { Pricing } from './pricing'
+import { Features } from './features'
 
 
 
 export const Home: React.FC<RouteComponentProps> = () => {
   return (
-    <><div className="relative bg-gray-800 overflow-hidden">
+    <>
+        <div className="relative bg-gray-800 overflow-hidden">
           <main className="mt-16 sm:mt-24">
               <div className="mx-auto max-w-7xl">
                   <div className="lg:grid lg:grid-cols-12 lg:gap-8">
@@ -78,9 +74,9 @@ export const Home: React.FC<RouteComponentProps> = () => {
               </div>
           </main><br/>
       </div>
-        <Faq></Faq>
+        <Features></Features>
         <Pricing></Pricing>
-          
+        <Faq></Faq>
     </>
   )
 }

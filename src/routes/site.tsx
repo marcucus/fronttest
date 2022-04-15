@@ -8,10 +8,10 @@ export const RankingSite: React.FC<RouteComponentProps> = () => {
   return (
     <>
       <Navbar></Navbar>
-        <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
-          <ListSite></ListSite>
-        </div>
-      <Footer></Footer>
+        <ListSite></ListSite>
+          <div className="relative w-full bottom-0">
+            <Footer></Footer>
+          </div>
     </>
   );
 };

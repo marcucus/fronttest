@@ -1,6 +1,6 @@
 import { Fragment } from 'react'
-import { Disclosure, Menu, Popover, Transition } from '@headlessui/react'
-import { BellIcon, MenuIcon, XIcon } from '@heroicons/react/outline'
+import { Disclosure, Menu, Transition } from '@headlessui/react'
+import { MenuIcon, XIcon } from '@heroicons/react/outline'
 import { Link, RouteComponentProps } from '@reach/router'
 import Logo from '../assets/logo/logo.svg'
 
@@ -65,16 +65,22 @@ return (
                         Accueil
                       </div>
                       </Link>
-                      <a href='/#faq'>
-                      <div
+                      <a href='/#features'>
+                        <div
                         className= 'text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium'>
-                        Des questions ?
+                        Fonctionnalités
                       </div>
                       </a>
                       <a href='/#pricing'>
                         <div
                         className= 'text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium'>
                         Prix
+                      </div>
+                      </a>
+                      <a href='/#faq'>
+                      <div
+                        className= 'text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium'>
+                        Des questions ?
                       </div>
                       </a>
                   </div>
