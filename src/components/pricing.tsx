@@ -50,12 +50,12 @@ const tiers = [
 
 export const Pricing: React.FC<RouteComponentProps> = () => {
     return(
-        <><br></br>
+        <>
     <div className="bg-gray-800">
       <div className="pt-12 sm:pt-16 lg:pt-24">
         <div className="max-w-7xl mx-auto text-center px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl mx-auto space-y-2 lg:max-w-none">
-            <h2 className="text-lg leading-6 font-semibold text-gray-300 uppercase tracking-wider">Pricing</h2>
+            <h2 id="pricing" className="text-lg leading-6 font-semibold text-gray-300 uppercase tracking-wider">Pricing</h2>
             <p className="text-3xl font-extrabold text-yellow-400 sm:text-4xl lg:text-5xl">
               Le bon prix pour vous, Nique ta mere manon
             </p>
