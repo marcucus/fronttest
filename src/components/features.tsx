@@ -1,45 +1,45 @@
 import { RouteComponentProps } from "@reach/router"
-import { AnnotationIcon, GlobeAltIcon, LightningBoltIcon, ScaleIcon } from '@heroicons/react/outline'
+import { AnnotationIcon, GlobeAltIcon, LightningBoltIcon, CurrencyEuroIcon } from '@heroicons/react/outline'
 
 const features = [
   {
-    name: 'Competitive exchange rates',
+    name: 'Protection des données',
     description:
-      'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Maiores impedit perferendis suscipit eaque, iste dolor cupiditate blanditiis ratione.',
+      'Les données récupérés par Ranking ne seront ni revendues ni réutilisés hors du réseau Foudroyer !',
     icon: GlobeAltIcon,
   },
   {
-    name: 'No hidden fees',
+    name: 'Moins cher que les concurrents',
     description:
-      'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Maiores impedit perferendis suscipit eaque, iste dolor cupiditate blanditiis ratione.',
-    icon: ScaleIcon,
+      'Ne vous ruinez plus grâce a Ranking !',
+    icon: CurrencyEuroIcon,
   },
   {
-    name: 'Transfers are instant',
+    name: 'Résultats instantanés',
     description:
-      'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Maiores impedit perferendis suscipit eaque, iste dolor cupiditate blanditiis ratione.',
+      'Indiquez nous vos URL, vos mots-clés pour obtenir des résultats instantanés !',
     icon: LightningBoltIcon,
   },
   {
-    name: 'Mobile notifications',
+    name: 'Support personnalisé',
     description:
-      'Lorem ipsum, dolor sit amet consectetur adipisicing elit. Maiores impedit perferendis suscipit eaque, iste dolor cupiditate blanditiis ratione.',
+      'De vraies personnes présentes 7 jours sur 7 de 10h à 19h !',
     icon: AnnotationIcon,
   },
 ]
 
 export const Features: React.FC<RouteComponentProps> = () => {
     return (
-        <><br/><div id="features" className="py-12 bg-white">
+        <><br/>
+          <div id="features" className="py-12 bg-white">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="lg:text-center">
-                    <h2 className="text-base text-indigo-600 font-semibold tracking-wide uppercase">Transactions</h2>
+                    <h2 className="text-base text-yellow-500 font-semibold tracking-wide uppercase">Fonctionnalités</h2>
                     <p className="mt-2 text-3xl leading-8 font-extrabold tracking-tight text-gray-900 sm:text-4xl">
-                        A better way to send money
+                        Analysez vos performances.
                     </p>
                     <p className="mt-4 max-w-2xl text-xl text-gray-500 lg:mx-auto">
-                        Lorem ipsum dolor sit amet consect adipisicing elit. Possimus magnam voluptatum cupiditate veritatis in
-                        accusamus quisquam.
+                        Pourquoi Ranking ? Car il va pousser les moteurs de recherches à vous donner vos positions ⚡️.
                     </p>
                 </div>
 
@@ -48,7 +48,7 @@ export const Features: React.FC<RouteComponentProps> = () => {
                         {features.map((feature) => (
                             <div key={feature.name} className="relative">
                                 <dt>
-                                    <div className="absolute flex items-center justify-center h-12 w-12 rounded-md bg-indigo-500 text-white">
+                                    <div className="absolute flex items-center justify-center h-12 w-12 rounded-md bg-yellow-500 text-white">
                                         <feature.icon className="h-6 w-6" aria-hidden="true" />
                                     </div>
                                     <p className="ml-16 text-lg leading-6 font-medium text-gray-900">{feature.name}</p>

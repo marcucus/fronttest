@@ -10,15 +10,14 @@ import { Features } from './features'
 export const Home: React.FC<RouteComponentProps> = () => {
   return (
     <>
-        <div className="relative bg-gray-800 overflow-hidden">
+        <div className="relative bg-gray-800 overflow-hidden min-h-[682px]">
           <main className="mt-16 sm:mt-24">
               <div className="mx-auto max-w-7xl">
                   <div className="lg:grid lg:grid-cols-12 lg:gap-8">
                       <div className="px-4 sm:px-6 sm:text-center md:max-w-2xl md:mx-auto lg:col-span-6 lg:text-left lg:flex lg:items-center">
                           <div>
                               <Link to="/ranking/list">
-                              <a
-                                  href="#"
+                              <div
                                   className="inline-flex items-center text-white bg-gray-900 rounded-full p-1 pr-2 sm:text-base lg:text-sm xl:text-base hover:text-gray-200"
                               >
                                   <span className="px-3 py-0.5 text-white text-xs font-semibold leading-5 uppercase tracking-wide bg-yellow-500 rounded-full">
@@ -26,7 +25,7 @@ export const Home: React.FC<RouteComponentProps> = () => {
                                   </span>
                                   <span className="ml-4 text-sm">Connectez-vous !</span>
                                   <ChevronRightIcon className="ml-2 w-5 h-5 text-gray-500" aria-hidden="true" />
-                              </a>
+                              </div>
                               </Link>
                               <h1 className="mt-4 text-4xl tracking-tight font-extrabold text-white sm:mt-5 sm:leading-none lg:mt-6 lg:text-5xl xl:text-6xl">
                                   <span className="md:block">
@@ -54,15 +53,15 @@ export const Home: React.FC<RouteComponentProps> = () => {
                                       <div className="flex justify-center px-10">
                                           <img
                                               className="h-9 sm:h-10"
-                                              src="https://www.vectorlogo.zone/logos/yahoo/yahoo-ar21.svg"
-                                              alt="Yahoo!" />
+                                              src="https://www.vectorlogo.zone/logos/yandex/yandex-ar21.svg"
+                                              alt="yandex!" />
                                       </div>
                                   </div>
                               </div>
                           </div>
                       </div>
-                      <div className="mt-16 sm:mt-24 lg:mt-0 lg:col-span-6">
-                          <div className="sm:max-w-md sm:w-full sm:mx-auto sm:rounded-lg sm:overflow-hidden">
+                      <div className="sm:mt-24 lg:mt-0 lg:col-span-6">
+                          <div className="sm:max-w-md mt-40 sm:w-full sm:mx-auto sm:rounded-lg sm:overflow-hidden">
                               <div className="px-4 py-8 sm:px-10">
                                   <div>
                                   </div>
@@ -73,6 +72,11 @@ export const Home: React.FC<RouteComponentProps> = () => {
                   </div>
               </div>
           </main><br/>
+          <div className=" text-center animate-bounce">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" className="inline-block w-6 h-6 text-gray-700"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 13l-7 7-7-7m14-8l-7 7-7-7">
+                </path>
+            </svg>
+        </div>
       </div>
         <Features></Features>
         <Pricing></Pricing>

@@ -3,34 +3,30 @@ import { RouteComponentProps } from '@reach/router'
 
 const tiers = [
     {
-      name: 'Standard',
+      name: 'Gratuit',
       href: '#',
-      priceMonthly: 49,
-      description: 'Lorem ipsum dolor sit amet consectetur, adipisicing elit.',
+      priceMonthly: 0,
+      description: 'Il y a une version gratuite ! ',
       features: [
-        'Pariatur quod similique',
-        'Sapiente libero doloribus modi nostrum',
-        'Vel ipsa esse repudiandae excepturi',
-        'Itaque cupiditate adipisci quibusdam',
+        '100 requêtes',
+        'Pas de carte de crédit !',
+        'Gratuit',
+        'Durée infinie',
       ],
     },
     {
-      name: 'Enterprise',
+      name: 'Pro',
       href: '#',
-      priceMonthly: 79,
-      description: 'Lorem ipsum dolor sit amet consectetur, adipisicing elit.',
+      priceMonthly: "X",
+      description: 'Plus de requêtes et plus de mots-clés !',
       features: [
-        'Pariatur quod similique',
-        'Sapiente libero doloribus modi nostrum',
-        'Vel ipsa esse repudiandae excepturi',
-        'Itaque cupiditate adipisci quibusdam',
+        '1\'000 requêtes',
+        'Support personnalisé',
+        'Paiements sécurisés',
+        'Sans engagement !',
       ],
     },
   ]
-  
-  function classNames(...classes: any[]) {
-    return classes.filter(Boolean).join(' ')
-  }
 
 export const Pricing: React.FC<RouteComponentProps> = () => {
     return(
@@ -39,7 +35,7 @@ export const Pricing: React.FC<RouteComponentProps> = () => {
       <div id="pricing" className="pt-12 sm:pt-16 lg:pt-24">
         <div className="max-w-7xl mx-auto text-center px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl mx-auto space-y-2 lg:max-w-none">
-            <h2 className="text-lg leading-6 font-semibold text-gray-300 uppercase tracking-wider">Pricing</h2>
+            <h2 className="text-lg leading-6 font-semibold text-gray-300 uppercase tracking-wider">Prix</h2>
             <p className="text-3xl font-extrabold text-yellow-400 sm:text-4xl lg:text-5xl">
               Le bon prix pour vous.
             </p>
@@ -66,13 +62,13 @@ export const Pricing: React.FC<RouteComponentProps> = () => {
                       </h3>
                     </div>
                     <div className="mt-4 flex items-baseline text-6xl font-extrabold">
-                      €{tier.priceMonthly}
+                      {tier.priceMonthly}€
                       <span className="ml-1 text-2xl font-medium text-gray-500">/mois</span>
                     </div>
                     <p className="mt-5 text-lg text-gray-500">{tier.description}</p>
                   </div>
                   <div className="flex-1 flex flex-col justify-between px-6 pt-6 pb-8 bg-gray-50 space-y-6 sm:p-10 sm:pt-6">
-                    <ul role="list" className="space-y-4">
+                    <ul className="space-y-4">
                       {tier.features.map((feature) => (
                         <li key={feature} className="flex items-start">
                           <div className="flex-shrink-0">
@@ -88,7 +84,7 @@ export const Pricing: React.FC<RouteComponentProps> = () => {
                         className="flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-gray-800 hover:bg-gray-900"
                         aria-describedby="tier-standard"
                       >
-                        Get started
+                        Essayer
                       </a>
                     </div>
                   </div>
@@ -103,21 +99,20 @@ export const Pricing: React.FC<RouteComponentProps> = () => {
               <div className="flex-1">
                 <div>
                   <h3 className="inline-flex px-4 py-1 rounded-full text-sm font-semibold tracking-wide uppercase bg-white text-gray-800">
-                    Discounted
+                    Remise
                   </h3>
                 </div>
                 <div className="mt-4 text-lg text-gray-600">
-                  Get full access to all of standard license features for solo projects that make less than $20k gross
-                  revenue for <span className="font-semibold text-gray-900">$29</span>.
+                  Pendant la première semaine de la sortie de Ranking profitez de la version "Pro"
+                  pour seulement <span className="font-semibold text-gray-900">X€ le premier mois</span>.
                 </div>
               </div>
               <div className="mt-6 rounded-md shadow lg:mt-0 lg:ml-10 lg:flex-shrink-0">
-                <a
-                  href="#"
+                <button
                   className="flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-gray-900 bg-white hover:bg-gray-50"
                 >
-                  Buy Discounted License
-                </a>
+                  Profiter de la remise
+                </button>
               </div>
             </div>
           </div>
