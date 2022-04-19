@@ -7,10 +7,10 @@ export const TableRank: React.FC<RouteComponentProps> = () => {
   const [showModal, setShowModal] = React.useState(false);
   
   const keys = [
-    { position:1, keyword: 'haiku amour', tendance: '1', url: 'temple-du-haiku.fr/exemples-de-haiku/amour/' },
-    { position:1, keyword: 'haiku célèbre', tendance: '1', url: 'temple-du-haiku.fr/exemples-de-haiku/' },
-    { position:1, keyword: 'haiku printemps', tendance: '2->1', url: 'temple-du-haiku.fr/exemples-de-haiku/printemps/' },
-    { position:2, keyword: 'google serp', tendance: '1->2', url: 'google.com' },
+    { position:1, keyword: 'haiku amour', url: 'temple-du-haiku.fr/exemples-de-haiku/amour/', maj: '2 hrs', od:'1', td:'5' , thd:'11' },
+    { position:1, keyword: 'haiku célèbre',url: 'temple-du-haiku.fr/exemples-de-haiku/' , maj: '2 hrs', od:'11', td:'5' , thd:'12' },
+    { position:1, keyword: 'haiku printemps', url: 'temple-du-haiku.fr/exemples-de-haiku/printemps/', maj: '2 hrs', od:'55', td:'45' , thd:'12' },
+    { position:2, keyword: 'google serp', url: 'google.com', maj: '2 hrs', od:'1', td:'1' , thd:'2' },
   ]
 
   const sites = [
@@ -36,7 +36,7 @@ export const TableRank: React.FC<RouteComponentProps> = () => {
 
   function handleAdd() {
     setShowModal(false);
-    const newKey = key.concat({ keyword, position:2, tendance:'2',url});
+    const newKey = key.concat({ keyword, position:2,url, maj:'3 hrs', od:'1', td:'5' , thd:'20'});
     setKey(newKey);
     setKeyword('');
     setUrl('');
@@ -218,10 +218,13 @@ export const TableRank: React.FC<RouteComponentProps> = () => {
                         <th scope="col" className="relative w-12 px-6 sm:w-16 sm:px-8">
                           <input type="checkbox" className="absolute left-4 top-1/2 -mt-2 h-4 w-4 rounded border-gray-300 text-yellow-600 focus:ring-yellow-500 sm:left-6" />
                         </th>
-                        <th scope="col" className="min-w-[12rem] py-3.5 pr-3 text-left text-sm font-semibold text-gray-900">Position</th>
-                        <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Mots-clés</th>
-                        <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Tendances</th>
-                        <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Url</th>
+                          <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Mots-clés</th>
+                          <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Position</th>
+                          <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">1d</th>
+                          <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">7d</th>
+                          <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">30d</th>
+                          <th scope="col" className="pr-3 py-3.5 text-left text-sm font-semibold text-gray-900">Url</th>                        
+                          <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Mis à jour</th>
                         <th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-6">
                           <span className="sr-only">Edit</span>
                         </th>
@@ -235,10 +238,13 @@ export const TableRank: React.FC<RouteComponentProps> = () => {
                             <input type="checkbox" className="absolute left-4 top-1/2 -mt-2 h-4 w-4 rounded border-gray-300 text-yellow-600 focus:ring-yellow-500 sm:left-6" />
                           </td>
 
-                          <td className="whitespace-nowrap py-4 pr-3 text-sm font-medium text-gray-900">{one.position}</td>
                           <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{one.keyword}</td>
-                          <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{one.tendance}</td>
-                          <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{one.url}</td>
+                          <td className="pl-7 whitespace-nowrap py-4 pr-3 text-sm text-gray-900">{one.position}</td>
+                          <td className="pl-5 whitespace-nowrap py-4 pr-3 text-sm text-gray-900">{one.od}</td>
+                          <td className="pl-5 whitespace-nowrap py-4 pr-3 text-sm text-gray-900">{one.td}</td>
+                          <td className="pl-5 whitespace-nowrap px-3 py-4 text-sm text-gray-500">{one.thd}</td>
+                          <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{one.url}</td>                          
+                          <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{one.maj}</td>
                           <td className="whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
                             <button onClick={() => onRemoveItem(index)} className="relative inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-500 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:yellow-indigo-500">Supprimer<span className="sr-only">, {one.keyword}</span></button>
                           </td>

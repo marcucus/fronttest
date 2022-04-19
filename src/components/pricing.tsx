@@ -40,7 +40,7 @@ export const Pricing: React.FC<RouteComponentProps> = () => {
               Le bon prix pour vous.
             </p>
             <p className="text-xl text-gray-200">
-              Lorem ipsum dolor, sit amet consectetur adipisicing elit. Harum sequi unde repudiandae natus.
+              Un prix défiant toute concurrence
             </p>
           </div>
         </div>
@@ -84,7 +84,7 @@ export const Pricing: React.FC<RouteComponentProps> = () => {
                         className="flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-gray-800 hover:bg-gray-900"
                         aria-describedby="tier-standard"
                       >
-                        Essayer
+                        Choisir la formule
                       </a>
                     </div>
                   </div>
