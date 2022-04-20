@@ -6,20 +6,24 @@ export const ListSite: React.FC<RouteComponentProps> = (props) => {
     
   const sites=[
       {
-        url:"facebook.com",
+        url:"https://www.facebook.com",
         country:"USA",
+        createdAt:new Date().toLocaleDateString()+' à '+new Date().toLocaleTimeString(),
       },
       {
-        url:"sncf.com/fr",
+        url:"https://www.sncf.com/fr",
         country:"FR",
+        createdAt:new Date().toLocaleDateString()+' à '+new Date().toLocaleTimeString(),
       },
       {
-        url:"youtube.com",
+        url:"https://www.youtube.com",
         country:"USA",
+        createdAt:new Date().toLocaleDateString()+' à '+new Date().toLocaleTimeString(),
       },
       {
-        url:"foudroyer.com",
+        url:"https://www.foudroyer.com",
         country:"FR",
+        createdAt:new Date().toLocaleDateString()+' à '+new Date().toLocaleTimeString(),
       },
     ];
 
@@ -36,7 +40,8 @@ export const ListSite: React.FC<RouteComponentProps> = (props) => {
 
   function handleAdd() {
     setShowModal(false);
-    const newSite = site.concat({ url, country });
+    const date=new Date().toLocaleDateString()+' à '+new Date().toLocaleTimeString().toString();
+    const newSite = site.concat({ url, country, createdAt:date });
     setSite(newSite);
     setUrl('');
     setCountry('');
@@ -46,6 +51,12 @@ export const ListSite: React.FC<RouteComponentProps> = (props) => {
       const removeSite = site.filter((sites, url) => index !== url);
       setSite(removeSite);
   };
+
+  function cut(url : any)
+  {
+    const result = url.slice(12);
+    return result;
+  }
 
     function classNames(...classes: string[]) {
       return classes.filter(Boolean).join(' ');
@@ -79,7 +90,7 @@ export const ListSite: React.FC<RouteComponentProps> = (props) => {
                 <div
                   className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
                 >
-                  <div className="relative w-auto my-6 mx-auto max-w-3xl">
+                  <div className="relative w-full my-6 mx-auto max-w-3xl">
                     <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
                       <div className="flex items-start justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
                         <h3 className="text-3xl font-semibold">
@@ -97,21 +108,20 @@ export const ListSite: React.FC<RouteComponentProps> = (props) => {
                       <div className="relative p-6 flex-auto">
                         <div>
                           <label htmlFor="company-website" className="block text-sm font-medium text-gray-700">
+                            Url
                           </label>
                           <div className="mt-1 flex rounded-md shadow-sm">
-                            <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 sm:text-sm">
-                              http(s)://
-                            </span>
                             <input
                               type="text"
                               name="company-website"
                               id="company-website"
                               value={url}
                               onChange={handleChangeUrl}
-                              className="flex-1 min-w-0 block w-full px-3 py-2 rounded-none rounded-r-md focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300"
-                              placeholder="www.example.com" />
-                          </div>
+                              className="flex-1 min-w-0 block w-full px-3 py-2 rounded-l-md rounded-r-md focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300"
+                              placeholder="http(s)://www.example.com/" />
+                          </div><br/>
                           <label htmlFor="company-website" className="block text-sm font-medium text-gray-700">
+                            Localisation
                           </label>
                           <div className="mt-1 flex rounded-md shadow-sm">
                             <input
@@ -147,13 +157,7 @@ export const ListSite: React.FC<RouteComponentProps> = (props) => {
                 <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
               </>
             ) : null}
-                </div><br/>
-                <form className="group relative">
-                  <svg width="20" height="20" fill="currentColor" className="absolute left-3 top-1/2 -mt-2.5 text-slate-400 pointer-events-none group-focus-within:text-blue-500" aria-hidden="true">
-                    <path fill-rule="evenodd" clip-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" />
-                  </svg>
-                  <input className="focus:ring-2 focus:ring-yellow-500 focus:outline-none appearance-none w-full text-sm leading-6 text-slate-900 placeholder-slate-400 rounded-md py-2 pl-10 ring-1 ring-slate-200 shadow-sm" type="text" aria-label="Filter sites" placeholder="Filtrer sites..." />
-                </form>
+                </div>
             </section>
             <div className="-mx-4 mt-5 overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:-mx-6 md:mx-0 md:rounded-lg">
               <table className="min-w-full divide-y divide-gray-300">
@@ -170,6 +174,12 @@ export const ListSite: React.FC<RouteComponentProps> = (props) => {
                     </th>
                     <th
                       scope="col"
+                      className="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 lg:table-cell"
+                    >
+                      Créé le 
+                    </th>
+                    <th
+                      scope="col"
                       className="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 sm:table-cell"
                     >
                       Outil
@@ -181,10 +191,11 @@ export const ListSite: React.FC<RouteComponentProps> = (props) => {
                     <tr>
                       <td className="w-full max-w-0 py-4 pl-4 pr-3 text-sm text-yellow-500 hover:text-yellow-600 sm:w-auto sm:max-w-none sm:pl-6">
                           <Link to="/ranking/list/table/" className="font-bold">
-                            {sites.url}
+                            {cut(sites.url)}
                           </Link>
                       </td>
                       <td className="hidden px-3 py-4 text-sm text-gray-500 sm:table-cell">{sites.country}</td>
+                      <td className="hidden px-3 py-4 text-sm text-gray-500 sm:table-cell">{sites.createdAt}</td>
                       <td className="px-3 py-4 text-sm text-yellow-500 font-bold hover:text-red-500 hover:font-bold">
                         <button
                           value={sites.url}

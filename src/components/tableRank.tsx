@@ -5,19 +5,18 @@ import React, { Fragment } from "react";
 
 export const TableRank: React.FC<RouteComponentProps> = () => {
   const [showModal, setShowModal] = React.useState(false);
-  
   const keys = [
-    { position:1, keyword: 'haiku amour', url: 'temple-du-haiku.fr/exemples-de-haiku/amour/', maj: '2 hrs', od:'1', td:'5' , thd:'11' },
-    { position:1, keyword: 'haiku célèbre',url: 'temple-du-haiku.fr/exemples-de-haiku/' , maj: '2 hrs', od:'11', td:'5' , thd:'12' },
-    { position:1, keyword: 'haiku printemps', url: 'temple-du-haiku.fr/exemples-de-haiku/printemps/', maj: '2 hrs', od:'55', td:'45' , thd:'12' },
-    { position:2, keyword: 'google serp', url: 'google.com', maj: '2 hrs', od:'1', td:'1' , thd:'2' },
+    { position:1, keyword: 'haiku amour', url: 'https://www.temple-du-haiku.fr/exemples-de-haiku/amour/', maj: '2 hrs', od:'1', td:'5' , thd:'11', createdAt:new Date().toLocaleDateString()+" "+new Date().toLocaleTimeString()},
+    { position:1, keyword: 'haiku célèbre',url: 'https://www.temple-du-haiku.fr/exemples-de-haiku/' , maj: '2 hrs', od:'11', td:'5' , thd:'12', createdAt:new Date().toLocaleDateString()+" "+new Date().toLocaleTimeString()},
+    { position:1, keyword: 'haiku printemps', url: 'https://www.temple-du-haiku.fr/exemples-de-haiku/printemps/', maj: '2 hrs', od:'55', td:'45' , thd:'12', createdAt:new Date().toLocaleDateString()+" "+new Date().toLocaleTimeString()},
+    { position:2, keyword: 'google serp', url: 'https://www.google.com/google-serp', maj: '2 hrs', od:'1', td:'1' , thd:'2', createdAt:new Date().toLocaleDateString()+" "+new Date().toLocaleTimeString()},
   ]
 
   const sites = [
-    { id:1, url:"facebook.com", country:"USA" },
-    { id:2, url:"sncf.com/fr", country:"FR" },
-    { id:3, url:"youtube.com", country:"USA" },
-    { id:4, url:"foudroyer.com", country:"FR" },
+    { id:1, url:"https://www.facebook.com/", country:"USA" },
+    { id:2, url:"https://www.sncf.com/fr/", country:"FR" },
+    { id:3, url:"https://www.youtube.com/", country:"USA" },
+    { id:4, url:"https://www.foudroyer.com/", country:"FR" },
   ]
 
   const [selected, setSelected] = React.useState(sites[3])
@@ -36,7 +35,8 @@ export const TableRank: React.FC<RouteComponentProps> = () => {
 
   function handleAdd() {
     setShowModal(false);
-    const newKey = key.concat({ keyword, position:2,url, maj:'3 hrs', od:'1', td:'5' , thd:'20'});
+    const date=new Date().toLocaleDateString()+" "+new Date().toLocaleTimeString().toString();
+    const newKey = key.concat({ keyword, position:2,url, maj:'3 hrs', od:'1', td:'5' , thd:'20',createdAt:date});
     setKey(newKey);
     setKeyword('');
     setUrl('');
@@ -46,6 +46,12 @@ export const TableRank: React.FC<RouteComponentProps> = () => {
     const removeKey = key.filter((keys, url) => index !== url);
     setKey(removeKey);
   };
+
+  function cut(url : any)
+  {
+    const result = url.slice(12);
+    return result;
+  }
 
   function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(' ');
@@ -81,7 +87,7 @@ export const TableRank: React.FC<RouteComponentProps> = () => {
                   <div
                     className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
                   >
-                    <div className="relative w-auto my-6 mx-auto max-w-3xl">
+                    <div className="relative w-full my-6 mx-auto max-w-3xl">
                       <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
                         <div className="flex items-start justify-between p-5 border-b border-solid border-blueGray-200 rounded-t">
                           <h3 className="text-3xl font-semibold">
@@ -99,6 +105,7 @@ export const TableRank: React.FC<RouteComponentProps> = () => {
                         <div className="relative p-6 flex-auto">
                           <div>
                             <label htmlFor="website-keyword" className="block text-sm font-medium text-gray-700">
+                              Mot-clé
                             </label>
                             <div className="mt-1 flex rounded-md shadow-sm">
                               <input
@@ -108,22 +115,20 @@ export const TableRank: React.FC<RouteComponentProps> = () => {
                                 value={keyword}
                                 onChange={handleChange}
                                 className="flex-1 min-w-0 block w-full px-3 py-2 rounded-l-md rounded-r-md focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300"
-                                placeholder="Mot-clés" />
-                            </div>
+                                placeholder="google test" />
+                            </div><br/>
                             <label htmlFor="website-url" className="block text-sm font-medium text-gray-700">
+                              Url précise
                             </label>
                             <div className="mt-1 flex rounded-md shadow-sm">
-                              <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 sm:text-sm">
-                                http(s)://
-                              </span>
                               <input
                                 type="text"
                                 name="website-url"
                                 id="website-url"
                                 value={url}
                                 onChange={handleChangeUrl}
-                                className="flex-1 min-w-0 block w-full px-3 py-2 rounded-none rounded-r-md focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300"
-                                placeholder="Adresse url" />
+                                className="flex-1 min-w-0 block w-full px-3 py-2 rounded-l-md rounded-r-md focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300"
+                                placeholder="http(s)://www.example.com/google-test" />
                             </div>
                           </div>
                         </div>
@@ -156,7 +161,7 @@ export const TableRank: React.FC<RouteComponentProps> = () => {
               <>
                 <div className="mt-1 relative">
                   <Listbox.Button className="bg-white relative w-1/4 border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-yellow-500 focus:border-yellow-500 sm:text-sm">
-                    <span className="block truncate">{selected.url}</span>
+                    <span className="block truncate">{cut(selected.url)}</span>
                     <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
                       <SelectorIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
                     </span>
@@ -182,7 +187,7 @@ export const TableRank: React.FC<RouteComponentProps> = () => {
                           {({ selected, active }) => (
                             <>
                               <span className={classNames(selected ? 'font-semibold' : 'font-normal', 'block truncate')}>
-                                {site.url}
+                                {cut(site.url)}
                               </span>
 
                               {selected ? (
@@ -223,8 +228,9 @@ export const TableRank: React.FC<RouteComponentProps> = () => {
                           <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">1d</th>
                           <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">7d</th>
                           <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">30d</th>
-                          <th scope="col" className="pr-3 py-3.5 text-left text-sm font-semibold text-gray-900">Url</th>                        
-                          <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Mis à jour</th>
+                          <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Url</th>
+                          <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Créé le</th>                        
+                          <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Maj</th>
                         <th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-6">
                           <span className="sr-only">Edit</span>
                         </th>
@@ -237,13 +243,13 @@ export const TableRank: React.FC<RouteComponentProps> = () => {
                             <div className="absolute inset-y-0 left-0 w-0.5 bg-yellow-500"></div>
                             <input type="checkbox" className="absolute left-4 top-1/2 -mt-2 h-4 w-4 rounded border-gray-300 text-yellow-600 focus:ring-yellow-500 sm:left-6" />
                           </td>
-
                           <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{one.keyword}</td>
                           <td className="pl-7 whitespace-nowrap py-4 pr-3 text-sm text-gray-900">{one.position}</td>
                           <td className="pl-5 whitespace-nowrap py-4 pr-3 text-sm text-gray-900">{one.od}</td>
                           <td className="pl-5 whitespace-nowrap py-4 pr-3 text-sm text-gray-900">{one.td}</td>
                           <td className="pl-5 whitespace-nowrap px-3 py-4 text-sm text-gray-500">{one.thd}</td>
-                          <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{one.url}</td>                          
+                          <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{one.url}</td>
+                          <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{one.createdAt}</td>                                                    
                           <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{one.maj}</td>
                           <td className="whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
                             <button onClick={() => onRemoveItem(index)} className="relative inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-500 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:yellow-indigo-500">Supprimer<span className="sr-only">, {one.keyword}</span></button>
@@ -256,11 +262,11 @@ export const TableRank: React.FC<RouteComponentProps> = () => {
               </div>
             </div>
           </div>
-            </div>
-          </div>
         </div>
-      </main>
+      </div>
     </div>
+  </main>
+</div>
 </>
 )
 };
