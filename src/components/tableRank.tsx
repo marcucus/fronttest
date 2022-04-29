@@ -14,7 +14,7 @@ export const TableRank: React.FC<RouteComponentProps> = () => {
 
   const sites = [
     { id:1, url:"https://www.facebook.com/", country:"USA" },
-    { id:2, url:"https://www.sncf.com/fr/", country:"FR" },
+    { id:2, url:"https://www.temple-du-haiku.fr/", country:"FR" },
     { id:3, url:"https://www.youtube.com/", country:"USA" },
     { id:4, url:"https://www.foudroyer.com/", country:"FR" },
   ]

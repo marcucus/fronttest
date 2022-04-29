@@ -28,12 +28,7 @@ export const Login: React.FC<RouteComponentProps> = () => {
       }
     return(
         <>
-    <GoogleLogin
-      clientId="749607665220-nm0esgq5d60qi92s8svuevekktvdf150.apps.googleusercontent.com"
-      className="inline-flex items-center w-full px-2 py-2 mt-8 text-lg font-medium text-gray-900 ease-in-out bg-white rounded-full shadow-lg cursor-pointer lg:mt-0 hover:bg-gray-50 hover:shadow-xl"
-      buttonText="Log in"
-      onSuccess={useGoogleAuthentication}
-    />
+
             <button
             type="submit"
                 className="inline-flex items-center w-full px-2 py-2 mt-8 text-lg font-medium text-gray-900 ease-in-out bg-white rounded-full shadow-lg cursor-pointer lg:mt-0 hover:bg-gray-50 hover:shadow-xl"
