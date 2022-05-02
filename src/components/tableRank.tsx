@@ -104,6 +104,133 @@ export const TableRank: React.FC<RouteComponentProps> = () => {
                         </div>
                         <div className="relative p-6 flex-auto">
                           <div>
+                            <label htmlFor="location" className="block text-sm font-medium text-gray-700">
+                              Location
+                            </label>
+                            <select
+                              id="location"
+                              name="location"
+                              className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+                              defaultValue="Canada"
+                            >
+                              <optgroup label="Afrique">
+                                <option value=""></option>
+                              </optgroup>
+                              <optgroup label="Asie">
+                              <option value=""></option>
+                                <option value=""></option>
+                                <option value=""></option>
+                                <option value=""></option>
+                                <option value=""></option>
+                                <option value=""></option>
+                                <option value=""></option>
+                                <option value=""></option>
+                                <option value=""></option>
+                                <option value=""></option>
+                                <option value=""></option>
+                                <option value=""></option>
+                                <option value=""></option>
+                                <option value=""></option>
+                                <option value=""></option>
+                                <option value=""></option>
+                                <option value=""></option>
+                                <option value=""></option>
+                                <option value=""></option>
+                                <option value=""></option>
+                                <option value=""></option>
+                                <option value=""></option>
+                                <option value=""></option>
+                                <option value=""></option>
+                                <option value=""></option>
+                                <option value=""></option>
+                                <option value=""></option>
+                                <option value=""></option>
+                                <option value=""></option>
+                                <option value=""></option>
+                                <option value=""></option>
+                                <option value=""></option>
+                                <option value=""></option>
+                                <option value=""></option>
+                                <option value=""></option>
+                                <option value=""></option>
+                                <option value=""></option>
+                                <option value=""></option>
+                                <option value=""></option>
+                                <option value=""></option>
+                                <option value=""></option>
+                                <option value=""></option>
+                              </optgroup>
+                              <optgroup label="Europe">
+                                <option value=""></option>
+                                <option value=""></option>
+                                <option value=""></option>
+                                <option value=""></option>
+                                <option value=""></option>
+                                <option value=""></option>
+                                <option value=""></option>
+                                <option value=""></option>
+                                <option value=""></option>
+                                <option value=""></option>
+                                <option value=""></option>
+                                <option value=""></option>
+                                <option value=""></option>
+                                <option value=""></option>
+                                <option value=""></option>
+                                <option value=""></option>
+                                <option value=""></option>
+                                <option value=""></option>
+                                <option value=""></option>
+                                <option value=""></option>
+                                <option value=""></option>
+                                <option value=""></option>
+                                <option value=""></option>
+                              </optgroup>
+                              <optgroup label="Amérique du Nord">
+                                <option value=""></option>
+                                <option value=""></option>
+                                <option value=""></option>
+                                <option value=""></option>
+                                <option value=""></option>
+                                <option value=""></option>
+                                <option value=""></option>
+                                <option value=""></option>
+                                <option value=""></option>
+                                <option value=""></option>
+                                <option value=""></option>
+                                <option value=""></option>
+                                <option value=""></option>
+                                <option value=""></option>
+                                <option value=""></option>
+                                <option value=""></option>
+                                <option value=""></option>
+                                <option value=""></option>
+                                <option value=""></option>
+                                <option value=""></option>
+                                <option value=""></option>
+                                <option value=""></option>
+                                <option value=""></option>
+                                <option value=""></option>
+                                <option value=""></option>
+                                <option value=""></option>
+                                <option value=""></option>
+                                <option value=""></option>
+                              </optgroup>
+                              <optgroup label="Amérique du Sud">
+                                <option value="BR01">Brésil (São Paulo) 1</option>
+                                <option value="BR03">Brésil (São Paulo) 2</option>
+                                <option value="BR02">Brésil (sud) :</option>
+                                <option value="CL01">Chili</option>
+                              </optgroup>
+                              <optgroup label="Océanie">
+                                <option value="AU01">Australie (Sydney) 1</option>
+                                <option value="AU02">Australie (Sydney) 2</option>
+                                <option value="AU03">Australie (Sydney) 3</option> 
+                                <option value="AU04">Australie (Sydney) 4</option> 
+                                <option value="AU05">Australie (Melbourne)</option>
+                              </optgroup>
+                            </select>
+                          </div>
+                          <div><br/>
                             <label htmlFor="website-keyword" className="block text-sm font-medium text-gray-700">
                               Mot-clé
                             </label>
