@@ -4,6 +4,7 @@ import GoogleLogin, { GoogleLoginResponse, GoogleLoginResponseOffline } from "re
 import Google from "../assets/socials/google.svg";
 import axios from 'axios';
 import { ToastContainer , toast} from 'react-toastify';
+import { ReactSession } from 'react-client-session';
 
 export const Login: React.FC<RouteComponentProps> = () => {
     const token:string="";
@@ -13,10 +14,40 @@ export const Login: React.FC<RouteComponentProps> = () => {
       picture:"",
       profile_loaded:false
     })
+
+      const onSuccess = async(res:any) => {
+        console.log('Login Success: currentUser:', res.profileObj);
+        axios
+          .post('http://127.0.0.1:3333/authentication/auth', { token: res.tokenId })
+          .then(response => {
+            alert(response.data);
+            var token = response.data;
+            var jwt:any;
+            ReactSession.set("Name", res.profileObj.givenName);
+            ReactSession.set("Lastname",  res.profileObj.familyName);
+            ReactSession.set("mail",  res.profileObj.email);
+            ReactSession.set("picture",  res.profileObj.imageUrl);
+            jwt.sign('secretkey', { expiresIn: '7d' }, (err: any, token: any) => {
+              res.json({
+                token
+            });
+            localStorage.setItem('session',JSON.stringify(token));
+          });
+          })
+          .catch((err: any) => {
+            console.log(err);
+          });
+      };
+      
+     
+      const onFailure = (res: any) => {
+        console.log('Login failed: res:', res);
+    }
+
       const googleResponse = async(response:any) => {
         if(response.tokenId){
-          const googleResponse = await axios.post('http://localhost:3333/authentication',{token: response.tokenId});
-          if(Object.keys(googleResponse.data.payload).length!==0){
+          const googleResponse = await axios.post('http://127.0.0.1:3333/authentication/auth',{token: response.tokenId});
+          if(Object.keys(googleResponse.data.payload).length !== 0){
             const {name, email, picture} = googleResponse.data.payload;
             setState({
               ... state,
@@ -34,23 +65,23 @@ export const Login: React.FC<RouteComponentProps> = () => {
               draggable:true,
               progress:undefined,
             });
-            console.log(name,email)
           }
         }
       }
-      const onFailure = (error: any) => {
+      /*const onFailure = (error: any) => {
         alert(error);
-      }
+      }*/
     return(
         <>
-        {!state.profile_loaded ? (
+        {state ? (
           <div>
           <GoogleLogin
             clientId="749607665220-nm0esgq5d60qi92s8svuevekktvdf150.apps.googleusercontent.com"
             className="inline-flex items-center w-full px-2 py-2 mt-8 text-lg font-medium text-gray-900 ease-in-out bg-white rounded-full shadow-lg cursor-pointer lg:mt-0 hover:bg-gray-50 hover:shadow-xl"
             buttonText="Se connecter avec Google"
-            onSuccess={googleResponse}
+            onSuccess={onSuccess}
             onFailure={onFailure}
+            isSignedIn={true}
           />
       </div>
         ):(
