@@ -1,4 +1,4 @@
-import { Link, redirectTo, RouteComponentProps } from "@reach/router";
+import { Link, Redirect, redirectTo, RouteComponentProps } from "@reach/router";
 import React, { useState, useEffect} from "react";
 import GoogleLogin, { GoogleLoginResponse, GoogleLoginResponseOffline } from "react-google-login";
 import Google from "../assets/socials/google.svg";
@@ -20,72 +20,49 @@ export const Login: React.FC<RouteComponentProps> = () => {
         axios
           .post('http://127.0.0.1:3333/authentication/auth', { token: res.tokenId })
           .then(response => {
-            alert(response.data);
-            var token = response.data;
-            var jwt:any;
             ReactSession.set("Name", res.profileObj.givenName);
             ReactSession.set("Lastname",  res.profileObj.familyName);
             ReactSession.set("mail",  res.profileObj.email);
             ReactSession.set("picture",  res.profileObj.imageUrl);
-            jwt.sign('secretkey', { expiresIn: '7d' }, (err: any, token: any) => {
-              res.json({
-                token
-            });
-            localStorage.setItem('session',JSON.stringify(token));
-          });
+            ReactSession.set("userToken", response.data);
           })
           .catch((err: any) => {
             console.log(err);
           });
       };
-      
-     
+
       const onFailure = (res: any) => {
         console.log('Login failed: res:', res);
     }
-
-      const googleResponse = async(response:any) => {
-        if(response.tokenId){
-          const googleResponse = await axios.post('http://127.0.0.1:3333/authentication/auth',{token: response.tokenId});
-          if(Object.keys(googleResponse.data.payload).length !== 0){
-            const {name, email, picture} = googleResponse.data.payload;
-            setState({
-              ... state,
-              name,
-              email,
-              picture,
-              profile_loaded:true
-            });
-            toast.success("You have logged into your google account!",{
-              position:"top-right",
-              autoClose:5000,
-              hideProgressBar:false,
-              closeOnClick:true,
-              pauseOnHover:false,
-              draggable:true,
-              progress:undefined,
-            });
-          }
-        }
-      }
-      /*const onFailure = (error: any) => {
-        alert(error);
-      }*/
     return(
         <>
-        {state ? (
+        {!ReactSession.get('userToken') ? (
           <div>
           <GoogleLogin
             clientId="749607665220-nm0esgq5d60qi92s8svuevekktvdf150.apps.googleusercontent.com"
-            className="inline-flex items-center w-full px-2 py-2 mt-8 text-lg font-medium text-gray-900 ease-in-out bg-white rounded-full shadow-lg cursor-pointer lg:mt-0 hover:bg-gray-50 hover:shadow-xl"
             buttonText="Se connecter avec Google"
             onSuccess={onSuccess}
             onFailure={onFailure}
+            render={renderProps => (
+              <button
+                  type="submit"
+                  onClick={renderProps.onClick} disabled={renderProps.disabled}
+                  className="inline-flex items-center w-full px-2 py-2 mt-8 text-lg font-medium text-gray-900 ease-in-out bg-white rounded-full shadow-lg cursor-pointer lg:mt-0 hover:bg-gray-50 hover:shadow-xl"
+            >
+                <img src={Google} alt="Google" className="flex-shrink-0 w-9" />
+                <div className="mx-auto">
+                    Se connecter avec Google
+                </div>
+            </button>
+            )}
             isSignedIn={true}
           />
       </div>
         ):(
           <Link to="/ranking/list" className="font-bold">
+            <button className="inline-flex items-center w-full px-2 py-2 mt-8 text-lg font-medium text-gray-900 ease-in-out bg-white rounded-sm shadow-lg cursor-pointer lg:mt-0 hover:bg-gray-50 hover:shadow-xl">
+              Mes sites
+            </button>
           </Link>
         )}
 

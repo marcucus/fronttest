@@ -1,9 +1,18 @@
 import React from "react";
 import { RouteComponentProps, Link } from "@reach/router";
+import { ReactSession } from 'react-client-session';
+import axios from "axios";
+
 
 export const ListSite: React.FC<RouteComponentProps> = (props) => {
   const [showModal, setShowModal] = React.useState(false);
-    
+  const token = ReactSession.get('userToken');
+  console.log(token);
+  axios
+  .get('http://127.0.0.1:3333/sites/allbyuser', { headers: {'Authorization':`Bearer ${token}`}})
+  .then(function(result){
+    console.log(result)
+  })
   const sites=[
       {
         url:"https://www.facebook.com",

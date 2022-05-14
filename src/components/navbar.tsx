@@ -3,6 +3,7 @@ import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { MenuIcon, XIcon } from '@heroicons/react/outline'
 import { Link, RouteComponentProps } from '@reach/router'
 import Logo from '../assets/logo/logo.svg'
+import { ReactSession } from 'react-client-session';
 
 const navigation = [
   { name: 'Home', href: '/', current: false },
@@ -90,11 +91,19 @@ return (
 
                 <Menu as="div" className="ml-3 relative">
                   <div>
-                  <Link to='/ranking/list/'>
-                  <button type="button" className="inline-flex items-center px-4 py-2 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-gray-700 hover:bg-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                    Se connecter
-                  </button>
+                  {ReactSession.get('userToken') ? (
+
+                    <Link to='/ranking/list/'>
+                      <button className="bg-gray-800 flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
+                        <img
+                          className="h-8 w-8 rounded-full"
+                          src={ReactSession.get("picture")}
+                          alt=""
+                        />
+                      </button>
                     </Link>
+
+                  ):null}
                   </div>
                   <Transition
                     as={Fragment}
