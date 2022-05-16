@@ -84,6 +84,15 @@ return (
                         Des questions ?
                       </div>
                       </a>
+                      {ReactSession.get('userToken') ? (
+
+                      <Link to="/ranking/list">
+                      <div
+                        className= 'text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium'>
+                        Mes sites
+                      </div>
+                      </Link> 
+                      ) :null}
                   </div>
                 </div>
               </div>

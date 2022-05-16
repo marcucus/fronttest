@@ -1,11 +1,10 @@
 import { ChevronRightIcon } from '@heroicons/react/solid'
-import { Link, RouteComponentProps } from '@reach/router'
+import { Link, Redirect, RouteComponentProps } from '@reach/router'
 import { Login } from './login'
 import { Faq } from './faq'
 import { Pricing } from './pricing'
 import { Features } from './features'
-
-
+import { ReactSession } from 'react-client-session';
 
 export const Home: React.FC<RouteComponentProps> = () => {
   return (
