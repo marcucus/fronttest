@@ -7,9 +7,9 @@ import axios from "axios";
 export const ListSite: React.FC<RouteComponentProps> = (props) => {
   const [showModal, setShowModal] = React.useState(false);
   const token = ReactSession.get('userToken');
-  console.log(token);
-  axios
-  .get('http://127.0.0.1:3333/sites/allbyuser', { headers: {'Authorization':`Bearer ${token}`}})
+
+  console.log(token)
+  axios.post('http://127.0.0.1:3333/sites/allbyuser',{data:token,headers:{'Authorization':`Bearer ${token}`}})
   .then(function(result){
     console.log(result)
   })
