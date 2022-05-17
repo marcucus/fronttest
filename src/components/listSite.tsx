@@ -3,40 +3,42 @@ import { RouteComponentProps, Link } from "@reach/router";
 import { ReactSession } from 'react-client-session';
 import axios from "axios";
 
-
 export const ListSite: React.FC<RouteComponentProps> = (props) => {
   const [showModal, setShowModal] = React.useState(false);
   const token = ReactSession.get('userToken');
+  var myHeaders = new Headers();
+  const bearer = "Bearer "+token;
+  var head = {
+    Authorization:bearer,
+    "Content-Type": "application/json"
+  }
+myHeaders.append("Authorization", bearer);
+myHeaders.append("Content-Type", "application/json");
 
-  console.log(token)
-  axios.post('http://127.0.0.1:3333/sites/allbyuser',{data:token,headers:{'Authorization':`Bearer ${token}`}})
-  .then(function(result){
-    console.log(result)
-  })
-  const sites=[
-      {
-        url:"https://www.facebook.com",
-        country:"USA",
-        createdAt:new Date().toLocaleDateString()+' à '+new Date().toLocaleTimeString(),
-      },
-      {
-        url:"https://www.sncf.com/fr",
-        country:"FR",
-        createdAt:new Date().toLocaleDateString()+' à '+new Date().toLocaleTimeString(),
-      },
-      {
-        url:"https://www.youtube.com",
-        country:"USA",
-        createdAt:new Date().toLocaleDateString()+' à '+new Date().toLocaleTimeString(),
-      },
-      {
-        url:"https://www.foudroyer.com",
-        country:"FR",
-        createdAt:new Date().toLocaleDateString()+' à '+new Date().toLocaleTimeString(),
-      },
-    ];
-
+var raw = JSON.stringify({
+  "token": token
+});
+  var requestOptions:RequestInit = {
+    method: 'POST',
+    headers: head,
+    body: raw,
+    redirect:"follow"
+  };
+  var sites:any;
+  var list:any;
   const [site, setSite] = React.useState(sites);
+  fetch('http://127.0.0.1:3333/sites/allbyuser', requestOptions)
+  .then(result => result.json())
+  .then(function(data:any){
+    for(let i=0;i==data?.length;i++){
+      list.push(data[i])
+    }
+    setSite(list);
+  })
+  .then(list => sites = list)
+  .catch(error => console.log('error', error));
+  console.log(sites);
+
   const [url, setUrl] = React.useState('');
   const [country, setCountry] = React.useState('');
   
@@ -57,7 +59,7 @@ export const ListSite: React.FC<RouteComponentProps> = (props) => {
   }
 
   function onRemoveItem(index: number){
-      const removeSite = site.filter((sites, url) => index !== url);
+      const removeSite = site.filter((sites:any, url:any) => index !== url);
       setSite(removeSite);
   };
 
@@ -71,6 +73,32 @@ export const ListSite: React.FC<RouteComponentProps> = (props) => {
       return classes.filter(Boolean).join(' ');
     }
 
+    //const options = [];
+    /*const nb = sites.length;
+    for (let i = 0; i == nb; i++) {
+      options.push(
+        <tr>
+        <td className="w-full max-w-0 py-4 pl-4 pr-3 text-sm text-yellow-500 hover:text-yellow-600 sm:w-auto sm:max-w-none sm:pl-6">
+            <Link to="/ranking/list/table/" className="font-bold">
+              {site.url}
+            </Link>
+        </td>
+        <td className="hidden px-3 py-4 text-sm text-gray-500 sm:table-cell">{site.country}</td>
+        <td className="hidden px-3 py-4 text-sm text-gray-500 sm:table-cell">{site.createdAt}</td>
+        <td className="px-3 py-4 text-sm text-yellow-500 font-bold hover:text-red-500 hover:font-bold">
+          <button
+            value={site.url}
+            onClick={() => onRemoveItem(site.id)}
+            className='flex font-bold hover:font-bold'
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" className="mr-3 h-5 w-5 font-bold hover:font-bold" aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+            </svg>
+            <span>Supprimer</span>
+          </button>
+        </td>
+      </tr>);
+    }*/
   return(
   <>
       <div className='mb-20'>
@@ -196,29 +224,7 @@ export const ListSite: React.FC<RouteComponentProps> = (props) => {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200 bg-white">
-                  {site.map((sites, index) => (
-                    <tr>
-                      <td className="w-full max-w-0 py-4 pl-4 pr-3 text-sm text-yellow-500 hover:text-yellow-600 sm:w-auto sm:max-w-none sm:pl-6">
-                          <Link to="/ranking/list/table/" className="font-bold">
-                            {cut(sites.url)}
-                          </Link>
-                      </td>
-                      <td className="hidden px-3 py-4 text-sm text-gray-500 sm:table-cell">{sites.country}</td>
-                      <td className="hidden px-3 py-4 text-sm text-gray-500 sm:table-cell">{sites.createdAt}</td>
-                      <td className="px-3 py-4 text-sm text-yellow-500 font-bold hover:text-red-500 hover:font-bold">
-                        <button
-                          value={sites.url}
-                          onClick={() => onRemoveItem(index)}
-                          className='flex font-bold hover:font-bold'
-                        >
-                          <svg xmlns="http://www.w3.org/2000/svg" className="mr-3 h-5 w-5 font-bold hover:font-bold" aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                          </svg>
-                          <span>Supprimer</span>
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
+                
                 </tbody>
               </table>
             </div>
