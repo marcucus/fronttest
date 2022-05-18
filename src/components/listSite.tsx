@@ -1,76 +1,40 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { RouteComponentProps, Link } from "@reach/router";
 import { ReactSession } from 'react-client-session';
 import axios from "axios";
 
-export const ListSite: React.FC<RouteComponentProps> = (props) => {
+export const ListSite: React.FC<RouteComponentProps> = () => {
   const [showModal, setShowModal] = React.useState(false);
-  const token = ReactSession.get('userToken');
-  var myHeaders = new Headers();
-  const bearer = "Bearer "+token;
-  var head = {
-    Authorization:bearer,
-    "Content-Type": "application/json"
-  }
-myHeaders.append("Authorization", bearer);
-myHeaders.append("Content-Type", "application/json");
+  const [siteInfo, setSiteInfo] = React.useState([]);
 
-var raw = JSON.stringify({
-  "token": token
-});
-  var requestOptions:RequestInit = {
-    method: 'POST',
-    headers: head,
-    body: raw,
-    redirect:"follow"
-  };
-  var sites:any;
-  var list:any;
-  const [site, setSite] = React.useState(sites);
-  fetch('http://127.0.0.1:3333/sites/allbyuser', requestOptions)
-  .then(result => result.json())
-  .then(function(data:any){
-    for(let i=0;i==data?.length;i++){
-      list.push(data[i])
-    }
-    setSite(list);
-  })
-  .then(list => sites = list)
-  .catch(error => console.log('error', error));
-  console.log(sites);
+    const token = "Bearer "+ReactSession.get('userToken');
 
-  const [url, setUrl] = React.useState('');
-  const [country, setCountry] = React.useState('');
+      var head = {
+        Authorization:token,
+        "Content-Type": "application/json"
+      };
+
+      var requestOptions:RequestInit = {
+        method: 'GET',
+        headers: head,
+        redirect:"follow"
+      };
+
+        let inf;
+
+        useEffect(() => {
+        fetch('http://127.0.0.1:3333/sites/allbyuser', requestOptions)
+        .then((res) => res.json())
+        .then((res)=> {
+          setSiteInfo(res);
+        })},[]); 
   
-  function handleChangeUrl(event: { target: { value: React.SetStateAction<string>; }; }) {
-    setUrl(event.target.value);
-  }
-  function handleChangeCountry(event: { target: { value: React.SetStateAction<string>; }; }) {
-    setCountry(event.target.value);
-  }
-
-  function handleAdd() {
-    setShowModal(false);
-    const date=new Date().toLocaleDateString()+' à '+new Date().toLocaleTimeString().toString();
-    const newSite = site.concat({ url, country, createdAt:date });
-    setSite(newSite);
-    setUrl('');
-    setCountry('');
-  }
-
-  function onRemoveItem(index: number){
-      const removeSite = site.filter((sites:any, url:any) => index !== url);
-      setSite(removeSite);
-  };
-
-  function cut(url : any)
-  {
-    const result = url.slice(12);
-    return result;
-  }
-
-    function classNames(...classes: string[]) {
+    function classNames(...classes: any[]) {
       return classes.filter(Boolean).join(' ');
+    }
+
+    function onRemoveItem(id:any){
+
     }
 
     //const options = [];
@@ -152,8 +116,8 @@ var raw = JSON.stringify({
                               type="text"
                               name="company-website"
                               id="company-website"
-                              value={url}
-                              onChange={handleChangeUrl}
+                              //value={url}
+                              //onChange={handleChangeUrl}
                               className="flex-1 min-w-0 block w-full px-3 py-2 rounded-l-md rounded-r-md focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300"
                               placeholder="http(s)://www.example.com/" />
                           </div><br/>
@@ -165,8 +129,8 @@ var raw = JSON.stringify({
                               type="text"
                               name="website-country"
                               id="website-country"
-                              value={country}
-                              onChange={handleChangeCountry}
+                              //value={country}
+                              //onChange={handleChangeCountry}
                               className="flex-1 min-w-0 block w-full px-3 py-2 rounded-l-md rounded-r-md focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300"
                               placeholder="Pays" />
                           </div>
@@ -183,7 +147,7 @@ var raw = JSON.stringify({
                         <button
                           className="text-white bg-green-500 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                           type="button"
-                          onClick={handleAdd}
+                          //onClick={handleAdd}
                         >
                           Enregistrer
                         </button>
@@ -223,9 +187,29 @@ var raw = JSON.stringify({
                     </th>
                   </tr>
                 </thead>
+                {siteInfo.map((results:any) =>(
                 <tbody className="divide-y divide-gray-200 bg-white">
-                
+                  <tr>
+                    <td className="w-full max-w-0 py-4 pl-4 pr-3 text-sm text-yellow-500 hover:text-yellow-600 sm:w-auto sm:max-w-none sm:pl-6">
+                        <Link to="/ranking/list/table/" className="font-bold">
+                          {results.url}
+                        </Link>
+                    </td>
+                    <td className="px-3 py-4 text-sm text-yellow-500 font-bold hover:text-red-500 hover:font-bold">
+                      <button
+                        value={results.url}
+                        onClick={() => onRemoveItem(results.id)}
+                        className='flex font-bold hover:font-bold'
+                      >
+                        <svg xmlns="http://www.w3.org/2000/svg" className="mr-3 h-5 w-5 font-bold hover:font-bold" aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                        </svg>
+                        <span>Supprimer</span>
+                      </button>
+                    </td>
+                  </tr>              
                 </tbody>
+                  ))}
               </table>
             </div>
           </div>
