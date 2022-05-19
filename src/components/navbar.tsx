@@ -4,6 +4,7 @@ import { MenuIcon, XIcon } from '@heroicons/react/outline'
 import { Link, RouteComponentProps } from '@reach/router'
 import Logo from '../assets/logo/logo.svg'
 import { ReactSession } from 'react-client-session';
+import { sessionService } from 'redux-react-session'
 
 const navigation = [
   { name: 'Home', href: '/', current: false },

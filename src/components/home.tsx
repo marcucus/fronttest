@@ -1,10 +1,15 @@
-import { ChevronRightIcon } from '@heroicons/react/solid'
-import { Link, Redirect, RouteComponentProps } from '@reach/router'
-import { Login } from './login'
-import { Faq } from './faq'
-import { Pricing } from './pricing'
-import { Features } from './features'
+import { ChevronRightIcon } from '@heroicons/react/solid';
+import { Link, navigate, Redirect, RouteComponentProps } from '@reach/router';
+import Google from "../assets/socials/google.svg";
+import { Faq } from './faq';
+import { Pricing } from './pricing';
+import { Features } from './features';
 import { ReactSession } from 'react-client-session';
+import { sessionReducer, sessionService } from 'redux-react-session';
+import axios from 'axios';
+import { combineReducers, createStore } from 'redux';
+import GoogleLogin from 'react-google-login';
+import { Login } from './login';
 
 export const Home: React.FC<RouteComponentProps> = () => {
   return (

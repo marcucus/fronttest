@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { RouteComponentProps, Link } from "@reach/router";
 import { ReactSession } from 'react-client-session';
-import axios from "axios";
 
 export const ListSite: React.FC<RouteComponentProps> = () => {
   const [showModal, setShowModal] = React.useState(false);
@@ -15,12 +14,11 @@ export const ListSite: React.FC<RouteComponentProps> = () => {
       };
 
       var requestOptions:RequestInit = {
-        method: 'GET',
+        method: 'POST',
         headers: head,
+        body:ReactSession.get('userToken'),
         redirect:"follow"
       };
-
-        let inf;
 
         useEffect(() => {
         fetch('http://127.0.0.1:3333/sites/allbyuser', requestOptions)
@@ -161,6 +159,7 @@ export const ListSite: React.FC<RouteComponentProps> = () => {
                 </div>
             </section>
             <div className="-mx-4 mt-5 overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:-mx-6 md:mx-0 md:rounded-lg">
+            {siteInfo!==null || siteInfo!==undefined ? (
               <table className="min-w-full divide-y divide-gray-300">
                 <thead className="bg-gray-50">
                   <tr>
@@ -187,6 +186,7 @@ export const ListSite: React.FC<RouteComponentProps> = () => {
                     </th>
                   </tr>
                 </thead>
+
                 {siteInfo.map((results:any) =>(
                 <tbody className="divide-y divide-gray-200 bg-white">
                   <tr>
@@ -211,6 +211,9 @@ export const ListSite: React.FC<RouteComponentProps> = () => {
                 </tbody>
                   ))}
               </table>
+              ):(
+                 <div>Pas de sites, créez en un !</div> 
+                    )}
             </div>
           </div>
         </div>
