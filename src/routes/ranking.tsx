@@ -1,13 +1,18 @@
 import React, { Fragment } from "react";
-import { Link, RouteComponentProps } from "@reach/router";
+import { Link, redirectTo, RouteComponentProps } from "@reach/router";
 import { TableRank } from "../components/tableRank";
 import { Navbar } from "../components/navbar";
 import { Footer } from "../components/footer";
+import { NavbarUser } from "../components/navbarUser";
 
 export const RankingTable: React.FC<RouteComponentProps> = () => {
+  if(localStorage.getItem('userToken')==null || localStorage.getItem('userToken')==undefined)
+  {
+    redirectTo('/');
+  }
   return (
     <>
-      <Navbar></Navbar>
+      <NavbarUser></NavbarUser>
        <div className="absolute top-15 left-0 p-4">
         <Link to="/ranking/list" className="group flex items-center cursor-pointer transform duration-300 transition-all">
           <div className="relative z-10 p-2 text-gray-500 transition-all duration-300 ease-in-out rounded bg-gray-50 group-hover:bg-gray-200 group-hover:text-gray-700">

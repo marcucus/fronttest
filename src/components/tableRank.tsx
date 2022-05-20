@@ -1,10 +1,33 @@
 import { Listbox, Transition } from "@headlessui/react";
 import { SelectorIcon, CheckIcon } from "@heroicons/react/solid";
-import { RouteComponentProps } from "@reach/router";
-import React, { Fragment } from "react";
+import { navigate, redirectTo, RouteComponentProps } from "@reach/router";
+import axios, { AxiosRequestConfig } from "axios";
+import React, { Fragment, useEffect } from "react";
+import { ReactSession } from 'react-client-session';
 
 export const TableRank: React.FC<RouteComponentProps> = () => {
+
+  const token = "Bearer "+ localStorage.getItem('userToken');
+  const userToken=localStorage.getItem('userToken');
+      var head = {
+        Authorization:token,
+        "Content-Type": "application/json"
+      };
+
+      const requestOptions:AxiosRequestConfig = {
+        headers: head
+      };
+
+        useEffect(() => {
+        axios.post('http://127.0.0.1:3333/sites/allbyuser',{token:userToken},requestOptions)
+        .then(res =>{
+          console.log(res.data)
+          setSitesSelect(res.data);
+        })
+        },[]); 
+        
   const [showModal, setShowModal] = React.useState(false);
+
   const keys = [
     { position:1, keyword: 'haiku amour', url: 'https://www.temple-du-haiku.fr/exemples-de-haiku/amour/', maj: '2 hrs', od:'1', td:'5' , thd:'11', createdAt:new Date().toLocaleDateString()+" "+new Date().toLocaleTimeString()},
     { position:1, keyword: 'haiku célèbre',url: 'https://www.temple-du-haiku.fr/exemples-de-haiku/' , maj: '2 hrs', od:'11', td:'5' , thd:'12', createdAt:new Date().toLocaleDateString()+" "+new Date().toLocaleTimeString()},
@@ -12,14 +35,8 @@ export const TableRank: React.FC<RouteComponentProps> = () => {
     { position:2, keyword: 'google serp', url: 'https://www.google.com/google-serp', maj: '2 hrs', od:'1', td:'1' , thd:'2', createdAt:new Date().toLocaleDateString()+" "+new Date().toLocaleTimeString()},
   ]
 
-  const sites = [
-    { id:1, url:"https://www.facebook.com/", country:"USA" },
-    { id:2, url:"https://www.temple-du-haiku.fr/", country:"FR" },
-    { id:3, url:"https://www.youtube.com/", country:"USA" },
-    { id:4, url:"https://www.foudroyer.com/", country:"FR" },
-  ]
-
-  const [selected, setSelected] = React.useState(sites[3])
+  const [sites, setSitesSelect] = React.useState([])
+  const [selected, setSelected] = React.useState(sites)
 
   const [key, setKey] = React.useState(keys);
   const [keyword, setKeyword] = React.useState('');
@@ -46,12 +63,6 @@ export const TableRank: React.FC<RouteComponentProps> = () => {
     const removeKey = key.filter((keys, url) => index !== url);
     setKey(removeKey);
   };
-
-  function cut(url : any)
-  {
-    const result = url.slice(12);
-    return result;
-  }
 
   function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(' ');
@@ -287,7 +298,7 @@ export const TableRank: React.FC<RouteComponentProps> = () => {
               <>
                 <div className="mt-1 relative">
                   <Listbox.Button className="bg-white relative w-1/4 border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-yellow-500 focus:border-yellow-500 sm:text-sm">
-                    <span className="block truncate">{cut(selected.url)}</span>
+                    <span className="block truncate">{selected}</span>
                     <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
                       <SelectorIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
                     </span>
@@ -301,7 +312,16 @@ export const TableRank: React.FC<RouteComponentProps> = () => {
                     leaveTo="opacity-0"
                   >
                     <Listbox.Options className="absolute z-10 mt-1 w-1/4 bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
-                      {sites.map((site) => (
+                      <Listbox.Option
+                        key="0"
+                        className={({ active }) => classNames(
+                          active ? 'text-white bg-yellow-500' : 'text-gray-900',
+                          'cursor-default select-none relative py-2 pl-3 pr-9'
+                        )}
+                        value="0">
+                        resr
+                        </Listbox.Option>
+                      {sites.map((site:any) => (
                         <Listbox.Option
                           key={site.id}
                           className={({ active }) => classNames(
@@ -313,7 +333,7 @@ export const TableRank: React.FC<RouteComponentProps> = () => {
                           {({ selected, active }) => (
                             <>
                               <span className={classNames(selected ? 'font-semibold' : 'font-normal', 'block truncate')}>
-                                {cut(site.url)}
+                                {site.url}
                               </span>
 
                               {selected ? (

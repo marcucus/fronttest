@@ -1,38 +1,69 @@
 import React, { useEffect } from "react";
-import { RouteComponentProps, Link } from "@reach/router";
+import { RouteComponentProps, Link, redirectTo } from "@reach/router";
 import { ReactSession } from 'react-client-session';
+import axios, { AxiosRequestConfig } from "axios";
+import { sessionService } from "redux-react-session";
 
 export const ListSite: React.FC<RouteComponentProps> = () => {
   const [showModal, setShowModal] = React.useState(false);
   const [siteInfo, setSiteInfo] = React.useState([]);
 
-    const token = "Bearer "+ReactSession.get('userToken');
-
+    const token = "Bearer "+ localStorage.getItem('userToken');
+    const userToken:any = localStorage.getItem('userToken');
+    console.log(localStorage.getItem('userToken'))
+    
       var head = {
         Authorization:token,
         "Content-Type": "application/json"
       };
 
-      var requestOptions:RequestInit = {
-        method: 'POST',
-        headers: head,
-        body:ReactSession.get('userToken'),
-        redirect:"follow"
+      const requestOptions:AxiosRequestConfig = {
+        headers: head
       };
 
         useEffect(() => {
-        fetch('http://127.0.0.1:3333/sites/allbyuser', requestOptions)
-        .then((res) => res.json())
-        .then((res)=> {
-          setSiteInfo(res);
-        })},[]); 
+        axios.post('http://127.0.0.1:3333/sites/allbyuser',{token:userToken},requestOptions)
+        .then(res =>{
+          console.log(res.data)
+          setSiteInfo(res.data);
+        })
+        },[]); 
   
     function classNames(...classes: any[]) {
       return classes.filter(Boolean).join(' ');
     }
 
-    function onRemoveItem(id:any){
+    const [url, setUrl] = React.useState('');
+    const [country, setCountry] = React.useState('');
+    
+    function handleChangeUrl(event: { target: { value: React.SetStateAction<string>; }; }) {
+      setUrl(event.target.value);
+    }
+  
+    function handleAdd() {
+      setShowModal(false);
+      var raw = JSON.stringify([{
+        "url": url
+      }]);
+      
+      var requestOptions = {
+        method: 'POST',
+        headers: head,
+        body: raw
+      };
+      
+      fetch("http://127.0.0.1:3333/sites/create", requestOptions)
+        .then(response => response.text())
+        .then(result => console.log(result))
+        .catch(error => console.log('error', error));
 
+        window.location.reload()
+    }
+  
+
+    function onRemoveItem(id:any){
+      axios.delete(`http://127.0.0.1:3333/sites/delete/${id}`, requestOptions)
+      window.location.reload()
     }
 
     //const options = [];
@@ -114,8 +145,8 @@ export const ListSite: React.FC<RouteComponentProps> = () => {
                               type="text"
                               name="company-website"
                               id="company-website"
-                              //value={url}
-                              //onChange={handleChangeUrl}
+                              value={url}
+                              onChange={handleChangeUrl}
                               className="flex-1 min-w-0 block w-full px-3 py-2 rounded-l-md rounded-r-md focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300"
                               placeholder="http(s)://www.example.com/" />
                           </div><br/>
@@ -145,7 +176,7 @@ export const ListSite: React.FC<RouteComponentProps> = () => {
                         <button
                           className="text-white bg-green-500 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                           type="button"
-                          //onClick={handleAdd}
+                          onClick={handleAdd}
                         >
                           Enregistrer
                         </button>

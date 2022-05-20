@@ -13,7 +13,7 @@ export const Login: React.FC<RouteComponentProps> = (props) => {
     console.log('Login Success: currentUser:', res.profileObj);
     axios
       .post('http://127.0.0.1:3333/authentication/auth', { token: res.tokenId })
-      .then(response => {
+      .then(async response => {
         const reducers = {
           userToken:response.data,
           picture:res.profileObj.imageUrl,
@@ -34,17 +34,19 @@ export const Login: React.FC<RouteComponentProps> = (props) => {
         sessionService.initSessionService(store, options)
         .then(() => console.log('Redux React Session is ready and a session was refreshed from your storage'))
         .catch(() => console.log('Redux React Session is ready and there is no session in your storage'));
-        ReactSession.set("userToken", response.data);
+        localStorage.setItem('userToken',response.data)
+        localStorage.setItem('picture',res.profileObj.imageUrl)
+        await navigate('/ranking/list')
       })
       .catch((err: any) => {
         console.log(err);
       });
-      navigate('/ranking/list')
   };
 
-  const onFailure = (res: any) => {
-    console.log('Login failed: res:', res);
-}
+    const onFailure = (res: any) => {
+      console.log('Login failed: res:', res);
+    }
+    
     return(
         <>
           <div>

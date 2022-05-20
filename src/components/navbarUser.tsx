@@ -4,7 +4,7 @@ import { MenuIcon, XIcon } from '@heroicons/react/outline'
 import { Link, RouteComponentProps } from '@reach/router'
 import Logo from '../assets/logo/logo.svg'
 import { ReactSession } from 'react-client-session';
-import { sessionService } from 'redux-react-session'
+import { sessionService } from 'redux-react-session';
 
 const navigation = [
   { name: 'Home', href: '/', current: false },
@@ -12,6 +12,9 @@ const navigation = [
   { name: 'Projects', href: '#', current: false },
   { name: 'Calendar', href: '#', current: false },
 ]
+
+var picture:any=localStorage.getItem('picture');
+
 
 function classNames(...classes: any[]) {
   return classes.filter(Boolean).join(' ')
@@ -26,7 +29,7 @@ const Item: React.FC<{ to: string }> = (props) => (
   </Link>
 )
 
-export const Navbar: React.FC<RouteComponentProps> = () => {
+export const NavbarUser: React.FC<RouteComponentProps> = () => {
 return (
     <>
         <Disclosure as="nav" className="bg-gray-800">
@@ -61,28 +64,22 @@ return (
                 </div>
                 <div className="hidden sm:block sm:ml-6">
                   <div className="flex space-x-4">
-                      <Link to="/">
+                      <Link to="/ranking/list">
                       <div
                         className= 'text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium'>
-                        Accueil
+                        Mes sites
                       </div>
                       </Link>
-                      <a href='/#features'>
+                      <Link to="/ranking/list/table">
                         <div
                         className= 'text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium'>
-                        Fonctionnalités
+                        Mes mots-clés
                       </div>
-                      </a>
-                      <a href='/#pricing'>
+                      </Link>
+                      <a href='/'>
                         <div
                         className= 'text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium'>
-                        Prix
-                      </div>
-                      </a>
-                      <a href='/#faq'>
-                      <div
-                        className= 'text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium'>
-                        Des questions ?
+                        Se déconnecter
                       </div>
                       </a>
                   </div>
@@ -91,6 +88,13 @@ return (
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
 
                 <Menu as="div" className="ml-3 relative">
+                  <div>
+                        <img
+                          className="h-8 w-8 rounded-full"
+                          src={picture}
+                          alt="Logo google"
+                        />
+                  </div>
                   <Transition
                     as={Fragment}
                     enter="transition ease-out duration-100"
