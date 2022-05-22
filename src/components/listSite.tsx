@@ -1,10 +1,11 @@
-import React, { useEffect } from "react";
-import { RouteComponentProps, Link, redirectTo } from "@reach/router";
-import { ReactSession } from 'react-client-session';
+import React, { Fragment, useEffect, useState } from "react";
+import { RouteComponentProps, Link } from "@reach/router";
 import axios, { AxiosRequestConfig } from "axios";
-import { sessionService } from "redux-react-session";
+import { Transition } from "@headlessui/react";
+import { CheckCircleIcon, XIcon } from "@heroicons/react/outline";
 
 export const ListSite: React.FC<RouteComponentProps> = () => {
+  const [notif, setNotif] = React.useState(false)
   const [showModal, setShowModal] = React.useState(false);
   const [siteInfo, setSiteInfo] = React.useState([]);
 
@@ -57,7 +58,8 @@ export const ListSite: React.FC<RouteComponentProps> = () => {
         .then(result => console.log(result))
         .catch(error => console.log('error', error));
 
-        window.location.reload()
+        setNotif(true);
+        
     }
   
 
@@ -65,33 +67,6 @@ export const ListSite: React.FC<RouteComponentProps> = () => {
       axios.delete(`http://127.0.0.1:3333/sites/delete/${id}`, requestOptions)
       window.location.reload()
     }
-
-    //const options = [];
-    /*const nb = sites.length;
-    for (let i = 0; i == nb; i++) {
-      options.push(
-        <tr>
-        <td className="w-full max-w-0 py-4 pl-4 pr-3 text-sm text-yellow-500 hover:text-yellow-600 sm:w-auto sm:max-w-none sm:pl-6">
-            <Link to="/ranking/list/table/" className="font-bold">
-              {site.url}
-            </Link>
-        </td>
-        <td className="hidden px-3 py-4 text-sm text-gray-500 sm:table-cell">{site.country}</td>
-        <td className="hidden px-3 py-4 text-sm text-gray-500 sm:table-cell">{site.createdAt}</td>
-        <td className="px-3 py-4 text-sm text-yellow-500 font-bold hover:text-red-500 hover:font-bold">
-          <button
-            value={site.url}
-            onClick={() => onRemoveItem(site.id)}
-            className='flex font-bold hover:font-bold'
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" className="mr-3 h-5 w-5 font-bold hover:font-bold" aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-            </svg>
-            <span>Supprimer</span>
-          </button>
-        </td>
-      </tr>);
-    }*/
   return(
   <>
       <div className='mb-20'>
@@ -187,6 +162,51 @@ export const ListSite: React.FC<RouteComponentProps> = () => {
                 <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
               </>
             ) : null}
+            {notif ? (
+              <div
+              aria-live="assertive"
+              className="fixed inset-0 flex items-end px-4 py-6 pointer-events-none sm:p-6 sm:items-start"
+            >
+              <div className="w-full flex flex-col items-center space-y-4 sm:items-end">
+                <Transition
+                  show={notif}
+                  as={Fragment}
+                  enter="transform ease-out duration-300 transition"
+                  enterFrom="translate-y-2 opacity-0 sm:translate-y-0 sm:translate-x-2"
+                  enterTo="translate-y-0 opacity-100 sm:translate-x-0"
+                  leave="transition ease-in duration-100"
+                  leaveFrom="opacity-100"
+                  leaveTo="opacity-0"
+                >
+                  <div className="max-w-sm w-full bg-white shadow-lg rounded-lg pointer-events-auto ring-1 ring-black ring-opacity-5 overflow-hidden">
+                    <div className="p-4">
+                      <div className="flex items-start">
+                        <div className="flex-shrink-0">
+                          <CheckCircleIcon className="h-6 w-6 text-green-400" aria-hidden="true" />
+                        </div>
+                        <div className="ml-3 w-0 flex-1 pt-0.5">
+                          <p className="text-sm font-medium text-gray-900">test</p>
+                          <p className="mt-1 text-sm text-gray-500">ui</p>
+                        </div>
+                        <div className="ml-4 flex-shrink-0 flex">
+                          <button
+                            type="button"
+                            className="bg-white rounded-md inline-flex text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                            onClick={() => {
+                              setNotif(false)
+                            }}
+                          >
+                            <span className="sr-only">Close</span>
+                            <XIcon className="h-5 w-5" aria-hidden="true" />
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </Transition>
+              </div>
+            </div>  
+            ):null}
                 </div>
             </section>
             <div className="-mx-4 mt-5 overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:-mx-6 md:mx-0 md:rounded-lg">
