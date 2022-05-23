@@ -59,7 +59,7 @@ export const ListSite: React.FC<RouteComponentProps> = () => {
         .catch(error => console.log('error', error));
 
         setNotif(true);
-        
+        setUrl('')
     }
   
 

@@ -21,10 +21,16 @@ export const TableRank: React.FC<RouteComponentProps> = () => {
         useEffect(() => {
         axios.post('http://127.0.0.1:3333/sites/allbyuser',{token:userToken},requestOptions)
         .then(res =>{
-          console.log(res.data)
           setSitesSelect(res.data);
         })
-        },[]); 
+        },[]);
+
+        useEffect(() => {
+          axios.get('http://127.0.0.1:3333/keywords/allbysite/3',requestOptions)
+          .then(res =>{
+            console.log(res.data[0].json_build_object.pos[0])
+          })
+          },[]);
         
   const [showModal, setShowModal] = React.useState(false);
 
@@ -36,10 +42,11 @@ export const TableRank: React.FC<RouteComponentProps> = () => {
   ]
 
   const [sites, setSitesSelect] = React.useState([])
-  const [selected, setSelected] = React.useState(sites)
+  const [selected, setSelected] = React.useState()
 
   const [key, setKey] = React.useState(keys);
   const [keyword, setKeyword] = React.useState('');
+  const [server, setServer] = React.useState('');
   const [url, setUrl] = React.useState('');
 
   function handleChange(event: { target: { value: React.SetStateAction<string>; }; }) {
@@ -50,12 +57,32 @@ export const TableRank: React.FC<RouteComponentProps> = () => {
     setUrl(event.target.value);
   }
 
+  function handleChangeServer(event: { target: { value: React.SetStateAction<string>; }; }) {
+    setServer(event.target.value);
+  }
+
   function handleAdd() {
     setShowModal(false);
-    const date=new Date().toLocaleDateString()+" "+new Date().toLocaleTimeString().toString();
-    const newKey = key.concat({ keyword, position:2,url, maj:'3 hrs', od:'1', td:'5' , thd:'20',createdAt:date});
-    setKey(newKey);
+    console.log(keyword,server)
+    var raw = JSON.stringify([{
+      "keywords": keyword,
+      "country":server,
+      "siteid":3
+    }]);
+    
+    var requestOptions = {
+      method: 'POST',
+      headers: head,
+      body: raw
+    };
+    
+    fetch("http://127.0.0.1:3333/keywords/create", requestOptions)
+      .then(response => response.text())
+      .then(result => console.log(result))
+      .catch(error => console.log('error', error));
+
     setKeyword('');
+    setServer('');
     setUrl('');
   }
 
@@ -122,7 +149,8 @@ export const TableRank: React.FC<RouteComponentProps> = () => {
                               id="location"
                               name="location"
                               className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
-                              defaultValue="Canada"
+                              value={server}
+                              onChange={handleChangeServer}
                             >
                               <option>Choisir un pays</option>
                               <optgroup label="Afrique">
