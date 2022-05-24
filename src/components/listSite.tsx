@@ -67,6 +67,7 @@ export const ListSite: React.FC<RouteComponentProps> = () => {
       axios.delete(`http://127.0.0.1:3333/sites/delete/${id}`, requestOptions)
       window.location.reload()
     }
+    
   return(
   <>
       <div className='mb-20'>

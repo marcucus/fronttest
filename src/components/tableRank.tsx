@@ -1,9 +1,8 @@
 import { Listbox, Transition } from "@headlessui/react";
 import { SelectorIcon, CheckIcon } from "@heroicons/react/solid";
-import { navigate, redirectTo, RouteComponentProps } from "@reach/router";
+import { RouteComponentProps } from "@reach/router";
 import axios, { AxiosRequestConfig } from "axios";
 import React, { Fragment, useEffect } from "react";
-import { ReactSession } from 'react-client-session';
 
 export const TableRank: React.FC<RouteComponentProps> = () => {
 
@@ -26,9 +25,16 @@ export const TableRank: React.FC<RouteComponentProps> = () => {
         },[]);
 
         useEffect(() => {
+          axios.get(`http://127.0.0.1:3333/keywords/keyworduser/${userToken}`,requestOptions)
+          .then(res =>{
+          setKey(res.data)
+          })
+        },[]);
+
+        useEffect(() => {
           axios.get('http://127.0.0.1:3333/keywords/allbysite/3',requestOptions)
           .then(res =>{
-            console.log(res.data[0].json_build_object.pos[0])
+            setKey(res.data)
           })
           },[]);
         
@@ -42,12 +48,32 @@ export const TableRank: React.FC<RouteComponentProps> = () => {
   ]
 
   const [sites, setSitesSelect] = React.useState([])
-  const [selected, setSelected] = React.useState()
+  const [selected, setSelected] = React.useState('0')
 
-  const [key, setKey] = React.useState(keys);
+  const [key, setKey] = React.useState([]);
   const [keyword, setKeyword] = React.useState('');
   const [server, setServer] = React.useState('');
   const [url, setUrl] = React.useState('');
+
+  useEffect(() => {
+    if(selected=='0'){
+      console.log('yes')
+      setKey([])
+      axios.get(`http://127.0.0.1:3333/keywords/keyworduser/${userToken}`,requestOptions)
+      .then(res =>{
+      setKey(res.data)
+      })
+    }
+    else
+    {
+      console.log('no')
+      setKey([])
+      axios.get(`http://127.0.0.1:3333/keywords/allbysite/${selected}`,requestOptions)
+      .then(res =>{
+      setKey(res.data)
+      })
+    }
+  },[]);
 
   function handleChange(event: { target: { value: React.SetStateAction<string>; }; }) {
     setKeyword(event.target.value);
@@ -63,7 +89,6 @@ export const TableRank: React.FC<RouteComponentProps> = () => {
 
   function handleAdd() {
     setShowModal(false);
-    console.log(keyword,server)
     var raw = JSON.stringify([{
       "keywords": keyword,
       "country":server,
@@ -85,18 +110,28 @@ export const TableRank: React.FC<RouteComponentProps> = () => {
     setServer('');
     setUrl('');
   }
+  console.log(selected)
 
-  function onRemoveItem(index: number){
-    const removeKey = key.filter((keys, url) => index !== url);
-    setKey(removeKey);
+  function onRemoveItem(id:any){
+    axios.delete(`http://127.0.0.1:3333/keywords/delete/${id}`, requestOptions)
+    window.location.reload()
   };
+
+  function cut(date:any){
+    console.log(date)
+    const dateRepl=date.replace('T', ' ')
+    const year=date.slice(0, 4);
+    const month=date.slice(4,8);
+    const day=date.slice(8,10);
+    const newdate=day+month+year+' à '+dateRepl.slice(11,19)
+    return newdate
+  }
 
   function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(' ');
   }
 
   return (
-
     <><div className="min-h-full">
       <div className="bg-gray-800 pb-32">
         <header className="py-10">
@@ -220,13 +255,13 @@ export const TableRank: React.FC<RouteComponentProps> = () => {
                                 <option value="UK02">Royaume-Uni 2 (Londres)</option>
                                 <option value="UK03">Royaume-Uni 3 (Londres)</option>
                                 <option value="UK04">Royaume-Uni 4 (Londres)</option>
-                                <option value="UK05">Royaume-Uni 5 (Pays de Galles</option>
+                                <option value="UK05">Royaume-Uni 5 (Pays de Galles)</option>
                                 <option value="UK06">Royaume-Uni 6 (Londres)</option>
                               </optgroup>
                               <optgroup label="Amérique du Nord">
-                                <option value="CA01">Canada 1 (Montréal</option>
+                                <option value="CA01">Canada 1 (Montréal)</option>
                                 <option value="CA02">Canada 2 (Toronto)</option>
-                                <option value="CA03">Canada 3 (Montréal</option>
+                                <option value="CA03">Canada 3 (Montréal)</option>
                                 <option value="CA04">Canada 4 (Québec)</option>
                                 <option value="US01">États-Unis 1 (Santa Clara)</option>
                                 <option value="US02">États-Unis 2 (Virginie)</option>
@@ -244,8 +279,8 @@ export const TableRank: React.FC<RouteComponentProps> = () => {
                                 <option value="US14">États-Unis 14 (Des Moines)</option>
                                 <option value="US15">États-Unis 15 (Ashburn)</option>
                                 <option value="US16">États-Unis 16 (Boyton)</option>
-                                <option value="US17">États-Unis 17 (San Antonio</option>
-                                <option value="US18">États-Unis 18 (Santa Clara</option>
+                                <option value="US17">États-Unis 17 (San Antonio)</option>
+                                <option value="US18">États-Unis 18 (Santa Clara)</option>
                                 <option value="US19">États-Unis 19 (Quincy)</option>
                                 <option value="US20">États-Unis 20 (Los Angeles)</option>
                                 <option value="US21">États-Unis 21 (Las Vegas)</option>
@@ -325,8 +360,9 @@ export const TableRank: React.FC<RouteComponentProps> = () => {
             {({ open }) => (
               <>
                 <div className="mt-1 relative">
+                  
                   <Listbox.Button className="bg-white relative w-1/4 border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-yellow-500 focus:border-yellow-500 sm:text-sm">
-                    <span className="block truncate">{selected}</span>
+                    <span className="block truncate">Tout les mots-clés</span>
                     <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
                       <SelectorIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
                     </span>
@@ -347,8 +383,9 @@ export const TableRank: React.FC<RouteComponentProps> = () => {
                           'cursor-default select-none relative py-2 pl-3 pr-9'
                         )}
                         value="0">
-                        resr
+                        Tout les mots-clés
                         </Listbox.Option>
+                        
                       {sites.map((site:any) => (
                         <Listbox.Option
                           key={site.id}
@@ -356,26 +393,9 @@ export const TableRank: React.FC<RouteComponentProps> = () => {
                             active ? 'text-white bg-yellow-500' : 'text-gray-900',
                             'cursor-default select-none relative py-2 pl-3 pr-9'
                           )}
-                          value={site}
+                          value={site.id}
                         >
-                          {({ selected, active }) => (
-                            <>
-                              <span className={classNames(selected ? 'font-semibold' : 'font-normal', 'block truncate')}>
-                                {site.url}
-                              </span>
-
-                              {selected ? (
-                                <span
-                                  className={classNames(
-                                    active ? 'text-white' : 'text-yellow-600',
-                                    'absolute inset-y-0 right-0 flex items-center pr-4'
-                                  )}
-                                >
-                                  <CheckIcon className="h-5 w-5" aria-hidden="true" />
-                                </span>
-                              ) : null}
-                            </>
-                          )}
+                          {site.url}
                         </Listbox.Option>
                       ))}
                     </Listbox.Options>
@@ -403,7 +423,7 @@ export const TableRank: React.FC<RouteComponentProps> = () => {
                           <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">7d</th>
                           <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">30d</th>
                           <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Url</th>
-                          <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Créé le</th>                        
+                          <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Dernier check</th>                        
                           <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Maj</th>
                         <th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-6">
                           <span className="sr-only">Edit</span>
@@ -411,22 +431,34 @@ export const TableRank: React.FC<RouteComponentProps> = () => {
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-gray-200 bg-white">
-                      {key.map((one, index) => (
+                      {key.map((one:any) => (
                         <tr>
                           <td className="relative w-12 px-6 sm:w-16 sm:px-8">
                             <div className="absolute inset-y-0 left-0 w-0.5 bg-yellow-500"></div>
                             <input type="checkbox" className="absolute left-4 top-1/2 -mt-2 h-4 w-4 rounded border-gray-300 text-yellow-600 focus:ring-yellow-500 sm:left-6" />
                           </td>
-                          <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{one.keyword}</td>
+                          <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{one.keywords}</td>
                           <td className="pl-7 whitespace-nowrap py-4 pr-3 text-sm text-gray-900">{one.position}</td>
-                          <td className="pl-5 whitespace-nowrap py-4 pr-3 text-sm text-gray-900">{one.od}</td>
-                          <td className="pl-5 whitespace-nowrap py-4 pr-3 text-sm text-gray-900">{one.td}</td>
-                          <td className="pl-5 whitespace-nowrap px-3 py-4 text-sm text-gray-500">{one.thd}</td>
+                          <td className="pl-5 whitespace-nowrap py-4 pr-3 text-sm text-gray-900">{one.json_build_object.pos[0] ? (
+                            one.json_build_object.pos[0].ppos
+                          ):(
+                            '-'
+                          )}</td>
+                          <td className="pl-5 whitespace-nowrap py-4 pr-3 text-sm text-gray-900">{one.json_build_object.pos[1] ? (
+                            one.json_build_object.pos[1].ppos
+                          ):(
+                            '-'
+                          )}</td>
+                          <td className="pl-5 whitespace-nowrap px-3 py-4 text-sm text-gray-500">{one.json_build_object.pos[2] ? (
+                            one.json_build_object.pos[2].ppos
+                          ):(
+                            '-'
+                          )}</td>
                           <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{one.url}</td>
-                          <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{one.createdAt}</td>                                                    
-                          <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{one.maj}</td>
+                          <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{cut(one.lastcheck)}</td>                                                    
+                          <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{cut(one.createdat)}</td>
                           <td className="whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                            <button onClick={() => onRemoveItem(index)} className="relative inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-500 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:yellow-indigo-500">Supprimer<span className="sr-only">, {one.keyword}</span></button>
+                            <button onClick={() => onRemoveItem(one.id)} className="relative inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-500 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:yellow-indigo-500">Supprimer<span className="sr-only">, {one.keyword}</span></button>
                           </td>
                         </tr>
                       ))}
