@@ -31,12 +31,12 @@ export const TableRank: React.FC<RouteComponentProps> = () => {
           })
         },[]);
 
-        useEffect(() => {
+        /*useEffect(() => {
           axios.get('http://127.0.0.1:3333/keywords/allbysite/3',requestOptions)
           .then(res =>{
             setKey(res.data)
           })
-          },[]);
+          },[]);*/
         
   const [showModal, setShowModal] = React.useState(false);
 
@@ -424,7 +424,7 @@ export const TableRank: React.FC<RouteComponentProps> = () => {
                           <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">30d</th>
                           <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Url</th>
                           <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Dernier check</th>                        
-                          <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Maj</th>
+                          <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Créé le</th>
                         <th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-6">
                           <span className="sr-only">Edit</span>
                         </th>
