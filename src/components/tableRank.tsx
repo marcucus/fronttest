@@ -419,9 +419,7 @@ export const TableRank: React.FC<RouteComponentProps> = () => {
                         </th>
                           <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Mots-clés</th>
                           <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Position</th>
-                          <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">1d</th>
-                          <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">7d</th>
-                          <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">30d</th>
+                          <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Historique</th>
                           <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Url</th>
                           <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Dernier check</th>                        
                           <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Créé le</th>
@@ -439,7 +437,8 @@ export const TableRank: React.FC<RouteComponentProps> = () => {
                           </td>
                           <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{one.keywords}</td>
                           <td className="pl-7 whitespace-nowrap py-4 pr-3 text-sm text-gray-900">{one.position}</td>
-                          <td className="pl-5 whitespace-nowrap py-4 pr-3 text-sm text-gray-900">{one.json_build_object.pos[0] ? (
+                          <td className="pl-5 whitespace-nowrap py-4 pr-3 text-sm text-yellow-500"><a href="" className="hover:text-yellow-600">Historique</a></td>
+                          {/*<td className="pl-5 whitespace-nowrap py-4 pr-3 text-sm text-gray-900">{one.json_build_object.pos[0] ? (
                             one.json_build_object.pos[0].ppos
                           ):(
                             '-'
@@ -453,7 +452,7 @@ export const TableRank: React.FC<RouteComponentProps> = () => {
                             one.json_build_object.pos[2].ppos
                           ):(
                             '-'
-                          )}</td>
+                          )}</td>*/}
                           <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{one.url}</td>
                           <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{cut(one.lastcheck)}</td>                                                    
                           <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{cut(one.createdat)}</td>
