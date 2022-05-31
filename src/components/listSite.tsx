@@ -35,12 +35,11 @@ export const ListSite: React.FC<RouteComponentProps> = () => {
     }
 
     const [url, setUrl] = React.useState('');
-    const [country, setCountry] = React.useState('');
     
     function handleChangeUrl(event: { target: { value: React.SetStateAction<string>; }; }) {
       setUrl(event.target.value);
     }
-  
+
     function handleAdd() {
       setShowModal(false);
       var raw = JSON.stringify([{
@@ -126,19 +125,6 @@ export const ListSite: React.FC<RouteComponentProps> = () => {
                               className="flex-1 min-w-0 block w-full px-3 py-2 rounded-l-md rounded-r-md focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300"
                               placeholder="http(s)://www.example.com/" />
                           </div><br/>
-                          <label htmlFor="company-website" className="block text-sm font-medium text-gray-700">
-                            Localisation
-                          </label>
-                          <div className="mt-1 flex rounded-md shadow-sm">
-                            <input
-                              type="text"
-                              name="website-country"
-                              id="website-country"
-                              //value={country}
-                              //onChange={handleChangeCountry}
-                              className="flex-1 min-w-0 block w-full px-3 py-2 rounded-l-md rounded-r-md focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300"
-                              placeholder="Pays" />
-                          </div>
                         </div>
                       </div>
                       <div className="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">

@@ -55,6 +55,7 @@ export const TableRank: React.FC<RouteComponentProps> = () => {
   const [keyword, setKeyword] = React.useState('');
   const [server, setServer] = React.useState('');
   const [url, setUrl] = React.useState('');
+  const [search, setSearch] = React.useState('');
 
   useEffect(() => {
     if(selected=='0'){
@@ -80,12 +81,12 @@ export const TableRank: React.FC<RouteComponentProps> = () => {
     setKeyword(event.target.value);
   }
 
-  function handleChangeUrl(event: { target: { value: React.SetStateAction<string>; }; }) {
-    setUrl(event.target.value);
-  }
-
   function handleChangeServer(event: { target: { value: React.SetStateAction<string>; }; }) {
     setServer(event.target.value);
+  }
+
+  function handleChangeSearch(event: { target: { value: React.SetStateAction<string>; }; }) {
+    setSearch(event.target.value);
   }
 
   function handleAdd() {
@@ -93,6 +94,7 @@ export const TableRank: React.FC<RouteComponentProps> = () => {
     var raw = JSON.stringify([{
       "keywords": keyword,
       "country":server,
+      "search":search,
       "siteid":3
     }]);
     
@@ -131,6 +133,8 @@ export const TableRank: React.FC<RouteComponentProps> = () => {
   function classNames(...classes: string[]) {
     return classes.filter(Boolean).join(' ');
   }
+
+  console.log(key)
 
   return (
     <><div className="min-h-full">
@@ -318,19 +322,23 @@ export const TableRank: React.FC<RouteComponentProps> = () => {
                                 className="flex-1 min-w-0 block w-full px-3 py-2 rounded-l-md rounded-r-md focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300"
                                 placeholder="google test" />
                             </div><br/>
-                            <label htmlFor="website-url" className="block text-sm font-medium text-gray-700">
-                              Url précise
-                            </label>
-                            <div className="mt-1 flex rounded-md shadow-sm">
-                              <input
-                                type="text"
-                                name="website-url"
-                                id="website-url"
-                                value={url}
-                                onChange={handleChangeUrl}
-                                className="flex-1 min-w-0 block w-full px-3 py-2 rounded-l-md rounded-r-md focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300"
-                                placeholder="http(s)://www.example.com/google-test" />
-                            </div>
+                          </div>
+                          <div>
+                          <label htmlFor="company-website" className="block text-sm font-medium text-gray-700">
+                            Moteur de recherche
+                          </label>
+                          <select
+                              id="location"
+                              name="location"
+                              className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+                              value={search}
+                              onChange={handleChangeSearch}
+                            >
+                              <option selected>Choisir un pays</option>
+                              <option value="Google">Google</option>
+                              <option value="Yahoo">Yahoo!</option>
+                              <option value="Bing">Bing</option>
+                            </select>
                           </div>
                         </div>
                         <div className="flex items-center justify-end p-6 border-t border-solid border-blueGray-200 rounded-b">
@@ -495,7 +503,7 @@ export const TableRank: React.FC<RouteComponentProps> = () => {
                           <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Mots-clés</th>
                           <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Position</th>
                           <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Historique</th>
-                          <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Url</th>
+                          <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Serveur</th>
                           <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Dernier check</th>                        
                           <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Créé le</th>
                         <th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-6">
@@ -515,7 +523,7 @@ export const TableRank: React.FC<RouteComponentProps> = () => {
                           <td className="pl-5 whitespace-nowrap py-4 pr-3 text-sm text-yellow-500">
                             <button onClick={() => setOpen(true)} className="hover:text-yellow-600">Historique</button>
                           </td>
-                          <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{one.url}</td>
+                          <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{one.country}</td>
                           <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{cut(one.lastcheck)}</td>                                                    
                           <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{cut(one.createdat)}</td>
                           <td className="whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
