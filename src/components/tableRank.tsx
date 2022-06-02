@@ -25,16 +25,6 @@ export const TableRank: React.FC<RouteComponentProps> = () => {
         })
         },[]);
 
-        async function historykey(id:any){
-          setPos([])
-          setHistoryModal(true)
-          axios.get(`http://127.0.0.1:3333/keywords/getPos/${id}`,requestOptions)
-            .then(res =>{
-              return setPos(res.data);
-          })
-          
-        }
-
 
         /*useEffect(() => {
           axios.get('http://127.0.0.1:3333/keywords/allbysite/3',requestOptions)
@@ -126,7 +116,7 @@ test
   const [sites, setSitesSelect] = React.useState([])
   const [selected, setSelected] = React.useState('0')
   const [key, setKey] = React.useState([]);
-  const [pos, setPos] = React.useState([])
+  const [position, setPos] = React.useState([]);
   const [keyword, setKeyword] = React.useState('');
   const [server, setServer] = React.useState('');
   const [url, setUrl] = React.useState('');
@@ -146,6 +136,19 @@ test
       setKey(res.data)
       })*/
   },[]);
+
+  async function historykey(id:any){
+    setPos([])
+    setHistoryModal(true)
+    axios.get(`http://127.0.0.1:3333/keywords/getPos/${id}`,requestOptions)
+      .then(res =>{
+        setPos(res.data);
+        console.log("avant ",position[0])
+    })
+    console.log("après ",position[0])
+    
+  }
+
 
   function handleChange(event: { target: { value: React.SetStateAction<string>; }; }) {
     setKeyword(event.target.value);
@@ -197,6 +200,11 @@ test
     const day=date.slice(8,10);
     const newdate=day+month+year+' à '+dateRepl.slice(11,19)
     return newdate
+  }
+
+  function name(name:string){
+    const replacedName= name.replace("+",' ')
+    return replacedName;
   }
 
   function classNames(...classes: string[]) {
@@ -435,40 +443,6 @@ test
           </div>
           {historyModal ? (
             <>
-
-<div className="max-w-2xl mx-auto">
-    <div id="default-modal" data-modal-show="true" aria-hidden="true" className="hidden overflow-x-hidden overflow-y-auto fixed h-modal md:h-full top-4 left-0 right-0 md:inset-0 z-50 justify-center items-center">
-        <div className="relative w-full max-w-2xl px-4 h-full md:h-auto">
-
-            <div className="bg-white rounded-lg shadow relative dark:bg-gray-700">
-
-                <div className="flex items-start justify-between p-5 border-b rounded-t dark:border-gray-600">
-                    <h3 className="text-gray-900 text-xl lg:text-2xl font-semibold dark:text-white">
-                        Terms of Service
-                    </h3>
-                    <button type="button" className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="default-modal">
-                        <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>  
-                    </button>
-                </div>
-
-                <div className="p-6 space-y-6">
-                    <p className="text-gray-500 text-base leading-relaxed dark:text-gray-400">
-                        With less than a month to go before the European Union enacts new consumer privacy laws for its citizens, companies around the world are updating their terms of service agreements to comply.
-                    </p>
-                    <p className="text-gray-500 text-base leading-relaxed dark:text-gray-400">
-                        The European Union’s General Data Protection Regulation (G.D.P.R.) goes into effect on May 25 and is meant to ensure a common set of data rights in the European Union. It requires organizations to notify users as soon as possible of high-risk data breaches that could personally affect them.
-                    </p>
-                </div>
-
-                <div className="flex space-x-2 items-center p-6 border-t border-gray-200 rounded-b dark:border-gray-600">
-                    <button data-modal-toggle="default-modal" type="button" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">I accept</button>
-                    <button data-modal-toggle="default-modal" type="button" className="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:ring-gray-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600">Decline</button>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
 <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
     <div className="relative p-4 w-full max-w-7xl h-full md:h-auto">
         <div className="relative bg-white rounded-lg shadow-lg dark:bg-gray-700">
@@ -482,8 +456,13 @@ test
             </div>
             <div className="p-6 space-y-6">
                 <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                {pos.map((posi:any)=>(
-                                <p>{posi.json_build_object[0]}</p>
+                {position.map((posi:any)=>(
+                                <>
+                                <p>{posi.json_build_object.pos[0].pid}</p>
+                                <p>{posi.json_build_object.pos[0].pkid}</p>
+                                <p>{posi.json_build_object.pos[0].ppos}</p>
+                                <p>{cut(posi.json_build_object.pos[0].pdate)}</p>
+                                </>
                               ))}
                 </p>
                 <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
@@ -569,12 +548,8 @@ test
                   <table className="min-w-full table-fixed divide-y divide-gray-300">
                     <thead className="bg-gray-50">
                       <tr>
-                        <th scope="col" className="relative w-12 px-6 sm:w-16 sm:px-8">
-                          <input type="checkbox" className="absolute left-4 top-1/2 -mt-2 h-4 w-4 rounded border-gray-300 text-yellow-600 focus:ring-yellow-500 sm:left-6" />
-                        </th>
-                          <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">#</th>
                           <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Mots-clés</th>
-                          <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Position</th>
+                          <abbr title="Position actuelle"><th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Position</th></abbr>
                           <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Historique</th>
                           <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Serveur</th>
                           <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Dernier check</th>                        
@@ -587,12 +562,7 @@ test
                     <tbody className="divide-y divide-gray-200 bg-white">
                       {key.map((one:any) => (
                         <tr>
-                          <td className="relative w-12 px-6 sm:w-16 sm:px-8">
-                            <div className="absolute inset-y-0 left-0 w-0.5 bg-yellow-500"></div>
-                            <input type="checkbox" className="absolute left-4 top-1/2 -mt-2 h-4 w-4 rounded border-gray-300 text-yellow-600 focus:ring-yellow-500 sm:left-6" />
-                          </td>
-                          <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{one.id}</td>
-                          <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{one.keywords}</td>
+                          <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{name(one.keywords)}</td>
                           <td className="pl-7 whitespace-nowrap py-4 pr-3 text-sm text-gray-900">{one.position}</td>
                           <td className="pl-5 whitespace-nowrap py-4 pr-3 text-sm text-yellow-500">
                             <button onClick={() => historykey(one.id)} className="hover:text-yellow-600">Historique</button>

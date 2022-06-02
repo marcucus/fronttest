@@ -57,8 +57,8 @@ export const Home: React.FC<RouteComponentProps> = () => {
                                       <div className="flex justify-center px-10">
                                           <img
                                               className="h-9 sm:h-10"
-                                              src="https://www.vectorlogo.zone/logos/yandex/yandex-ar21.svg"
-                                              alt="yandex!" />
+                                              src="https://www.vectorlogo.zone/logos/yahoo/yahoo-ar21.svg"
+                                              alt="Yahoo!" />
                                       </div>
                                   </div>
                               </div>

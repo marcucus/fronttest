@@ -2,7 +2,7 @@ import React, { Fragment, useEffect, useState } from "react";
 import { RouteComponentProps, Link } from "@reach/router";
 import axios, { AxiosRequestConfig } from "axios";
 import { Transition } from "@headlessui/react";
-import { CheckCircleIcon, XIcon } from "@heroicons/react/outline";
+import { CalendarIcon, CheckCircleIcon, LocationMarkerIcon, UsersIcon, XIcon } from "@heroicons/react/outline";
 
 export const ListSite: React.FC<RouteComponentProps> = () => {
   const [notif, setNotif] = React.useState(false)
@@ -80,7 +80,7 @@ export const ListSite: React.FC<RouteComponentProps> = () => {
       </div>
       <main className="-mt-32">
         <div className="max-w-7xl mx-auto pb-12 px-4 sm:px-6 lg:px-8 h-full">
-          <div className="bg-white rounded-lg shadow px-5 py-6 sm:px-6 h-auto w-auto min-h-[420px]">
+          <div className="bg-white rounded-lg shadow px-5 py-6 sm:px-6 h-auto w-auto">
             <section>
                 <div className="flex items-center justify-between">
                   <h2 className="text-xl font-semibold text-gray-900">Mes sites</h2>
@@ -194,61 +194,41 @@ export const ListSite: React.FC<RouteComponentProps> = () => {
               </div>
             </div>  
             ):null}
-                </div>
+            </div>
             </section>
             <div className="-mx-4 mt-5 overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:-mx-6 md:mx-0 md:rounded-lg">
-            {siteInfo!==null || siteInfo!==undefined ? (
-              <table className="min-w-full divide-y divide-gray-300">
-                <thead className="bg-gray-50">
-                  <tr>
-                    <th scope="col" className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">
-                      URL
-                    </th>
-                    <th
-                      scope="col"
-                      className="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 lg:table-cell"
-                    >
-                      Localisation
-                    </th>
-                    <th
-                      scope="col"
-                      className="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 lg:table-cell"
-                    >
-                      Créé le 
-                    </th>
-                    <th
-                      scope="col"
-                      className="hidden px-3 py-3.5 text-left text-sm font-semibold text-gray-900 sm:table-cell"
-                    >
-                      Outil
-                    </th>
-                  </tr>
-                </thead>
-
-                {siteInfo.map((results:any) =>(
-                <tbody className="divide-y divide-gray-200 bg-white">
-                  <tr>
-                    <td className="w-full max-w-0 py-4 pl-4 pr-3 text-sm text-yellow-500 hover:text-yellow-600 sm:w-auto sm:max-w-none sm:pl-6">
-                        <Link to="/ranking/list/table/" className="font-bold">
-                          {results.url}
-                        </Link>
-                    </td>
-                    <td className="px-3 py-4 text-sm text-yellow-500 font-bold hover:text-red-500 hover:font-bold">
-                      <button
-                        value={results.url}
-                        onClick={() => onRemoveItem(results.id)}
-                        className='flex font-bold hover:font-bold'
-                      >
-                        <svg xmlns="http://www.w3.org/2000/svg" className="mr-3 h-5 w-5 font-bold hover:font-bold" aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                          <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                        </svg>
-                        <span>Supprimer</span>
-                      </button>
-                    </td>
-                  </tr>              
-                </tbody>
-                  ))}
-              </table>
+              {siteInfo!==null || siteInfo!==undefined ? (
+                  <>
+                    <div className="bg-white shadow overflow-hidden sm:rounded-md">
+                      <ul role="list" className="divide-y divide-gray-200">
+                        {siteInfo.map((site: any) => (
+                          <li key={site.url}>
+                            <a href="#" className="block hover:bg-gray-50">
+                              <div className="px-4 py-4 sm:px-6">
+                                <div className="flex items-center justify-between">
+                                  <p className="text-sm font-medium text-yellow-500 truncate">{site.url}</p>
+                                  <div className="ml-2 flex-shrink-0 flex">
+                                    <p className="text-sm text-yellow-500 font-bold hover:text-red-500 hover:font-bold">
+                                      <button
+                                        value={site.url}
+                                        onClick={() => onRemoveItem(site.id)}
+                                        className='flex font-bold hover:font-bold'
+                                      >
+                                        <svg xmlns="http://www.w3.org/2000/svg" className="mr-3 h-5 w-5 font-bold hover:font-bold" aria-hidden="true" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                          <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                        </svg>
+                                        <span>Supprimer</span>
+                                      </button>
+                                    </p>
+                                  </div>
+                                </div>
+                              </div>
+                            </a>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                    </>
               ):(
                  <div>Pas de sites, créez en un !</div> 
                     )}
@@ -257,7 +237,7 @@ export const ListSite: React.FC<RouteComponentProps> = () => {
         </div>
       </main>
     </div>
-    </div>
+  </div>
     </>
 )
 };
