@@ -3,10 +3,10 @@ import { SelectorIcon, CheckIcon } from "@heroicons/react/solid";
 import { RouteComponentProps } from "@reach/router";
 import axios, { AxiosRequestConfig } from "axios";
 import React, { Fragment, useEffect } from "react";
-import { ExclamationIcon, XIcon } from '@heroicons/react/outline'
+import { ExclamationIcon, XIcon } from '@heroicons/react/outline';
+import {Helmet} from "react-helmet";
 
 export const TableRank: React.FC<RouteComponentProps> = () => {
-
   const token = "Bearer "+ localStorage.getItem('userToken');
   const userToken=localStorage.getItem('userToken');
       var head = {
@@ -122,6 +122,7 @@ test
   const [url, setUrl] = React.useState('');
   const [search, setSearch] = React.useState('');
 
+
   useEffect(() => {
       setKey([])
       axios.get(`http://127.0.0.1:3333/keywords/keyworduser/${userToken}`,requestOptions)
@@ -146,7 +147,42 @@ test
         console.log("avant ",position[0])
     })
     console.log("après ",position[0])
-    
+      const Chart = require('react-helmet');
+      const chart = new Chart(document.getElementById("myChart"), {
+          type: "line",
+          data: {
+              labels: ["January", "February", "March", "April", "May", "June", "July", "Aug", "Sep", "Nov", "Dec"],
+              datasets: [
+                  {
+                      label: "16 Mar 2018",
+                      borderColor: "#4A5568",
+                      data: [600, 400, 620, 300, 200, 600, 230, 300, 200, 200, 100, 1200],
+                      fill: false,
+                      pointBackgroundColor: "#4A5568",
+                      borderWidth: "3",
+                      pointBorderWidth: "4",
+                      pointHoverRadius: "6",
+                      pointHoverBorderWidth: "8",
+                      pointHoverBorderColor: "rgb(74,85,104,0.2)",
+                  },
+              ],
+          },
+          options: {
+              legend: {
+                  position: false,
+              },
+              scales: {
+                  yAxes: [
+                      {
+                          gridLines: {
+                              display: false,
+                          },
+                          display: false,
+                      },
+                  ],
+              },
+          },
+      });
   }
 
 
@@ -213,29 +249,14 @@ test
 
 
   return (
-    <><div className="min-h-full">
-      <div className="bg-gray-800 pb-32">
-        <header className="py-10">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h1 className="text-3xl font-bold text-yellow-500">Dashboard</h1>
-          </div>
-        </header>
-      </div>
-
-      <main className="-mt-32">
-        <div className="max-w-7xl mx-auto pb-12 px-4 sm:px-6 lg:px-8">
-          <div className="bg-white rounded-lg shadow px-5 py-6 sm:px-6 min-h-[500px]">
-          <div className="sm:flex sm:items-center">
-            <div className="sm:flex-auto">
-              <h1 className="text-xl font-semibold text-gray-900">Mots-clés</h1>
-            </div>
-            <div className="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
-              <button onClick={() => setShowModal(true)} type="button" className="hover:bg-yellow-500 group flex items-center rounded-md bg-yellow-500 text-white text-sm font-medium pl-2 pr-3 py-2 shadow-sm">
+    <>
+            <button onClick={() => setShowModal(true)} type="button" className="hover:bg-yellow-500 group flex items-center rounded-md bg-yellow-500 text-white text-sm font-medium pl-2 pr-3 py-2 shadow-sm">
                 <svg width="20" height="20" fill="currentColor" className="mr-2" aria-hidden="true">
                   <path d="M10 5a1 1 0 0 1 1 1v3h3a1 1 0 1 1 0 2h-3v3a1 1 0 1 1-2 0v-3H6a1 1 0 1 1 0-2h3V6a1 1 0 0 1 1-1Z" />
                 </svg>
                 Nouveau mot clé
-              </button><br/>
+              </button>
+              <div className="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
               {showModal ? (
                 <>
                   <div
@@ -440,7 +461,6 @@ test
                 </>
               ) : null}
             </div>
-          </div>
           {historyModal ? (
             <>
 <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
@@ -458,28 +478,62 @@ test
                 <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
                 {position.map((posi:any)=>(
                                 <>
-                                <p>{posi.json_build_object.pos[0].pid}</p>
-                                <p>{posi.json_build_object.pos[0].pkid}</p>
-                                <p>{posi.json_build_object.pos[0].ppos}</p>
-                                <p>{cut(posi.json_build_object.pos[0].pdate)}</p>
+                                {posi.json_build_object.pos.map((hist:any)=>(
+                                  <>
+             
+                                    {/*<p>{hist.pid}</p>
+                                    <p>{hist.pkid}</p>
+                                    <p>{hist.ppos}</p>
+                                <p>{cut(hist.pdate)}</p>*/}
+                                  </>
+                                ))}
                                 </>
                               ))}
                 </p>
-                <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                    The European Union’s General Data Protection Regulation (G.D.P.R.) goes into effect on May 25 and is meant to ensure a common set of data rights in the European Union. It requires organizations to notify users as soon as possible of high-risk data breaches that could personally affect them.
-                </p>
-                <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                    With less than a month to go before the European Union enacts new consumer privacy laws for its citizens, companies around the world are updating their terms of service agreements to comply.
-                </p>
-                <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                    The European Union’s General Data Protection Regulation (G.D.P.R.) goes into effect on May 25 and is meant to ensure a common set of data rights in the European Union. It requires organizations to notify users as soon as possible of high-risk data breaches that could personally affect them.
-                </p>
-                <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                    With less than a month to go before the European Union enacts new consumer privacy laws for its citizens, companies around the world are updating their terms of service agreements to comply.
-                </p>
-                <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                    The European Union’s General Data Protection Regulation (G.D.P.R.) goes into effect on May 25 and is meant to ensure a common set of data rights in the European Union. It requires organizations to notify users as soon as possible of high-risk data breaches that could personally affect them.
-                </p>
+                <Helmet>
+                <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+                <script defer src="https://cdn.tuk.dev/dev/light-dark-switch.js"></script>
+            </Helmet>
+            <div className="flex items-center justify-center py-8 px-4">
+                <div className="w-11/12 lg:w-2/3">
+                    <div className="flex flex-col justify-between h-full">
+                        <div>
+                            <div className="lg:flex w-full justify-between">
+                                <h3 className="text-gray-600 dark:text-gray-400 leading-5 text-base md:text-xl font-bold">Selling Overview</h3>
+                                <div className="flex items-center justify-between lg:justify-start mt-2 md:mt-4 lg:mt-0">
+                                    <div className="flex items-center">
+                                        <button className="py-2 px-4 bg-gray-100 dark:bg-gray-700 focus:outline-none ease-in duration-150 text-xs text-gray-600 dark:text-gray-400 hover:bg-gray-200">Dollars</button>
+                                        <button className="py-2 px-4 bg-indigo-500 focus:outline-none text-white ease-in duration-150 text-xs hover:bg-indigo-600">Tickets</button>
+                                    </div>
+                                    <div className="lg:ml-14">
+                                        <div className="bg-gray-100 dark:bg-gray-700 ease-in duration-150 hover:bg-gray-200 pb-2 pt-1 px-3 rounded-sm">
+                                            <select className="text-xs text-gray-600 dark:text-gray-400 bg-transparent focus:outline-none">
+                                                <option className="leading-1">Year</option>
+                                                <option className="leading-1">2020</option>
+                                                <option className="leading-1">2019</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="flex items-end mt-6">
+                                <h3 className="text-indigo-500 leading-5 text-lg md:text-2xl">$65,875</h3>
+                                <div className="flex items-center md:ml-4 ml-1">
+                                    <p className="text-indigo-500 text-xs md:text-base">17%</p>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width={12} height={12} viewBox="0 0 12 12" fill="none">
+                                        <path d="M6 2.5V9.5" stroke="#4338CA" strokeWidth="0.75" strokeLinecap="round" strokeLinejoin="round" />
+                                        <path d="M8 4.5L6 2.5" stroke="#4338CA" strokeWidth="0.75" strokeLinecap="round" strokeLinejoin="round" />
+                                        <path d="M4 4.5L6 2.5" stroke="#4338CA" strokeWidth="0.75" strokeLinecap="round" strokeLinejoin="round" />
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="mt-6">
+                            <canvas id="myChart" width={1025} height={400} />
+                        </div>
+                    </div>
+                </div>
+            </div>
             </div>
             <div className="flex items-center p-6 space-x-2 rounded-b border-t border-gray-200 dark:border-gray-600">
                 <button data-modal-toggle="extralarge-modal" type="button" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">I accept</button>
@@ -490,102 +544,99 @@ test
 </div></>
           ):null}
 
-          <Listbox value={selected} onChange={setSelected}>
-            {({ open }) => (
-              <>
-                <div className="mt-1 relative">
-                  
-                  <Listbox.Button className="bg-white relative w-1/4 border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-yellow-500 focus:border-yellow-500 sm:text-sm">
-                    <span className="block truncate">Tout les mots-clés</span>
-                    <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
-                      <SelectorIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
-                    </span>
-                  </Listbox.Button>
+          <>
+{/*  <Listbox value={selected} onChange={setSelected}>
+  {({ open }) => (
+    <>
+      <div className="mt-1 relative">
 
-                  <Transition
-                    show={open}
-                    as={Fragment}
-                    leave="transition ease-in duration-100"
-                    leaveFrom="opacity-100"
-                    leaveTo="opacity-0"
-                  >
-                    <Listbox.Options className="absolute z-10 mt-1 w-1/4 bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
-                      <Listbox.Option
-                        key="0"
-                        className={({ active }) => classNames(
-                          active ? 'text-white bg-yellow-500' : 'text-gray-900',
-                          'cursor-default select-none relative py-2 pl-3 pr-9'
-                        )}
-                        value="0">
-                        Tout les mots-clés
-                        </Listbox.Option>
-                        
-                      {sites.map((site:any) => (
-                        <Listbox.Option
-                          key={site.id}
-                          className={({ active }) => classNames(
-                            active ? 'text-white bg-yellow-500' : 'text-gray-900',
-                            'cursor-default select-none relative py-2 pl-3 pr-9'
-                          )}
-                          value={site.id}
-                        >
-                          {site.url}
-                        </Listbox.Option>
-                      ))}
-                    </Listbox.Options>
-                  </Transition>
-                </div>
-              </>
-            )}
-          </Listbox>
-        <div className="h-auto">
-          <div className="mt-8 flex flex-col">
-            <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
-              <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
-                <div className="relative overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
-                  <div className="absolute top-0 left-12 flex h-12 items-center space-x-3 bg-gray-50 sm:left-16">
-                  </div>
-                  <table className="min-w-full table-fixed divide-y divide-gray-300">
-                    <thead className="bg-gray-50">
-                      <tr>
-                          <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Mots-clés</th>
-                          <abbr title="Position actuelle"><th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Position</th></abbr>
-                          <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Historique</th>
-                          <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Serveur</th>
-                          <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Dernier check</th>                        
-                          <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Créé le</th>
-                        <th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-6">
-                          <span className="sr-only">Edit</span>
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-gray-200 bg-white">
-                      {key.map((one:any) => (
-                        <tr>
-                          <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{name(one.keywords)}</td>
-                          <td className="pl-7 whitespace-nowrap py-4 pr-3 text-sm text-gray-900">{one.position}</td>
-                          <td className="pl-5 whitespace-nowrap py-4 pr-3 text-sm text-yellow-500">
-                            <button onClick={() => historykey(one.id)} className="hover:text-yellow-600">Historique</button>
-                          </td>
-                          <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{one.country}</td>
-                          <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{cut(one.lastcheck)}</td>                                                    
-                          <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{cut(one.createdat)}</td>
-                          <td className="whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                            <button onClick={() => onRemoveItem(one.id)} className="relative inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-500 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:yellow-indigo-500">Supprimer<span className="sr-only">, {one.keyword}</span></button>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
+        <Listbox.Button className="bg-white relative w-1/4 border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-yellow-500 focus:border-yellow-500 sm:text-sm">
+          <span className="block truncate">Tout les mots-clés</span>
+          <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+            <SelectorIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+          </span>
+        </Listbox.Button>
+
+        <Transition
+          show={open}
+          as={Fragment}
+          leave="transition ease-in duration-100"
+          leaveFrom="opacity-100"
+          leaveTo="opacity-0"
+        >
+          <Listbox.Options className="absolute z-10 mt-1 w-1/4 bg-white shadow-lg max-h-60 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
+            <Listbox.Option
+              key="0"
+              className={({ active }) => classNames(
+                active ? 'text-white bg-yellow-500' : 'text-gray-900',
+                'cursor-default select-none relative py-2 pl-3 pr-9'
+              )}
+              value="0">
+              Tout les mots-clés
+            </Listbox.Option>
+
+            {sites.map((site: any) => (
+              <Listbox.Option
+                key={site.id}
+                className={({ active }) => classNames(
+                  active ? 'text-white bg-yellow-500' : 'text-gray-900',
+                  'cursor-default select-none relative py-2 pl-3 pr-9'
+                )}
+                value={site.id}
+              >
+                {site.url}
+              </Listbox.Option>
+            ))}
+          </Listbox.Options>
+        </Transition>
+      </div>
+    </>
+  )}
+</Listbox> */}
+  <div className="h-auto">
+      <div className="mt-8 flex flex-col">
+        <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
+          <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+            <div className="relative overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
+              <div className="absolute top-0 left-12 flex h-12 items-center space-x-3 bg-gray-50 sm:left-16">
               </div>
+              <table className="min-w-full table-fixed divide-y divide-gray-300">
+                <thead className="bg-gray-50">
+                  <tr>
+                    <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Mots-clés</th>
+                    <abbr title="Position actuelle"><th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Position</th></abbr>
+                    <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Historique</th>
+                    <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Serveur</th>
+                    <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Dernier check</th>
+                    <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Créé le</th>
+                    <th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-6">
+                      <span className="sr-only">Edit</span>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-gray-200 bg-white">
+                  {key.map((one: any) => (
+                    <tr>
+                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{name(one.keywords)}</td>
+                      <td className="pl-7 whitespace-nowrap py-4 pr-3 text-sm text-gray-900">{one.position}</td>
+                      <td className="pl-5 whitespace-nowrap py-4 pr-3 text-sm text-yellow-500">
+                        <button onClick={() => historykey(one.id)} className="hover:text-yellow-600">Historique</button>
+                      </td>
+                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{one.country}</td>
+                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{cut(one.lastcheck)}</td>
+                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{cut(one.createdat)}</td>
+                      <td className="whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
+                        <button onClick={() => onRemoveItem(one.id)} className="relative inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-500 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:yellow-indigo-500">Supprimer<span className="sr-only">, {one.keyword}</span></button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  </main>
-</div>
-</>
+      </div>
+    </></>
 )
 };

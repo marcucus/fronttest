@@ -12,6 +12,7 @@ import GoogleLogin from 'react-google-login';
 import { Login } from './login';
 
 export const Home: React.FC<RouteComponentProps> = () => {
+    localStorage.clear()
   return (
     <>
         <div className="relative bg-gray-800 overflow-hidden min-h-[682px]">

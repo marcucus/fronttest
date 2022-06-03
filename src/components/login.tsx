@@ -30,13 +30,13 @@ export const Login: React.FC<RouteComponentProps> = (props) => {
           return true;
         }
         
-        const options = { refreshOnCheckAuth: true, redirectPath: '/ranking/list', driver: 'COOKIES', validateSession, expires:0 };
+        const options = { refreshOnCheckAuth: true, redirectPath: '/ranking', driver: 'COOKIES', validateSession, expires:0 };
         sessionService.initSessionService(store, options)
         .then(() => console.log('Redux React Session is ready and a session was refreshed from your storage'))
         .catch(() => console.log('Redux React Session is ready and there is no session in your storage'));
         localStorage.setItem('userToken',response.data)
         localStorage.setItem('picture',res.profileObj.imageUrl)
-        await navigate('/ranking/list')
+        await navigate('/ranking')
       })
       .catch((err: any) => {
         console.log(err);

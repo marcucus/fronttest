@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import { Link, redirectTo, RouteComponentProps } from "@reach/router";
-import { ListSite } from "../components/listSite";
+import { Ranking } from "../components/ranking";
 import { Navbar } from "../components/navbar";
 import { Footer } from "../components/footer";
 import { NavbarUser } from "../components/navbarUser";
@@ -14,8 +14,7 @@ export const RankingSite: React.FC<RouteComponentProps> = () => {
   return (
     <>
       <NavbarUser></NavbarUser>
-        <ListSite></ListSite>
-        <TableRank></TableRank>
+        <Ranking></Ranking>
           <div className="relative w-full bottom-0">
             <Footer></Footer>
           </div>

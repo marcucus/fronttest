@@ -5,6 +5,7 @@ import { RankingTable } from './routes/ranking';
 import { HomePage } from './routes/home';
 import { sessionService } from 'redux-react-session';
 import { Navigate, Route, Routes } from 'react-router';
+import { Test } from './routes/test';
 
 function App() {
   return (
@@ -12,8 +13,8 @@ function App() {
       <header className="App-header">
         <Router>
           <HomePage path='/'/>
-            <RankingSite path='/ranking/list'/>
-            <RankingTable path='/ranking/list/table'/>
+            <RankingSite path='/ranking'/>
+            <Test path='/test'/>
         </Router>
       </header>
     </div>
