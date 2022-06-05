@@ -29,6 +29,7 @@ export const Ranking: React.FC<RouteComponentProps> = () => {
     const [showModal, setShowModal] = React.useState(false);
     const [historyModal, setHistoryModal] = React.useState(false)
     const [sites, setSitesSelect] = React.useState([])
+    const [siteKey, setSiteKey] = React.useState('');
     const [key, setKey] = React.useState([]);
     const [position, setPos] = React.useState([]);
     const [keyword, setKeyword] = React.useState('');
@@ -46,6 +47,7 @@ export const Ranking: React.FC<RouteComponentProps> = () => {
         axios.get(`http://127.0.0.1:3333/keywords/keyworduser/${userToken}`,requestOptions)
           .then(res =>{
             setKey(res.data)
+            console.log(key)
           });
       }
       else{
@@ -131,14 +133,16 @@ export const Ranking: React.FC<RouteComponentProps> = () => {
     function handleChangeSearch(event: { target: { value: React.SetStateAction<string>; }; }) {
       setSearch(event.target.value);
     }
-
+    function handleChangeSiteKey(event: { target: { value: React.SetStateAction<string>; }; }){
+      setSiteKey(event.target.value)
+    }
     function handleAdd() {
       setShowModal(false);
       var raw = JSON.stringify([{
         "keywords": keyword,
         "country":server,
         "search":search,
-        "siteid":3
+        "siteid":siteKey
       }]);
       
       var requestOptions = {
@@ -155,6 +159,7 @@ export const Ranking: React.FC<RouteComponentProps> = () => {
       setKeyword('');
       setServer('');
       setUrl('');
+      setSiteKey('')
     }
   
   /**
@@ -509,6 +514,23 @@ export const Ranking: React.FC<RouteComponentProps> = () => {
                           </div>
                           <div>
                           <label htmlFor="company-website" className="block text-sm font-medium text-gray-700">
+                            Site
+                          </label>
+                          <select
+                              id="location"
+                              name="location"
+                              className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+                              value={siteKey}
+                              onChange={handleChangeSiteKey}
+                            >
+                              <option>Choisir un site</option>
+                              {siteInfo.map((site: any) => (
+                                <option value={site.id}>{site.url}</option>
+                              ))}
+                            </select>
+                          </div><br/>
+                          <div>
+                          <label htmlFor="company-website" className="block text-sm font-medium text-gray-700">
                             Moteur de recherche
                           </label>
                           <select
@@ -518,7 +540,7 @@ export const Ranking: React.FC<RouteComponentProps> = () => {
                               value={search}
                               onChange={handleChangeSearch}
                             >
-                              <option selected>Choisir un pays</option>
+                              <option>Choisir un moteur de recherche</option>
                               <option value="Google">Google</option>
                               <option value="Yahoo">Yahoo!</option>
                               <option value="Bing">Bing</option>
@@ -555,80 +577,40 @@ export const Ranking: React.FC<RouteComponentProps> = () => {
         <div className="relative bg-white rounded-lg shadow-lg dark:bg-gray-700">
             <div className="flex justify-between items-center p-5 rounded-t border-b dark:border-gray-600">
                 <h3 className="text-xl font-medium text-gray-900 dark:text-white">
-                    Extra Large modal
+                    Historique de position
                 </h3>
                 <button onClick={() => setHistoryModal(false)} type="button" className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="extralarge-modal">
                     <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>  
                 </button>
             </div>
             <div className="p-6 space-y-6">
-                <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+              <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
                 {position.map((posi:any)=>(
-                                <>
-                                {posi.json_build_object.pos.map((hist:any)=>(
-                                  <>
-             
-                                    {/*<p>{hist.pid}</p>
-                                    <p>{hist.pkid}</p>
-                                    <p>{hist.ppos}</p>
-                                <p>{cut(hist.pdate)}</p>*/}
-                                  </>
-                                ))}
-                                </>
-                              ))}
-                </p>
-                <Helmet>
-                <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
-                <script defer src="https://cdn.tuk.dev/dev/light-dark-switch.js"></script>
-            </Helmet>
-            <div className="flex items-center justify-center py-8 px-4">
-                <div className="w-11/12 lg:w-2/3">
-                    <div className="flex flex-col justify-between h-full">
-                        <div>
-                            <div className="lg:flex w-full justify-between">
-                                <h3 className="text-gray-600 dark:text-gray-400 leading-5 text-base md:text-xl font-bold">Selling Overview</h3>
-                                <div className="flex items-center justify-between lg:justify-start mt-2 md:mt-4 lg:mt-0">
-                                    <div className="flex items-center">
-                                        <button className="py-2 px-4 bg-gray-100 dark:bg-gray-700 focus:outline-none ease-in duration-150 text-xs text-gray-600 dark:text-gray-400 hover:bg-gray-200">Dollars</button>
-                                        <button className="py-2 px-4 bg-indigo-500 focus:outline-none text-white ease-in duration-150 text-xs hover:bg-indigo-600">Tickets</button>
-                                    </div>
-                                    <div className="lg:ml-14">
-                                        <div className="bg-gray-100 dark:bg-gray-700 ease-in duration-150 hover:bg-gray-200 pb-2 pt-1 px-3 rounded-sm">
-                                            <select className="text-xs text-gray-600 dark:text-gray-400 bg-transparent focus:outline-none">
-                                                <option className="leading-1">Year</option>
-                                                <option className="leading-1">2020</option>
-                                                <option className="leading-1">2019</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="flex items-end mt-6">
-                                <h3 className="text-indigo-500 leading-5 text-lg md:text-2xl">$65,875</h3>
-                                <div className="flex items-center md:ml-4 ml-1">
-                                    <p className="text-indigo-500 text-xs md:text-base">17%</p>
-                                    <svg xmlns="http://www.w3.org/2000/svg" width={12} height={12} viewBox="0 0 12 12" fill="none">
-                                        <path d="M6 2.5V9.5" stroke="#4338CA" strokeWidth="0.75" strokeLinecap="round" strokeLinejoin="round" />
-                                        <path d="M8 4.5L6 2.5" stroke="#4338CA" strokeWidth="0.75" strokeLinecap="round" strokeLinejoin="round" />
-                                        <path d="M4 4.5L6 2.5" stroke="#4338CA" strokeWidth="0.75" strokeLinecap="round" strokeLinejoin="round" />
-                                    </svg>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="mt-6">
-                            <canvas id="myChart" width={1025} height={400} />
-                        </div>
-                    </div>
-                </div>
-            </div>
-            </div>
-            <div className="flex items-center p-6 space-x-2 rounded-b border-t border-gray-200 dark:border-gray-600">
-                <button data-modal-toggle="extralarge-modal" type="button" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">I accept</button>
-                <button data-modal-toggle="extralarge-modal" type="button" className="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600">Decline</button>
-            </div>
+                  <>
+                  {posi.json_build_object.pos.map((hist:any)=>(
+                    <>
+                      <p>
+                        {hist.pid}
+                      </p>
+                      <p>
+                        {hist.pkid}
+                      </p>
+                      <p>
+                        {hist.ppos}
+                      </p>
+                      <p>
+                        {cut(hist.pdate)}
+                      </p>
+                    </>
+                  ))}
+                  </>
+                ))}
+              </p>
         </div>
     </div>
-</div></>
+</div>
+</div>
+</>
           ):null}
 
         
