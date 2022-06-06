@@ -245,7 +245,7 @@ export const Ranking: React.FC<RouteComponentProps> = () => {
         chart();
       }
 
-      async function chart() {
+      function chart() {
         var info:any = position;
         var label: any[]=[];
         var dat:any[]=[]
@@ -639,9 +639,10 @@ export const Ranking: React.FC<RouteComponentProps> = () => {
                     <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Mots-clés</th>
                     <abbr title="Position actuelle"><th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Position</th></abbr>
                     <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Historique</th>
-                    <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Serveur</th>
                     <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Dernier check</th>
                     <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Créé le</th>
+                    <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Serveur</th>
+                    <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Moteur de recherche</th>
                     <th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-6">
                       <span className="sr-only">Edit</span>
                     </th>
@@ -655,9 +656,11 @@ export const Ranking: React.FC<RouteComponentProps> = () => {
                       <td className="pl-5 whitespace-nowrap py-4 pr-3 text-sm text-yellow-500">
                         <button onClick={() => historykey(one.id)} className="hover:text-yellow-600">Historique</button>
                       </td>
-                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{one.country}</td>
+
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{cut(one.lastcheck)}</td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{cut(one.createdat)}</td>
+                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{one.country}</td>
+                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{one.search}</td>
                       <td className="whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
                         <button onClick={() => onRemoveItem(one.id)} className="relative inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-500 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:yellow-indigo-500">Supprimer<span className="sr-only">, {one.keyword}</span></button>
                       </td>
