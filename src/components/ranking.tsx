@@ -5,6 +5,8 @@ import { Transition } from "@headlessui/react";
 import { CalendarIcon, CheckCircleIcon, LocationMarkerIcon, UsersIcon, XIcon } from "@heroicons/react/outline";
 import { TableRank } from "./tableRank";
 import { Helmet } from "react-helmet";
+import { CategoryScale, Chart, ChartData, Legend, LinearScale, LineElement, PointElement, Title, Tooltip } from "chart.js";
+import { Line } from "react-chartjs-2";
 
 export const Ranking: React.FC<RouteComponentProps> = () => {
 
@@ -36,6 +38,8 @@ export const Ranking: React.FC<RouteComponentProps> = () => {
     const [server, setServer] = React.useState('');
     const [url, setUrl] = React.useState('');
     const [search, setSearch] = React.useState('');
+    const [dataH,setData] = React.useState<any>([]);
+    const [label,setLabel]= React.useState<any>([]);
 
   /**
    * Récupère les mots-clé d'un site
@@ -203,6 +207,29 @@ export const Ranking: React.FC<RouteComponentProps> = () => {
         const replacedName= name.replace("+",' ')
         return replacedName;
       }
+
+      Chart.register(
+        CategoryScale,
+        LinearScale,
+        PointElement,
+        LineElement,
+        Title,
+        Tooltip,
+        Legend
+      );
+      
+      const options = {
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'top' as const,
+          },
+          title: {
+            display: true,
+            text: 'Chart.js Line Chart',
+          },
+        },
+      };
       
     /**
      * Récupère l'historique d'un mot-clé
@@ -213,45 +240,33 @@ export const Ranking: React.FC<RouteComponentProps> = () => {
         setHistoryModal(true)
         axios.get(`http://127.0.0.1:3333/keywords/getPos/${id}`,requestOptions)
           .then(res =>{
-            setPos(res.data);
+              setPos(res.data);
         })
-          const Chart = require('react-helmet');
-          const chart = new Chart(document.getElementById("myChart"), {
-              type: "line",
-              data: {
-                  labels: ["January", "February", "March", "April", "May", "June", "July", "Aug", "Sep", "Nov", "Dec"],
-                  datasets: [
-                      {
-                          label: "16 Mar 2018",
-                          borderColor: "#4A5568",
-                          data: [600, 400, 620, 300, 200, 600, 230, 300, 200, 200, 100, 1200],
-                          fill: false,
-                          pointBackgroundColor: "#4A5568",
-                          borderWidth: "3",
-                          pointBorderWidth: "4",
-                          pointHoverRadius: "6",
-                          pointHoverBorderWidth: "8",
-                          pointHoverBorderColor: "rgb(74,85,104,0.2)",
-                      },
-                  ],
-              },
-              options: {
-                  legend: {
-                      position: false,
-                  },
-                  scales: {
-                      yAxes: [
-                          {
-                              gridLines: {
-                                  display: false,
-                              },
-                              display: false,
-                          },
-                      ],
-                  },
-              },
-          });
+        chart();
       }
+
+      async function chart() {
+        var info:any = position;
+        var label: any[]=[];
+        var dat:any[]=[]
+          info[0].json_build_object.pos.forEach((element: any) => {
+            label.push(element.pdate)
+            dat.push(element.ppos)
+          });
+          setLabel(label)
+          setData(dat)
+      }
+
+      const data={
+        labels:label,
+        datasets: [
+          {
+            label: 'Position',
+            data: dataH,
+            borderColor: 'rgb(255, 99, 132)',
+            backgroundColor: 'rgba(255, 99, 132, 0.5)',
+          },
+        ]}
 
       function classNames(...classes: any[]) {
         return classes.filter(Boolean).join(' ');
@@ -573,7 +588,7 @@ export const Ranking: React.FC<RouteComponentProps> = () => {
           {historyModal ? (
             <>
 <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-    <div className="relative p-4 w-full max-w-7xl h-full md:h-auto">
+    <div className="relative p-4 w-full max-w-7xl max-h-4xl md:h-auto">
         <div className="relative bg-white rounded-lg shadow-lg dark:bg-gray-700">
             <div className="flex justify-between items-center p-5 rounded-t border-b dark:border-gray-600">
                 <h3 className="text-xl font-medium text-gray-900 dark:text-white">
@@ -587,18 +602,15 @@ export const Ranking: React.FC<RouteComponentProps> = () => {
               <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
                 {position.map((posi:any)=>(
                   <>
+                  <Line options={options} data={data} />
+                  {posi.id}
                   {posi.json_build_object.pos.map((hist:any)=>(
                     <>
                       <p>
+                      
                         {hist.pid}
-                      </p>
-                      <p>
                         {hist.pkid}
-                      </p>
-                      <p>
                         {hist.ppos}
-                      </p>
-                      <p>
                         {cut(hist.pdate)}
                       </p>
                     </>
