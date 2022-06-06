@@ -19,7 +19,7 @@ export const Ranking: React.FC<RouteComponentProps> = () => {
   /**
    * Sites
    */
-    const [notif, setNotif] = React.useState(false)
+    const [notif, setNotif] = React.useState(false);
     const [showModalSite, setShowModalSite] = React.useState(false);
     const [siteInfo, setSiteInfo] = React.useState([]);
     const [selected, setSelected] = React.useState(0);
@@ -30,7 +30,7 @@ export const Ranking: React.FC<RouteComponentProps> = () => {
    */
     const [showModal, setShowModal] = React.useState(false);
     const [historyModal, setHistoryModal] = React.useState(false)
-    const [sites, setSitesSelect] = React.useState([])
+    const [sites, setSitesSelect] = React.useState([]);
     const [siteKey, setSiteKey] = React.useState('');
     const [key, setKey] = React.useState([]);
     const [position, setPos] = React.useState([]);
@@ -60,7 +60,6 @@ export const Ranking: React.FC<RouteComponentProps> = () => {
             setKey(res.data)
           });
       }
-      
     }
 
   /**
@@ -78,9 +77,10 @@ export const Ranking: React.FC<RouteComponentProps> = () => {
     useEffect(() => {
     axios.post('http://127.0.0.1:3333/sites/allbyuser',{token:userToken},requestOptions)
     .then(res =>{
-      setSiteInfo(res.data);
-    })
-    },[]);
+        setSiteInfo(res.data);
+      })
+     },
+    []);
 
   /**
    * Récupère tout les mots-clé de l'utilisateur
@@ -89,9 +89,10 @@ export const Ranking: React.FC<RouteComponentProps> = () => {
       setKey([])
         axios.get(`http://127.0.0.1:3333/keywords/keyworduser/${userToken}`,requestOptions)
         .then(res =>{
-        setKey(res.data)
-      })
-      },[]);
+          setKey(res.data)
+        })
+       },
+      []);
   
   /**
    * Récupère l'url entré par l'utilisateur puis l'enregistre
@@ -119,7 +120,7 @@ export const Ranking: React.FC<RouteComponentProps> = () => {
         .catch(error => console.log('error', error));
 
         setNotif(true);
-        setUrl('')
+        setUrl('');
     }
 
   /**
@@ -137,9 +138,11 @@ export const Ranking: React.FC<RouteComponentProps> = () => {
     function handleChangeSearch(event: { target: { value: React.SetStateAction<string>; }; }) {
       setSearch(event.target.value);
     }
+
     function handleChangeSiteKey(event: { target: { value: React.SetStateAction<string>; }; }){
       setSiteKey(event.target.value)
     }
+
     function handleAdd() {
       setShowModal(false);
       var raw = JSON.stringify([{
@@ -163,7 +166,7 @@ export const Ranking: React.FC<RouteComponentProps> = () => {
       setKeyword('');
       setServer('');
       setUrl('');
-      setSiteKey('')
+      setSiteKey('');
     }
   
   /**
@@ -171,8 +174,8 @@ export const Ranking: React.FC<RouteComponentProps> = () => {
    * @param id 
    */
     function onRemoveSite(id:any){
-      axios.delete(`http://127.0.0.1:3333/sites/delete/${id}`, requestOptions)
-      window.location.reload()
+      axios.delete(`http://127.0.0.1:3333/sites/delete/${id}`, requestOptions);
+      window.location.reload();
     }
 
   /**
@@ -180,8 +183,8 @@ export const Ranking: React.FC<RouteComponentProps> = () => {
    * @param id 
    */
     function onRemoveItem(id:any){
-      axios.delete(`http://127.0.0.1:3333/keywords/delete/${id}`, requestOptions)
-      window.location.reload()
+      axios.delete(`http://127.0.0.1:3333/keywords/delete/${id}`, requestOptions);
+      window.location.reload();
     }; 
 
     /**
@@ -190,12 +193,25 @@ export const Ranking: React.FC<RouteComponentProps> = () => {
      * @returns newdate
      */
       function cut(date:any){
-        const dateRepl=date.replace('T', ' ')
+        const dateRepl=date.replace('T', ' ');
         const year=date.slice(0, 4);
         const month=date.slice(4,8);
         const day=date.slice(8,10);
-        const newdate=day+month+year+' à '+dateRepl.slice(11,19)
-        return newdate
+        const newdate=day+month+year+' à '+dateRepl.slice(11,19);
+        return newdate;
+      }
+    
+    /**
+     * Mise en forme de la date
+     * @param date 
+     * @returns newdate
+     */
+      function cutDate(date:any){
+        const year=date.slice(0, 4);
+        const month=date.slice(4,8);
+        const day=date.slice(8,10);
+        const newdate=day+month+year;
+        return newdate;
       }
   
     /**
@@ -240,7 +256,7 @@ export const Ranking: React.FC<RouteComponentProps> = () => {
         setHistoryModal(true)
         axios.get(`http://127.0.0.1:3333/keywords/getPos/${id}`,requestOptions)
           .then(res =>{
-              setPos(res.data);
+            setPos(res.data);
         })
         chart();
       }
@@ -643,9 +659,7 @@ export const Ranking: React.FC<RouteComponentProps> = () => {
                     <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Créé le</th>
                     <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Serveur</th>
                     <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Moteur de recherche</th>
-                    <th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-6">
-                      <span className="sr-only">Edit</span>
-                    </th>
+                    <th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-6"><span className="sr-only">Edit</span></th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200 bg-white">
@@ -658,7 +672,7 @@ export const Ranking: React.FC<RouteComponentProps> = () => {
                       </td>
 
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{cut(one.lastcheck)}</td>
-                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{cut(one.createdat)}</td>
+                      <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{cutDate(one.createdat)}</td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{one.country}</td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{one.search}</td>
                       <td className="whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
