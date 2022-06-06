@@ -21,7 +21,6 @@ export const Home: React.FC<RouteComponentProps> = () => {
                   <div className="lg:grid lg:grid-cols-12 lg:gap-8">
                       <div className="px-4 sm:px-6 sm:text-center md:max-w-2xl md:mx-auto lg:col-span-6 lg:text-left lg:flex lg:items-center">
                           <div>
-                              <Link to="/ranking/list">
                               <div
                                   className="inline-flex items-center text-white bg-gray-900 rounded-full p-1 pr-2 sm:text-base lg:text-sm xl:text-base hover:text-gray-200"
                               >
@@ -31,7 +30,6 @@ export const Home: React.FC<RouteComponentProps> = () => {
                                   <span className="ml-4 text-sm">Connectez-vous !</span>
                                   <ChevronRightIcon className="ml-2 w-5 h-5 text-gray-500" aria-hidden="true" />
                               </div>
-                              </Link>
                               <h1 className="mt-4 text-4xl tracking-tight font-extrabold text-white sm:mt-5 sm:leading-none lg:mt-6 lg:text-5xl xl:text-6xl">
                                   <span className="md:block">
                                       Suivi de positionnement</span>{' '}

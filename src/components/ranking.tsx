@@ -39,7 +39,7 @@ export const Ranking: React.FC<RouteComponentProps> = () => {
     const [url, setUrl] = React.useState('');
     const [search, setSearch] = React.useState('');
     const [dataH,setData] = React.useState<any>([]);
-    const [label,setLabel]= React.useState<any>([]);
+    const [labelH,setLabel]= React.useState<any>([]);
 
   /**
    * Récupère les mots-clé d'un site
@@ -185,7 +185,7 @@ export const Ranking: React.FC<RouteComponentProps> = () => {
     function onRemoveItem(id:any){
       axios.delete(`http://127.0.0.1:3333/keywords/delete/${id}`, requestOptions);
       window.location.reload();
-    }; 
+    }
 
     /**
      * Mise en forme de la date
@@ -242,7 +242,7 @@ export const Ranking: React.FC<RouteComponentProps> = () => {
           },
           title: {
             display: true,
-            text: 'Chart.js Line Chart',
+            text: 'Historique de position',
           },
         },
       };
@@ -252,29 +252,30 @@ export const Ranking: React.FC<RouteComponentProps> = () => {
      * @param id 
      */
       async function historykey(id:any){
+        setLabel([])
+        setData([])
         setPos([])
-        setHistoryModal(true)
         axios.get(`http://127.0.0.1:3333/keywords/getPos/${id}`,requestOptions)
           .then(res =>{
             setPos(res.data);
         })
-        chart();
+        chart(position);
+        setHistoryModal(true)
       }
 
-      function chart() {
-        var info:any = position;
+      async function chart(info:any) {
+        console.log(info)
         var label: any[]=[];
         var dat:any[]=[]
           info[0].json_build_object.pos.forEach((element: any) => {
             label.push(element.pdate)
             dat.push(element.ppos)
           });
-          setLabel(label)
-          setData(dat)
+          console.log(labelH,dataH)
       }
 
       const data={
-        labels:label,
+        labels:labelH,
         datasets: [
           {
             label: 'Position',
