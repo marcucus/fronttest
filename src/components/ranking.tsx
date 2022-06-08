@@ -1,11 +1,9 @@
-import React, { Fragment, useEffect, useState } from "react";
-import { RouteComponentProps, Link } from "@reach/router";
+import React, { Fragment, useEffect } from "react";
+import { RouteComponentProps } from "@reach/router";
 import axios, { AxiosRequestConfig } from "axios";
 import { Transition } from "@headlessui/react";
-import { CalendarIcon, CheckCircleIcon, LocationMarkerIcon, UsersIcon, XIcon } from "@heroicons/react/outline";
-import { TableRank } from "./tableRank";
-import { Helmet } from "react-helmet";
-import { CategoryScale, Chart, ChartData, Legend, LinearScale, LineElement, PointElement, Title, Tooltip } from "chart.js";
+import { CheckCircleIcon,XIcon } from "@heroicons/react/outline";
+import { CategoryScale, Chart, Legend, LinearScale, LineElement, PointElement, Title, Tooltip } from "chart.js";
 import { Line } from "react-chartjs-2";
 
 export const Ranking: React.FC<RouteComponentProps> = () => {
@@ -22,21 +20,19 @@ export const Ranking: React.FC<RouteComponentProps> = () => {
     const [notif, setNotif] = React.useState(false);
     const [showModalSite, setShowModalSite] = React.useState(false);
     const [siteInfo, setSiteInfo] = React.useState([]);
-    const [selected, setSelected] = React.useState(0);
     const [urlSite, setUrlSite] = React.useState('');
+    const [siteId, setSiteId] = React.useState()
 
   /**
    * Keywords
    */
     const [showModal, setShowModal] = React.useState(false);
-    const [historyModal, setHistoryModal] = React.useState(false)
-    const [sites, setSitesSelect] = React.useState([]);
+    const [historyModal, setHistoryModal] = React.useState(false);
     const [siteKey, setSiteKey] = React.useState('');
     const [key, setKey] = React.useState([]);
     const [position, setPos] = React.useState([]);
     const [keyword, setKeyword] = React.useState('');
     const [server, setServer] = React.useState('');
-    const [url, setUrl] = React.useState('');
     const [search, setSearch] = React.useState('');
     const [dataH,setData] = React.useState<any>([]);
     const [labelH,setLabel]= React.useState<any>([]);
@@ -47,6 +43,7 @@ export const Ranking: React.FC<RouteComponentProps> = () => {
    */
     function selectedSite(id:any) {
       setKey([]);
+      setSiteId(id);
       if(id==0){
         axios.get(`http://127.0.0.1:3333/keywords/keyworduser/${userToken}`,requestOptions)
           .then(res =>{
@@ -120,7 +117,7 @@ export const Ranking: React.FC<RouteComponentProps> = () => {
         .catch(error => console.log('error', error));
 
         setNotif(true);
-        setUrl('');
+        setUrlSite('');
     }
 
   /**
@@ -165,7 +162,6 @@ export const Ranking: React.FC<RouteComponentProps> = () => {
   
       setKeyword('');
       setServer('');
-      setUrl('');
       setSiteKey('');
     }
   
@@ -236,14 +232,25 @@ export const Ranking: React.FC<RouteComponentProps> = () => {
       
       const options = {
         responsive: true,
+        scales:{
+          y:{
+            reverse:true,
+            min:0,
+          },
+        },
+        cubicInterpolationMode: 'monotone',
+        tension: 0.4,
         plugins: {
           legend: {
             position: 'top' as const,
           },
           title: {
-            display: true,
+            display: false,
             text: 'Historique de position',
           },
+        },
+        interaction: {
+          intersect: false
         },
       };
       
@@ -258,19 +265,23 @@ export const Ranking: React.FC<RouteComponentProps> = () => {
         axios.get(`http://127.0.0.1:3333/keywords/getPos/${id}`,requestOptions)
           .then(res =>{
             setPos(res.data);
+            chart(res.data);
         })
-        chart(position);
         setHistoryModal(true)
       }
 
-      async function chart(info:any) {
+      async function chart(info:any){
         console.log(info)
         var label: any[]=[];
         var dat:any[]=[]
           info[0].json_build_object.pos.forEach((element: any) => {
-            label.push(element.pdate)
-            dat.push(element.ppos)
+            if(element.ppos!=='NaN'){
+              label.push(cutDate(element.pdate))
+              dat.push(element.ppos)
+            }
           });
+          setLabel(label)
+          setData(dat)
           console.log(labelH,dataH)
       }
 
@@ -280,10 +291,25 @@ export const Ranking: React.FC<RouteComponentProps> = () => {
           {
             label: 'Position',
             data: dataH,
-            borderColor: 'rgb(255, 99, 132)',
-            backgroundColor: 'rgba(255, 99, 132, 0.5)',
+            borderColor: '#2C7397',
+            backgroundColor: '#2C7397',
           },
-      ]}
+        ]}
+
+      async function checkAll(userToken:any){
+      
+      }
+
+      async function checkSite(id:any){
+        console.log(id);
+        if(id==0){
+          
+        }
+      }
+
+      async function forceCheck(userToken:any){
+        
+      }
 
       function classNames(...classes: any[]) {
         return classes.filter(Boolean).join(' ');
@@ -376,6 +402,24 @@ export const Ranking: React.FC<RouteComponentProps> = () => {
                           <td>
                             <button onClick={() => selectedSite(0)} type="button" className="hover:bg-yellow-500 group flex items-center rounded-md bg-yellow-500 text-white text-sm font-medium pl-2 pr-3 py-2 shadow-sm">
                               Afficher tout les mots-clés
+                            </button>
+                          </td>
+
+                          <td>
+                            <button onClick={() => checkSite(siteId)} type="button" className="group flex items-center rounded-md bg-orange-300 text-white text-sm font-medium pl-2 pr-3 py-2 shadow-sm">
+                              Check mots-clés du site
+                            </button>
+                          </td>
+
+                          <td>
+                            <button onClick={() => checkAll(userToken)} type="button" className="group flex items-center rounded-md bg-orange-400 text-white text-sm font-medium pl-2 pr-3 py-2 shadow-sm">
+                              Check tout les mots-clés
+                            </button>
+                          </td>
+
+                          <td>
+                            <button onClick={() => forceCheck(userToken)} type="button" className="group flex items-center rounded-md bg-red-900 text-white text-sm font-medium pl-2 pr-3 py-2 shadow-sm">
+                              Force Check
                             </button>
                           </td>
                         </tr>
@@ -604,45 +648,30 @@ export const Ranking: React.FC<RouteComponentProps> = () => {
             </div>
           {historyModal ? (
             <>
-<div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
-    <div className="relative p-4 w-full max-w-7xl max-h-4xl md:h-auto">
-        <div className="relative bg-white rounded-lg shadow-lg dark:bg-gray-700">
-            <div className="flex justify-between items-center p-5 rounded-t border-b dark:border-gray-600">
-                <h3 className="text-xl font-medium text-gray-900 dark:text-white">
-                    Historique de position
-                </h3>
-                <button onClick={() => setHistoryModal(false)} type="button" className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="extralarge-modal">
-                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>  
-                </button>
-            </div>
-            <div className="p-6 space-y-6">
-              <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-                {position.map((posi:any)=>(
-                  <>
-                  <Line options={options} data={data} />
-                  {posi.id}
-                  {posi.json_build_object.pos.map((hist:any)=>(
-                    <>
-                      <p>
-                      
-                        {hist.pid}
-                        {hist.pkid}
-                        {hist.ppos}
-                        {cut(hist.pdate)}
+              <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+                <div className="relative p-4 w-3/5 max-w-7xl max-h-4xl md:h-auto">
+                  <div className="relative bg-white rounded-lg shadow-lg dark:bg-gray-100">
+                    <div className="flex justify-between items-center p-5 rounded-t border-b dark:border-gray-100">
+                        <h3 className="text-xl font-medium text-gray-900 dark:text-black">
+                            Historique de position
+                        </h3>
+                        <button onClick={() => setHistoryModal(false)} type="button" className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="extralarge-modal">
+                            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>  
+                        </button>
+                    </div>
+                    <div className="p-6 space-y-6">
+                      <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+                        {position.map((posi:any)=>(
+                            <Line options={options} data={data} />
+                        ))}
                       </p>
-                    </>
-                  ))}
-                  </>
-                ))}
-              </p>
-        </div>
-    </div>
-</div>
-</div>
-</>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </>
           ):null}
 
-        
   <div className="h-auto">
       <div className="mt-8 flex flex-col">
         <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -677,6 +706,7 @@ export const Ranking: React.FC<RouteComponentProps> = () => {
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{one.country}</td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{one.search}</td>
                       <td className="whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
+                        
                         <button onClick={() => onRemoveItem(one.id)} className="relative inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-500 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:yellow-indigo-500">Supprimer<span className="sr-only">, {one.keyword}</span></button>
                       </td>
                     </tr>

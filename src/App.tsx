@@ -1,11 +1,8 @@
 import React from 'react';
 import { Router } from '@reach/router';
 import { RankingSite } from './routes/site';
-import { RankingTable } from './routes/ranking';
 import { HomePage } from './routes/home';
-import { sessionService } from 'redux-react-session';
-import { Navigate, Route, Routes } from 'react-router';
-import { Test } from './routes/test';
+import { UserProfil } from './routes/profil';
 
 function App() {
   return (
@@ -14,7 +11,7 @@ function App() {
         <Router>
           <HomePage path='/'/>
             <RankingSite path='/ranking'/>
-            <Test path='/test'/>
+            <UserProfil path='/profil'/>
         </Router>
       </header>
     </div>

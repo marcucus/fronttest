@@ -1,10 +1,10 @@
 import React from "react";
 import { redirectTo, RouteComponentProps } from "@reach/router";
-import { Ranking } from "../components/ranking";
 import { Footer } from "../components/footer";
 import { NavbarUser } from "../components/navbarUser";
+import { Profil } from "../components/profil";
 
-export const RankingSite: React.FC<RouteComponentProps> = () => {
+export const UserProfil: React.FC<RouteComponentProps> = () => {
   if(localStorage.getItem('userToken')==null || localStorage.getItem('userToken')==undefined)
   {
     redirectTo('/');
@@ -12,7 +12,7 @@ export const RankingSite: React.FC<RouteComponentProps> = () => {
   return (
     <>
       <NavbarUser></NavbarUser>
-        <Ranking></Ranking>
+        <Profil></Profil>
           <div className="relative w-full bottom-0">
             <Footer></Footer>
           </div>
