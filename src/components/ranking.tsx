@@ -313,23 +313,32 @@ export const Ranking: React.FC<RouteComponentProps> = () => {
           },
         ]}
 
-      async function checkAll(userToken:any){
-      
+      async function checkAll(token:any){
+        axios.post(`http://127.0.0.1:3333/keywords/checkUser/${token}`,{token:userToken},requestOptions)
+        .then(res =>{
+          console.log(res)
+        })
       }
 
       async function checkSite(id:any){
-        console.log(id);
-        if(id==0){
-          
-        }
+          axios.post(`http://127.0.0.1:3333/keywords/check24/${id}`,{token:userToken},requestOptions)
+          .then(res =>{
+            console.log(res)
+          })
       }
 
-      async function forceCheckAll(userToken:any){
-        
+      async function forceCheckAll(token:any){
+        axios.post(`http://127.0.0.1:3333/keywords/checkForceUser/${token}`,{token:userToken},requestOptions)
+        .then(res =>{
+          console.log(res)
+        })
       }
 
       async function forceCheck(id:any) {
-        
+        axios.post(`http://127.0.0.1:3333/keywords/checkForce/${id}`,{token:userToken},requestOptions)
+        .then(res =>{
+          console.log(res)
+        })
       }
 
       function classNames(...classes: any[]) {

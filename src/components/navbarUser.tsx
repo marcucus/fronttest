@@ -17,6 +17,11 @@ function classNames(...classes: any[]) {
   return classes.filter(Boolean).join(' ')
 }
 
+function disconnect()
+{
+  localStorage.clear();
+}
+
 const Item: React.FC<{ to: string }> = (props) => (
   <Link
     to={props.to}
@@ -98,7 +103,7 @@ return (
                             </Link>
                           </Menu.Item>
                           <Menu.Item>
-                            <Link to='/' className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-200'>
+                            <Link to='/' onClick={() => disconnect()} className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-200'>
                               Se déconnecter
                             </Link>
                           </Menu.Item>
