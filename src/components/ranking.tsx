@@ -1,10 +1,11 @@
 import React, { Fragment, useEffect } from "react";
 import { RouteComponentProps } from "@reach/router";
 import axios, { AxiosRequestConfig } from "axios";
-import { Transition } from "@headlessui/react";
-import { CheckCircleIcon,XIcon } from "@heroicons/react/outline";
+import { Menu, Transition } from "@headlessui/react";
+import { CheckCircleIcon,ChevronDownIcon,XIcon } from "@heroicons/react/outline";
 import { CategoryScale, Chart, Legend, LinearScale, LineElement, PointElement, Title, Tooltip } from "chart.js";
 import { Line } from "react-chartjs-2";
+import { DotsVerticalIcon } from "@heroicons/react/solid";
 
 export const Ranking: React.FC<RouteComponentProps> = () => {
 
@@ -323,7 +324,11 @@ export const Ranking: React.FC<RouteComponentProps> = () => {
         }
       }
 
-      async function forceCheck(userToken:any){
+      async function forceCheckAll(userToken:any){
+        
+      }
+
+      async function forceCheck(id:any) {
         
       }
 
@@ -421,23 +426,36 @@ export const Ranking: React.FC<RouteComponentProps> = () => {
                             </button>
                           </td>
 
-                          <td>
-                            <button onClick={() => checkSite(siteId)} type="button" className="group flex items-center rounded-md bg-orange-300 text-white text-sm font-medium pl-2 pr-3 py-2 shadow-sm">
-                              Check mots-clés du site
-                            </button>
-                          </td>
+                          {siteId !== 0 && siteId !== null && siteId !== undefined ? (
+                          <>  
+                            <td>
+                              <button onClick={() => checkSite(siteId)} type="button" className="group flex items-center rounded-md bg-orange-400 text-white text-sm font-medium pl-2 pr-3 py-2 shadow-sm">
+                                Check mots-clés du site
+                              </button>
+                            </td>
 
-                          <td>
-                            <button onClick={() => checkAll(userToken)} type="button" className="group flex items-center rounded-md bg-orange-400 text-white text-sm font-medium pl-2 pr-3 py-2 shadow-sm">
-                              Check tout les mots-clés
-                            </button>
-                          </td>
+                            <td>
+                              <button onClick={() => forceCheck(siteId)} type="button" className="group flex items-center rounded-md bg-red-900 text-white text-sm font-medium pl-2 pr-3 py-2 shadow-sm">
+                                Force check tout les mots-clés du site
+                              </button>
+                            </td>
+                          </>
+                        ):(
+                          <>
+                            <td>
+                              <button onClick={() => checkAll(userToken)} type="button" className="group flex items-center rounded-md bg-orange-400 text-white text-sm font-medium pl-2 pr-3 py-2 shadow-sm">
+                                Check tout les mots-clés
+                              </button>
+                            </td>
 
-                          <td>
-                            <button onClick={() => forceCheck(userToken)} type="button" className="group flex items-center rounded-md bg-red-900 text-white text-sm font-medium pl-2 pr-3 py-2 shadow-sm">
-                              Force Check
-                            </button>
-                          </td>
+                            <td>
+                              <button onClick={() => forceCheckAll(userToken)} type="button" className="group flex items-center rounded-md bg-red-900 text-white text-sm font-medium pl-2 pr-3 py-2 shadow-sm">
+                                Force check tout les mots-clés
+                              </button>
+                            </td>
+                          </> 
+                        )}
+
                         </tr>
                       </table>
               <div className="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
@@ -722,7 +740,6 @@ export const Ranking: React.FC<RouteComponentProps> = () => {
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{one.country}</td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{one.search}</td>
                       <td className="whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                        
                         <button onClick={() => onRemoveItem(one.id)} className="relative inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-500 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:yellow-indigo-500">Supprimer<span className="sr-only">, {one.keyword}</span></button>
                       </td>
                     </tr>
