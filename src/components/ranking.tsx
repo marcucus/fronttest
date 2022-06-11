@@ -310,6 +310,9 @@ export const Ranking: React.FC<RouteComponentProps> = () => {
             data: dataH,
             borderColor: '#2C7397',
             backgroundColor: '#2C7397',
+            pointStyle:"rectRounded",
+            pointRadius: 4,
+            pointHoverRadius: 7,
           },
         ]}
 
@@ -496,7 +499,7 @@ export const Ranking: React.FC<RouteComponentProps> = () => {
                             <select
                               id="location"
                               name="location"
-                              className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+                              className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-yellow-500 focus:border-yellow-500 sm:text-sm rounded-md"
                               value={server}
                               onChange={handleChangeServer}
                             >
@@ -627,7 +630,7 @@ export const Ranking: React.FC<RouteComponentProps> = () => {
                                 id="website-keyword"
                                 value={keyword}
                                 onChange={handleChange}
-                                className="flex-1 min-w-0 block w-full px-3 py-2 rounded-l-md rounded-r-md focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300"
+                                className="flex-1 min-w-0 block w-full px-3 py-2 rounded-l-md rounded-r-md focus:ring-yellow-500 focus:border-yellow-500 sm:text-sm border-gray-300"
                                 placeholder="google test" />
                             </div><br/>
                           </div>
@@ -638,7 +641,7 @@ export const Ranking: React.FC<RouteComponentProps> = () => {
                           <select
                               id="location"
                               name="location"
-                              className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+                              className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-yellow-500 focus:border-yellow-500 sm:text-sm rounded-md"
                               value={siteKey}
                               onChange={handleChangeSiteKey}
                             >
@@ -655,7 +658,7 @@ export const Ranking: React.FC<RouteComponentProps> = () => {
                           <select
                               id="location"
                               name="location"
-                              className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
+                              className="mt-1 block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-yellow-500 focus:border-yellow-500 sm:text-sm rounded-md"
                               value={search}
                               onChange={handleChangeSearch}
                             >
@@ -698,7 +701,7 @@ export const Ranking: React.FC<RouteComponentProps> = () => {
                         <h3 className="text-xl font-medium text-gray-900 dark:text-black">
                             Historique de position
                         </h3>
-                        <button onClick={() => setHistoryModal(false)} type="button" className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-toggle="extralarge-modal">
+                        <button onClick={() => setHistoryModal(false)} type="button" className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-yellow-600 dark:hover:text-white" data-modal-toggle="extralarge-modal">
                             <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>  
                         </button>
                     </div>
@@ -726,7 +729,7 @@ export const Ranking: React.FC<RouteComponentProps> = () => {
                 <thead className="bg-gray-50">
                   <tr>
                     <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Mots-clés</th>
-                    <abbr title="Position actuelle"><th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Position</th></abbr>
+                    <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Position</th>
                     <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Historique</th>
                     <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Dernier check</th>
                     <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Créé le</th>
@@ -749,7 +752,7 @@ export const Ranking: React.FC<RouteComponentProps> = () => {
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{one.country}</td>
                       <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{one.search}</td>
                       <td className="whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                        <button onClick={() => onRemoveItem(one.id)} className="relative inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-500 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:yellow-indigo-500">Supprimer<span className="sr-only">, {one.keyword}</span></button>
+                        <button onClick={() => onRemoveItem(one.id)} className="relative inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-500 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:yellow-yellow-500">Supprimer<span className="sr-only">, {one.keyword}</span></button>
                       </td>
                     </tr>
                   ))}
@@ -801,7 +804,7 @@ export const Ranking: React.FC<RouteComponentProps> = () => {
                               id="company-website"
                               value={urlSite}
                               onChange={handleChangeUrl}
-                              className="flex-1 min-w-0 block w-full px-3 py-2 rounded-l-md rounded-r-md focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300"
+                              className="flex-1 min-w-0 block w-full px-3 py-2 rounded-l-md rounded-r-md focus:ring-yellow-500 focus:border-yellow-500 sm:text-sm border-gray-300"
                               placeholder="http(s)://www.example.com/" />
                           </div><br/>
                         </div>
@@ -857,7 +860,7 @@ export const Ranking: React.FC<RouteComponentProps> = () => {
                         <div className="ml-4 flex-shrink-0 flex">
                           <button
                             type="button"
-                            className="bg-white rounded-md inline-flex text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                            className="bg-white rounded-md inline-flex text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500"
                             onClick={() => {
                               setNotif(false)
                             }}

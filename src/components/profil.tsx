@@ -16,7 +16,7 @@ export const Profil: React.FC<RouteComponentProps> = () => {
 /**
  * Users
  */
-  const [info, setInfo] = React.useState<any>();
+  const [info, setInfo] = React.useState<any>([]);
   const [open, setOpen] = React.useState(false);
 
   var head = {
@@ -32,7 +32,6 @@ export const Profil: React.FC<RouteComponentProps> = () => {
   axios.get(`http://127.0.0.1:3333/users/info/${userToken}`,requestOptions)
   .then(res =>{
       setInfo(res.data);
-      console.log(info[0])
     })
   },
   []);
@@ -52,6 +51,7 @@ export const Profil: React.FC<RouteComponentProps> = () => {
 
 return(
 <>
+{info.map((user:any)=>
      <div className='mb-20'>
   <div className="min-h-full">
     <div className="bg-gray-800 pb-32">
@@ -81,13 +81,13 @@ return(
                           <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:pt-5">
                               <dt className="text-sm font-medium text-gray-500">#</dt>
                               <dd className="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                                <span className="flex-grow">{info[0].id}</span>
+                                <span className="flex-grow">{user.id}</span>
                               </dd>
                             </div>
                             <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4">
                               <dt className="text-sm font-medium text-gray-500">Name</dt>
                               <dd className="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                                <span className="flex-grow">{info[0].firstname} {info[0].lastname}</span>
+                                <span className="flex-grow">{user.firstname} {user.lastname}</span>
                               </dd>
                             </div>
                             <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:pt-5">
@@ -96,7 +96,7 @@ return(
                                 <span className="flex-grow">
                                   <img
                                     className="h-8 w-8 rounded-full"
-                                    src={info[0].picture}
+                                    src={user.picture}
                                     alt=""
                                   />
                                 </span>
@@ -105,20 +105,16 @@ return(
                             <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:pt-5">
                               <dt className="text-sm font-medium text-gray-500">Email</dt>
                               <dd className="mt-1 flex text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                                <span className="flex-grow">{info[0].email}</span>
+                                <span className="flex-grow">{user.email}</span>
                               </dd>
                             </div>
                           </dl>
                         </div>
                       </div>
               </div>
-            <button onClick={() => setOpen(true)}>Supprimer le compte</button>
-          </div>
-        </div>
-      </main>
-  </div>
-</div>
-{open ? (
+              <br/>
+              <button onClick={() => setOpen(true)} className="relative inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-500 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:yellow-yellow-500">Supprimer le compte</button>
+            {open ? (
   <Transition.Root show={open} as={Fragment}>
   <Dialog as="div" className="relative z-10" onClose={setOpen}>
     <Transition.Child
@@ -148,7 +144,7 @@ return(
             <div className="hidden sm:block absolute top-0 right-0 pt-4 pr-4">
               <button
                 type="button"
-                className="bg-white rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                className="bg-white rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500"
                 onClick={() => setOpen(false)}
               >
                 <span className="sr-only">Close</span>
@@ -165,7 +161,7 @@ return(
                 </Dialog.Title>
                 <div className="mt-2">
                   <p className="text-sm text-gray-500">
-                    Vous êtes sûr de vouloir supprimer votre comtpe? Toutes vos données seront 
+                    Vous êtes sûr de vouloir supprimer votre compte? Toutes vos données seront 
                     supprimées de nos serveurs! Cette action ne peut pas être annulée.
                   </p>
                 </div>
@@ -181,7 +177,7 @@ return(
               </button>
               <button
                 type="button"
-                className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:w-auto sm:text-sm"
+                className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500 sm:mt-0 sm:w-auto sm:text-sm"
                 onClick={() => setOpen(false)}
               >
                 Annuler
@@ -194,6 +190,13 @@ return(
   </Dialog>
 </Transition.Root>
 ):null}
+          </div>
+        </div>
+      </main>
+  </div>
+</div>
+)}
+
   </>
 )
 };

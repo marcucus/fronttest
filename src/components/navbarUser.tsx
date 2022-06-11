@@ -10,8 +10,12 @@ const userNavigation = [
   { name: 'Se déconnecter', href: '/' },
 ]
 
-var picture:any=localStorage.getItem('picture');
 
+
+function getPicture(){
+  var picture:any = localStorage.getItem('picture');
+  return picture;;
+}
 
 function classNames(...classes: any[]) {
   return classes.filter(Boolean).join(' ')
@@ -87,7 +91,7 @@ return (
                       <div>
                         <Menu.Button className="bg-white rounded-full flex text-sm ring-2 ring-white ring-opacity-20 focus:outline-none focus:ring-opacity-100">
                           <span className="sr-only">Open user menu</span>
-                          <img className="h-8 w-8 rounded-full" src={picture} alt="" />
+                          <img className="h-8 w-8 rounded-full" src={getPicture()} alt="" />
                         </Menu.Button>
                       </div>
                       <Transition
