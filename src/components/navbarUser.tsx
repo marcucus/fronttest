@@ -4,38 +4,18 @@ import { MenuIcon, XIcon } from '@heroicons/react/outline'
 import { Link, RouteComponentProps } from '@reach/router'
 import Logo from '../assets/logo/logo.svg'
 
-
-const userNavigation = [
-  { name: 'Profil', href: '/user' },
-  { name: 'Se déconnecter', href: '/' },
-]
-
-
-
-function getPicture(){
-  var picture:any = localStorage.getItem('picture');
-  return picture;;
-}
-
-function classNames(...classes: any[]) {
-  return classes.filter(Boolean).join(' ')
-}
-
-function disconnect()
-{
-  localStorage.clear();
-}
-
-const Item: React.FC<{ to: string }> = (props) => (
-  <Link
-    to={props.to}
-    className="px-2 py-1 text-gray-400 transition-all duration-300 ease-in-out border-b-2 border-transparent hover:border-yellow-400 hover:text-white"
-  >
-    {props.children}
-  </Link>
-)
-
 export const NavbarUser: React.FC<RouteComponentProps> = () => {
+
+  function getPicture(){
+    var picture:any = localStorage.getItem('picture');
+    return picture;;
+  }
+  
+  function disconnect()
+  {
+    localStorage.clear();
+  }
+
 return (
     <>
         <Disclosure as="nav" className="bg-gray-800">

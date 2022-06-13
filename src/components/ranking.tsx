@@ -1,11 +1,10 @@
 import React, { Fragment, useEffect } from "react";
 import { RouteComponentProps } from "@reach/router";
 import axios, { AxiosRequestConfig } from "axios";
-import { Menu, Transition } from "@headlessui/react";
-import { CheckCircleIcon,ChevronDownIcon,XIcon } from "@heroicons/react/outline";
+import { Transition } from "@headlessui/react";
+import { CheckCircleIcon,XIcon } from "@heroicons/react/outline";
 import { CategoryScale, Chart, Legend, LinearScale, LineElement, PointElement, Title, Tooltip } from "chart.js";
 import { Line } from "react-chartjs-2";
-import { DotsVerticalIcon } from "@heroicons/react/solid";
 
 export const Ranking: React.FC<RouteComponentProps> = () => {
 
@@ -342,10 +341,6 @@ export const Ranking: React.FC<RouteComponentProps> = () => {
         .then(res =>{
           console.log(res)
         })
-      }
-
-      function classNames(...classes: any[]) {
-        return classes.filter(Boolean).join(' ');
       }
 
 return(

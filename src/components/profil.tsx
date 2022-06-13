@@ -1,9 +1,8 @@
-import React, { Fragment, useEffect, useState } from "react";
-import { RouteComponentProps, Link, redirectTo, navigate } from "@reach/router";
+import React, { Fragment, useEffect } from "react";
+import { RouteComponentProps, navigate } from "@reach/router";
 import axios, { AxiosRequestConfig } from "axios";
 import { Dialog, Transition } from "@headlessui/react";
-import { CalendarIcon, CheckCircleIcon, ExclamationIcon, LocationMarkerIcon, UsersIcon, XIcon } from "@heroicons/react/outline";
-import { Helmet } from "react-helmet";
+import { ExclamationIcon, XIcon } from "@heroicons/react/outline";
 
 export const Profil: React.FC<RouteComponentProps> = () => {
 

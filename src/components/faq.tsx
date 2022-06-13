@@ -3,38 +3,38 @@ import { RouteComponentProps } from "@reach/router"
 const faqs = [
     {
       id: 1,
-      question: "What's the best thing about Switzerland?",
+      question: "Puis-je connaitre la position de mon mot-clé dans n'importe quel pays ?",
       answer:
-        "I don't know, but the flag is a big plus. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas cupiditate laboriosam fugiat.",
+        "Bien évidement, nous disposons de près de 100 serveurs (dispersés dans presque tout les pays du monde) de recherches par moteur de recherche.",
     },
     {
       id: 2,
-      question: 'Why do you never see elephants hiding in trees?',
+      question: 'J\'ai accès a combien de temps d\'historique ?',
       answer:
-        "Because they're so good at it. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas cupiditate laboriosam fugiat.",
+        "Vous avez un accès a un historique illimité ! Vous aurez votre historique du jour ou vous inscrivez votre mot-clé jusqu'au jour ou vous le supprimez.",
     },
     {
       id: 3,
-      question: 'How do you make holy water?',
+      question: 'Pourquoi c\'est gratuit ?',
       answer:
-        'You boil the hell out of it. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas cupiditate laboriosam fugiat.',
+        'Car nous faisons dans la charitée !',
     },
     {
       id: 4,
-      question: "Why can't you hear a pterodactyl go to the bathroom?",
+      question: "Suis-je limité en nombre de mots clés ? ",
       answer:
-        'Because the pee is silent. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas cupiditate laboriosam fugiat.',
+        'Non, vous avez un nombre de mots-clés illimités !',
     },
     {
       id: 5,
-      question: 'What do you call someone with no body and no nose?',
-      answer: 'Nobody knows. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas cupiditate laboriosam fugiat.',
+      question: 'Suis-je limité en nombre de sites ?',
+      answer: 'Non, vous avez un nombre de sites illimités !',
     },
     {
       id: 6,
-      question: 'Why did the invisible man turn down the job offer?',
+      question: 'A quelle fréquence mes mots-clés sont vérifiés ?',
       answer:
-        "He couldn't see himself doing it. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas cupiditate laboriosam fugiat.",
+        "Toute les 24 heures, 7 jours sur 7 !",
     },
 ]
 
@@ -42,7 +42,7 @@ export const Faq: React.FC<RouteComponentProps> = () => {
     return (
           <div className="bg-gray-100">
               <div id="faq" className="max-w-7xl mx-auto py-16 px-4 divide-y-2 divide-gray-200 sm:py-24 sm:px-6 lg:px-8">
-                  <h2 className="text-3xl font-extrabold text-yellow-500">Frequently asked questions</h2>
+                  <h2 className="text-3xl font-extrabold text-yellow-500">Foire aux questions</h2>
                   <div className="mt-6 pt-10">
                       <dl className="space-y-10 md:space-y-0 md:grid md:grid-cols-2 md:gap-x-8 md:gap-y-12">
                           {faqs.map((faq) => (
