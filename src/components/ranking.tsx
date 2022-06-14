@@ -98,19 +98,19 @@ export const Ranking: React.FC<RouteComponentProps> = () => {
     function handleChangeUrl(event: { target: { value: React.SetStateAction<string>; }; }) {
       setUrlSite(event.target.value);
     }
-
+  //
     function handleAddSite() {
       setShowModalSite(false);
       var raw = JSON.stringify([{
         "url": urlSite
       }]);
-      
+
       var requestOptions = {
         method: 'POST',
         headers: head,
         body: raw
       };
-      
+
       fetch("http://127.0.0.1:3333/sites/create", requestOptions)
         .then(response => response.text())
         .then(result => console.log(result))
@@ -127,19 +127,19 @@ export const Ranking: React.FC<RouteComponentProps> = () => {
     function handleChange(event: { target: { value: React.SetStateAction<string>; }; }) {
       setKeyword(event.target.value);
     }
-
+  //
     function handleChangeServer(event: { target: { value: React.SetStateAction<string>; }; }) {
       setServer(event.target.value);
     }
-
+  //
     function handleChangeSearch(event: { target: { value: React.SetStateAction<string>; }; }) {
       setSearch(event.target.value);
     }
-
+  //
     function handleChangeSiteKey(event: { target: { value: React.SetStateAction<string>; }; }){
       setSiteKey(event.target.value)
     }
-
+  //
     function handleAdd() {
       setShowModal(false);
       var raw = JSON.stringify([{
@@ -219,7 +219,26 @@ export const Ranking: React.FC<RouteComponentProps> = () => {
         const replacedName= name.replace("+",' ')
         return replacedName;
       }
+      
+    /**
+     * Récupère l'historique d'un mot-clé
+     * @param id 
+     */
+      async function historykey(id:any){
+        setLabel([])
+        setData([])
+        setPos([])
+        axios.get(`http://127.0.0.1:3333/keywords/getPos/${id}`,requestOptions)
+          .then(res =>{
+            setPos(res.data);
+            chart(res.data);
+        })
+        setHistoryModal(true)
+      }
 
+    /**
+     * Initialisation du graphique
+     */
       Chart.register(
         CategoryScale,
         LinearScale,
@@ -229,7 +248,7 @@ export const Ranking: React.FC<RouteComponentProps> = () => {
         Tooltip,
         Legend
       );
-      
+    //
       const options = {
         responsive: true,
         scales:{
@@ -253,23 +272,10 @@ export const Ranking: React.FC<RouteComponentProps> = () => {
           intersect: false
         },
       };
-      
-    /**
-     * Récupère l'historique d'un mot-clé
-     * @param id 
-     */
-      async function historykey(id:any){
-        setLabel([])
-        setData([])
-        setPos([])
-        axios.get(`http://127.0.0.1:3333/keywords/getPos/${id}`,requestOptions)
-          .then(res =>{
-            setPos(res.data);
-            chart(res.data);
-        })
-        setHistoryModal(true)
-      }
 
+    /**
+     * Fonction de création du graphique
+     */
       async function chart(info:any){
         console.log(info)
         var checkd=0;
@@ -300,7 +306,9 @@ export const Ranking: React.FC<RouteComponentProps> = () => {
           setData(dat)
           console.log(labelH,dataH)
       }
-
+    /**
+     * Initialisation des données du graphique
+     */
       const data={
         labels:labelH,
         datasets: [
@@ -315,6 +323,9 @@ export const Ranking: React.FC<RouteComponentProps> = () => {
           },
         ]}
 
+    /**
+     * Fonction de vérification de tout les mots-clé de l'utilisateur qui n'ont pas été verifiés depuis au minimum 24h
+     */
       async function checkAll(token:any){
         axios.post(`http://127.0.0.1:3333/keywords/checkUser/${token}`,{token:userToken},requestOptions)
         .then(res =>{
@@ -322,6 +333,9 @@ export const Ranking: React.FC<RouteComponentProps> = () => {
         })
       }
 
+    /**
+     * Fonction de vérification de tout les mots-clé d'un site qui n'ont pas été verifiés depuis au minimum 24h
+     */
       async function checkSite(id:any){
           axios.post(`http://127.0.0.1:3333/keywords/check24/${id}`,{token:userToken},requestOptions)
           .then(res =>{
@@ -329,6 +343,9 @@ export const Ranking: React.FC<RouteComponentProps> = () => {
           })
       }
 
+    /**
+     * Fonction de vérification de tout les mots-clé d'un utilisateur y compris ceux vérifiés il y a moins de 24h
+     */
       async function forceCheckAll(token:any){
         axios.post(`http://127.0.0.1:3333/keywords/checkForceUser/${token}`,{token:userToken},requestOptions)
         .then(res =>{
@@ -336,8 +353,21 @@ export const Ranking: React.FC<RouteComponentProps> = () => {
         })
       }
 
+    /**
+     * Fonction de vérification de tout les mots-clé d'un site y compris ceux vérifiés il y a moins de 24h
+     */
       async function forceCheck(id:any) {
         axios.post(`http://127.0.0.1:3333/keywords/checkForce/${id}`,{token:userToken},requestOptions)
+        .then(res =>{
+          console.log(res)
+        })
+      }
+
+    /**
+     * Fonction de vérification d'un seul mot-clé
+     */
+      async function checkKeyword(id:any){
+        axios.put(`http://127.0.0.1:3333/keywords/check/${id}`,{token:userToken},requestOptions)
         .then(res =>{
           console.log(res)
         })
@@ -367,7 +397,7 @@ return(
                   <path d="M10 5a1 1 0 0 1 1 1v3h3a1 1 0 1 1 0 2h-3v3a1 1 0 1 1-2 0v-3H6a1 1 0 1 1 0-2h3V6a1 1 0 0 1 1-1Z" />
                 </svg>
                   Nouveau site
-                </button> <br/>
+                </button><br/>
                 {siteInfo!==null || siteInfo!==undefined ? (
                     <>
                       <div className="bg-white shadow overflow-hidden sm:rounded-md">
@@ -720,10 +750,10 @@ return(
                                 <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Mots-clés</th>
                                 <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Position</th>
                                 <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Historique</th>
-                                <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Dernier check</th>
+                                <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Vérification</th>
                                 <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Créé le</th>
                                 <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Serveur</th>
-                                <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Moteur de recherche</th>
+                                <th scope="col" className="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Recherche</th>
                                 <th scope="col" className="relative py-3.5 pl-3 pr-4 sm:pr-6"><span className="sr-only">Edit</span></th>
                               </tr>
                             </thead>
@@ -734,22 +764,32 @@ return(
                                   <td className="pl-7 whitespace-nowrap py-4 pr-3 text-sm text-gray-900">{one.position}</td>
                                 {one.lastcheck ? ( 
                                   <>
-                                    <td className="pl-5 whitespace-nowrap py-4 pr-3 text-sm text-yellow-500">
+                                    <td className="pl-3 whitespace-nowrap py-4 pr-3 text-sm text-yellow-500">
                                       <button onClick={() => historykey(one.id)} className="hover:text-yellow-600">Historique</button>
                                     </td>
-                                    <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{cut(one.lastcheck)}</td>
+                                    <td className="whitespace-nowrap px-8 py-4 text-sm text-gray-500">{one.age.days ? (
+                                        one.age.days+'j'
+                                      ):one.age.hours ? (
+                                        one.age.hours+'h'
+                                      ):one.age.minutes ? (
+                                        one.age.minutes+'m'
+                                      ):one.age.seconds ? (
+                                        one.age.seconds+"s"
+                                      ):"Maintenant"}
+                                    </td>
                                   </>
                                 ):(
                                   <>
-                                    <td className="pl-5 whitespace-nowrap py-4 pr-3 text-sm font-bold text-black">Pas d'historique</td>
-                                    <td className="whitespace-nowrap px-3 py-4 text-sm font-bold text-gray-500">Pas check</td>
+                                    <td className="pl-3 whitespace-nowrap py-4 pr-3 text-sm font-bold text-black">Indisponible</td>
+                                    <td className="whitespace-nowrap px-5 py-4 text-sm font-bold text-gray-500">Jamais</td>
                                   </>
                                 )}
                                   <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{cutDate(one.createdat)}</td>
                                   <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{one.country}</td>
                                   <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{one.search}</td>
                                   <td className="whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                                    <button onClick={() => onRemoveItem(one.id)} className="relative inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-500 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:yellow-yellow-500">Supprimer<span className="sr-only">, {one.keyword}</span></button>
+                                  <button onClick={() => checkKeyword(one.id)} className="relative inline-flex items-center px-4 right-1 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-yellow-500 hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:yellow-yellow-500">Vérifier<span className="sr-only">, {one.keyword}</span></button>
+                                  <button onClick={() => onRemoveItem(one.id)} className="relative inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-500 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:yellow-yellow-500">Supprimer<span className="sr-only">, {one.keyword}</span></button>
                                   </td>
                                 </tr>
                               ))}
