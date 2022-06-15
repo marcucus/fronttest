@@ -280,23 +280,18 @@ export const Ranking: React.FC<RouteComponentProps> = () => {
      * Fonction de création du graphique
      */
       async function chart(info:any){
-        console.log(info)
         var checkd=0;
         var checkppos=0;
         var label: any[]=[];
         var dat:any[]=[]
           info[0].json_build_object.pos.forEach((element: any) => {
             if(element.ppos!=='NaN'){
-              console.log("check préliminaire passé")
               if(cutDate(element.pdate)==checkd){
-                console.log("premier check passé")
                 if(checkppos!==element.ppos){
-                  console.log("deuxième check passé")
                   label.push(cutDate(element.pdate))
                   dat.push(element.ppos)
                 }
               }else{
-                console.log("Else check passé")
                 label.push(cutDate(element.pdate))
                 dat.push(element.ppos)
               }
@@ -307,7 +302,6 @@ export const Ranking: React.FC<RouteComponentProps> = () => {
           
           setLabel(label)
           setData(dat)
-          console.log(labelH,dataH)
       }
     /**
      * Initialisation des données du graphique
