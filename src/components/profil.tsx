@@ -13,7 +13,7 @@ export const Profil: React.FC<RouteComponentProps> = () => {
     const userToken:any = localStorage.getItem('userToken');
 
 /**
- * Users
+ * Récupère les infos utilisateur
  */
   const [info, setInfo] = React.useState<any>([]);
   const [open, setOpen] = React.useState(false);
@@ -35,6 +35,10 @@ export const Profil: React.FC<RouteComponentProps> = () => {
   },
   []);
 
+
+/**
+ * Supprimer le compte
+ */
   function remove(id:any){
     axios.delete(`http://127.0.0.1:3333/users/delete/${id}`,requestOptions)
       .then(res =>{
