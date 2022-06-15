@@ -8,7 +8,8 @@ export const NavbarUser: React.FC<RouteComponentProps> = () => {
 
   function getPicture(){
     var picture:any = localStorage.getItem('picture');
-    return picture;;
+    console.log(picture)
+    return picture;
   }
   
   function disconnect()
@@ -70,8 +71,10 @@ return (
               <Menu as="div" className="ml-4 relative flex-shrink-0">
                       <div>
                         <Menu.Button className="bg-white rounded-full flex text-sm ring-2 ring-white ring-opacity-20 focus:outline-none focus:ring-opacity-100">
-                          <span className="sr-only">Open user menu</span>
-                          <img className="h-8 w-8 rounded-full" src={getPicture()} alt="" />
+                          <picture>
+                            <source media="(min-width:650px)" srcSet={getPicture()}/>
+                            <img className="h-8 w-8 rounded-full" src={getPicture()} alt="User"/>
+                          </picture>
                         </Menu.Button>
                       </div>
                       <Transition

@@ -1,12 +1,8 @@
-import { navigate, Redirect, RouteComponentProps } from "@reach/router";
+import { navigate, RouteComponentProps } from "@reach/router";
 import React from "react";
 import GoogleLogin from "react-google-login";
 import Google from "../assets/socials/google.svg";
 import axios from 'axios';
-import { ReactSession } from 'react-client-session';
-import { combineReducers, createStore } from 'redux';
-import { configureStore } from "@reduxjs/toolkit";
-import { sessionReducer, sessionService } from 'redux-react-session';
 
 export const Login: React.FC<RouteComponentProps> = (props) => {
   const OnSuccess = async(res:any) => {
@@ -14,28 +10,8 @@ export const Login: React.FC<RouteComponentProps> = (props) => {
     axios
       .post('http://127.0.0.1:3333/authentication/auth', { token: res.tokenId })
       .then(async response => {
-        const reducers = {
-          userToken:response.data,
-          picture:res.profileObj.imageUrl,
-          email:res.profileObj.email,
-          lastname:res.profileObj.familyName,
-          firstname:res.profileObj.givenName,
-          session: sessionReducer
-        };
-        const reducer = combineReducers(reducers);
-        const store = createStore(reducer);
-
-        const validateSession = (session:any) => {
-          // check if your session is still valid
-          return true;
-        }
-        
-        const options = { refreshOnCheckAuth: true, redirectPath: '/ranking', driver: 'COOKIES', validateSession, expires:0 };
-        sessionService.initSessionService(store, options)
-        .then(() => console.log('Redux React Session is ready and a session was refreshed from your storage'))
-        .catch(() => console.log('Redux React Session is ready and there is no session in your storage'));
-        localStorage.setItem('userToken',response.data)
-        localStorage.setItem('picture',res.profileObj.imageUrl)
+        localStorage.setItem('userToken',response.data);
+        localStorage.setItem('picture',res.profileObj.imageUrl);
         await navigate('/ranking')
       })
       .catch((err: any) => {

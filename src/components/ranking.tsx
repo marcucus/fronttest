@@ -18,6 +18,8 @@ export const Ranking: React.FC<RouteComponentProps> = () => {
    * Sites
    */
     const [notif, setNotif] = React.useState(false);
+    const [notifKeyword, setNotifKeyword] = React.useState(false);
+    const [notifcheck, setNotifcheck] = React.useState(false);
     const [showModalSite, setShowModalSite] = React.useState(false);
     const [siteInfo, setSiteInfo] = React.useState([]);
     const [urlSite, setUrlSite] = React.useState('');
@@ -163,6 +165,7 @@ export const Ranking: React.FC<RouteComponentProps> = () => {
       setKeyword('');
       setServer('');
       setSiteKey('');
+      setNotifKeyword(true)
     }
   
   /**
@@ -328,19 +331,21 @@ export const Ranking: React.FC<RouteComponentProps> = () => {
      */
       async function checkAll(token:any){
         axios.post(`http://127.0.0.1:3333/keywords/checkUser/${token}`,{token:userToken},requestOptions)
-        .then(res =>{
-          console.log(res)
-        })
+          .then(res =>{
+            console.log(res)
+          })
+        setNotifcheck(true)
       }
 
     /**
      * Fonction de vérification de tout les mots-clé d'un site qui n'ont pas été verifiés depuis au minimum 24h
      */
       async function checkSite(id:any){
-          axios.post(`http://127.0.0.1:3333/keywords/check24/${id}`,{token:userToken},requestOptions)
+        axios.post(`http://127.0.0.1:3333/keywords/check24/${id}`,{token:userToken},requestOptions)
           .then(res =>{
             console.log(res)
           })
+        setNotifcheck(true)
       }
 
     /**
@@ -348,9 +353,10 @@ export const Ranking: React.FC<RouteComponentProps> = () => {
      */
       async function forceCheckAll(token:any){
         axios.post(`http://127.0.0.1:3333/keywords/checkForceUser/${token}`,{token:userToken},requestOptions)
-        .then(res =>{
-          console.log(res)
-        })
+          .then(res =>{
+            console.log(res)
+          })
+        setNotifcheck(true)
       }
 
     /**
@@ -358,9 +364,10 @@ export const Ranking: React.FC<RouteComponentProps> = () => {
      */
       async function forceCheck(id:any) {
         axios.post(`http://127.0.0.1:3333/keywords/checkForce/${id}`,{token:userToken},requestOptions)
-        .then(res =>{
-          console.log(res)
-        })
+          .then(res =>{
+            console.log(res)
+          })
+        setNotifcheck(true)
       }
 
     /**
@@ -368,9 +375,10 @@ export const Ranking: React.FC<RouteComponentProps> = () => {
      */
       async function checkKeyword(id:any){
         axios.put(`http://127.0.0.1:3333/keywords/check/${id}`,{token:userToken},requestOptions)
-        .then(res =>{
-          console.log(res)
-        })
+          .then(res =>{
+            console.log(res)
+          })
+        setNotifcheck(true)
       }
 
 return(
@@ -889,8 +897,8 @@ return(
                       <CheckCircleIcon className="h-6 w-6 text-green-400" aria-hidden="true" />
                     </div>
                     <div className="ml-3 w-0 flex-1 pt-0.5">
-                      <p className="text-sm font-medium text-gray-900">test</p>
-                      <p className="mt-1 text-sm text-gray-500">ui</p>
+                      <p className="text-sm font-medium text-gray-900">Site internet enregistré !</p>
+                      <p className="mt-1 text-sm text-gray-500">Actualise pour voir le nouveau site !</p>
                     </div>
                     <div className="ml-4 flex-shrink-0 flex">
                       <button
@@ -898,6 +906,96 @@ return(
                         className="bg-white rounded-md inline-flex text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500"
                         onClick={() => {
                           setNotif(false)
+                        }}
+                      >
+                        <span className="sr-only">Close</span>
+                        <XIcon className="h-5 w-5" aria-hidden="true" />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </Transition>
+          </div>
+        </div>  
+        ):null}
+        {notifKeyword ? (
+          <div
+          aria-live="assertive"
+          className="fixed inset-0 flex items-end px-4 py-6 pointer-events-none sm:p-6 sm:items-start"
+        >
+          <div className="w-full flex flex-col items-center space-y-4 sm:items-end">
+            <Transition
+              show={notifKeyword}
+              as={Fragment}
+              enter="transform ease-out duration-300 transition"
+              enterFrom="translate-y-2 opacity-0 sm:translate-y-0 sm:translate-x-2"
+              enterTo="translate-y-0 opacity-100 sm:translate-x-0"
+              leave="transition ease-in duration-100"
+              leaveFrom="opacity-100"
+              leaveTo="opacity-0"
+            >
+              <div className="max-w-sm w-full bg-white shadow-lg rounded-lg pointer-events-auto ring-1 ring-black ring-opacity-5 overflow-hidden">
+                <div className="p-4">
+                  <div className="flex items-start">
+                    <div className="flex-shrink-0">
+                      <CheckCircleIcon className="h-6 w-6 text-green-400" aria-hidden="true" />
+                    </div>
+                    <div className="ml-3 w-0 flex-1 pt-0.5">
+                      <p className="text-sm font-medium text-gray-900">Mot-clé enregistré !</p>
+                      <p className="mt-1 text-sm text-gray-500">Actualise pour voir le mot-clé</p>
+                    </div>
+                    <div className="ml-4 flex-shrink-0 flex">
+                      <button
+                        type="button"
+                        className="bg-white rounded-md inline-flex text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500"
+                        onClick={() => {
+                          setNotifKeyword(false)
+                        }}
+                      >
+                        <span className="sr-only">Close</span>
+                        <XIcon className="h-5 w-5" aria-hidden="true" />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </Transition>
+          </div>
+        </div>  
+        ):null}
+        {notifcheck ? (
+          <div
+          aria-live="assertive"
+          className="fixed inset-0 flex items-end px-4 py-6 pointer-events-none sm:p-6 sm:items-start"
+        >
+          <div className="w-full flex flex-col items-center space-y-4 sm:items-end">
+            <Transition
+              show={notifcheck}
+              as={Fragment}
+              enter="transform ease-out duration-300 transition"
+              enterFrom="translate-y-2 opacity-0 sm:translate-y-0 sm:translate-x-2"
+              enterTo="translate-y-0 opacity-100 sm:translate-x-0"
+              leave="transition ease-in duration-100"
+              leaveFrom="opacity-100"
+              leaveTo="opacity-0"
+            >
+              <div className="max-w-sm w-full bg-white shadow-lg rounded-lg pointer-events-auto ring-1 ring-black ring-opacity-5 overflow-hidden">
+                <div className="p-4">
+                  <div className="flex items-start">
+                    <div className="flex-shrink-0">
+                      <CheckCircleIcon className="h-6 w-6 text-green-400" aria-hidden="true" />
+                    </div>
+                    <div className="ml-3 w-0 flex-1 pt-0.5">
+                      <p className="text-sm font-medium text-gray-900">Mot(s)-clé(s) vérifié(s)</p>
+                      <p className="mt-1 text-sm text-gray-500">Actualise pour voir les positions</p>
+                    </div>
+                    <div className="ml-4 flex-shrink-0 flex">
+                      <button
+                        type="button"
+                        className="bg-white rounded-md inline-flex text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500"
+                        onClick={() => {
+                          setNotifcheck(false)
                         }}
                       >
                         <span className="sr-only">Close</span>
