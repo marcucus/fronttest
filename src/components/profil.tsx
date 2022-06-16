@@ -9,8 +9,17 @@ export const Profil: React.FC<RouteComponentProps> = () => {
 /**
  * Infos utilisateurs
  */
+const token: any=null;
+const userToken: any=null;
+if(localStorage.getItem('userToken')){
   const token = "Bearer "+ localStorage.getItem('userToken');
   const userToken:any = localStorage.getItem('userToken');
+}
+else{
+  const token = "Bearer "+ sessionStorage.getItem('userToken');
+  const userToken:any = sessionStorage.getItem('userToken');
+}
+  
 
 /**
  * Récupère les infos utilisateur
@@ -28,7 +37,7 @@ export const Profil: React.FC<RouteComponentProps> = () => {
   };
 
   useEffect(() => {
-  axios.get(`http://127.0.0.1:3333/users/info/${userToken}`,requestOptions)
+  axios.get(`https://backranking.herokuapp.com/users/info/${userToken}`,requestOptions)
   .then(res =>{
       setInfo(res.data);
     })
@@ -40,7 +49,7 @@ export const Profil: React.FC<RouteComponentProps> = () => {
  * Supprimer le compte
  */
   function remove(id:any){
-    axios.delete(`http://127.0.0.1:3333/users/delete/${id}`,requestOptions)
+    axios.delete(`https://backranking.herokuapp.com/users/delete/${id}`,requestOptions)
       .then(res =>{
       console.log(res.data);
     })

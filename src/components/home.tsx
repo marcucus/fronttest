@@ -6,7 +6,8 @@ import { Features } from './features';
 import { Login } from './login';
 
 export const Home: React.FC<RouteComponentProps> = () => {
-    localStorage.clear()
+    localStorage.clear();
+    sessionStorage.clear();
 return (
 <>
 <div className="relative bg-gray-800 overflow-hidden min-h-[682px]">

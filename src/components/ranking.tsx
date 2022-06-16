@@ -11,8 +11,16 @@ export const Ranking: React.FC<RouteComponentProps> = () => {
   /**
    * Infos utilisateurs
    */
-    const token = "Bearer "+ localStorage.getItem('userToken');
-    const userToken:any = localStorage.getItem('userToken');
+    const token: any=null;
+    const userToken: any=null;
+    if(localStorage.getItem('userToken')){
+      const token = "Bearer "+ localStorage.getItem('userToken');
+      const userToken:any = localStorage.getItem('userToken');
+    }
+    else{
+      const token = "Bearer "+ sessionStorage.getItem('userToken');
+      const userToken:any = sessionStorage.getItem('userToken');
+    }
   
   /**
    * Sites
@@ -47,14 +55,14 @@ export const Ranking: React.FC<RouteComponentProps> = () => {
       setKey([]);
       setSiteId(id);
       if(id==0){
-        axios.get(`http://127.0.0.1:3333/keywords/keyworduser/${userToken}`,requestOptions)
+        axios.get(`https://backranking.herokuapp.com/keywords/keyworduser/${userToken}`,requestOptions)
           .then(res =>{
             setKey(res.data)
             console.log(key)
           });
       }
       else{
-        axios.get(`http://127.0.0.1:3333/keywords/allbysite/${id}`,requestOptions)
+        axios.get(`https://backranking.herokuapp.com/keywords/allbysite/${id}`,requestOptions)
           .then(res =>{
             setKey(res.data)
           });
@@ -74,7 +82,7 @@ export const Ranking: React.FC<RouteComponentProps> = () => {
     };
 
     useEffect(() => {
-    axios.post('http://127.0.0.1:3333/sites/allbyuser',{token:userToken},requestOptions)
+    axios.post('https://backranking.herokuapp.com/sites/allbyuser',{token:userToken},requestOptions)
     .then(res =>{
         setSiteInfo(res.data);
       })
@@ -86,7 +94,7 @@ export const Ranking: React.FC<RouteComponentProps> = () => {
    */
     useEffect(() => {
       setKey([])
-        axios.get(`http://127.0.0.1:3333/keywords/keyworduser/${userToken}`,requestOptions)
+        axios.get(`https://backranking.herokuapp.com/keywords/keyworduser/${userToken}`,requestOptions)
         .then(res =>{
           setKey(res.data)
         })
@@ -113,7 +121,7 @@ export const Ranking: React.FC<RouteComponentProps> = () => {
         body: raw
       };
 
-      fetch("http://127.0.0.1:3333/sites/create", requestOptions)
+      fetch("https://backranking.herokuapp.com/sites/create", requestOptions)
         .then(response => response.text())
         .then(result => console.log(result))
         .catch(error => console.log('error', error));
@@ -157,7 +165,7 @@ export const Ranking: React.FC<RouteComponentProps> = () => {
         body: raw
       };
       
-      fetch("http://127.0.0.1:3333/keywords/create", requestOptions)
+      fetch("https://backranking.herokuapp.com/keywords/create", requestOptions)
         .then(response => response.text())
         .then(result => result)
         .catch(error => error);
@@ -173,7 +181,7 @@ export const Ranking: React.FC<RouteComponentProps> = () => {
    * @param id 
    */
     function onRemoveSite(id:any){
-      axios.delete(`http://127.0.0.1:3333/sites/delete/${id}`, requestOptions);
+      axios.delete(`https://backranking.herokuapp.com/sites/delete/${id}`, requestOptions);
       window.location.reload();
     }
 
@@ -182,7 +190,7 @@ export const Ranking: React.FC<RouteComponentProps> = () => {
    * @param id 
    */
     function onRemoveItem(id:any){
-      axios.delete(`http://127.0.0.1:3333/keywords/delete/${id}`, requestOptions);
+      axios.delete(`https://backranking.herokuapp.com/keywords/delete/${id}`, requestOptions);
       window.location.reload();
     }
     
@@ -217,7 +225,7 @@ export const Ranking: React.FC<RouteComponentProps> = () => {
         setLabel([])
         setData([])
         setPos([])
-        axios.get(`http://127.0.0.1:3333/keywords/getPos/${id}`,requestOptions)
+        axios.get(`https://backranking.herokuapp.com/keywords/getPos/${id}`,requestOptions)
           .then(res =>{
             setPos(res.data);
             chart(res.data);
@@ -310,7 +318,7 @@ export const Ranking: React.FC<RouteComponentProps> = () => {
      * Fonction de vérification de tout les mots-clé de l'utilisateur qui n'ont pas été verifiés depuis au minimum 24h
      */
       async function checkAll(token:any){
-        axios.post(`http://127.0.0.1:3333/keywords/checkUser/${token}`,{token:userToken},requestOptions)
+        axios.post(`https://backranking.herokuapp.com/keywords/checkUser/${token}`,{token:userToken},requestOptions)
           .then(res =>{
             console.log(res)
           })
@@ -321,7 +329,7 @@ export const Ranking: React.FC<RouteComponentProps> = () => {
      * Fonction de vérification de tout les mots-clé d'un site qui n'ont pas été verifiés depuis au minimum 24h
      */
       async function checkSite(id:any){
-        axios.post(`http://127.0.0.1:3333/keywords/check24/${id}`,{token:userToken},requestOptions)
+        axios.post(`https://backranking.herokuapp.com/keywords/check24/${id}`,{token:userToken},requestOptions)
           .then(res =>{
             console.log(res)
           })
@@ -332,7 +340,7 @@ export const Ranking: React.FC<RouteComponentProps> = () => {
      * Fonction de vérification de tout les mots-clé d'un utilisateur y compris ceux vérifiés il y a moins de 24h
      */
       async function forceCheckAll(token:any){
-        axios.post(`http://127.0.0.1:3333/keywords/checkForceUser/${token}`,{token:userToken},requestOptions)
+        axios.post(`https://backranking.herokuapp.com/keywords/checkForceUser/${token}`,{token:userToken},requestOptions)
           .then(res =>{
             console.log(res)
           })
@@ -343,7 +351,7 @@ export const Ranking: React.FC<RouteComponentProps> = () => {
      * Fonction de vérification de tout les mots-clé d'un site y compris ceux vérifiés il y a moins de 24h
      */
       async function forceCheck(id:any) {
-        axios.post(`http://127.0.0.1:3333/keywords/checkForce/${id}`,{token:userToken},requestOptions)
+        axios.post(`https://backranking.herokuapp.com/keywords/checkForce/${id}`,{token:userToken},requestOptions)
           .then(res =>{
             console.log(res)
           })
@@ -354,7 +362,7 @@ export const Ranking: React.FC<RouteComponentProps> = () => {
      * Fonction de vérification d'un seul mot-clé
      */
       async function checkKeyword(id:any){
-        axios.put(`http://127.0.0.1:3333/keywords/check/${id}`,{token:userToken},requestOptions)
+        axios.put(`https://backranking.herokuapp.com/keywords/check/${id}`,{token:userToken},requestOptions)
           .then(res =>{
             console.log(res)
           })

@@ -15,6 +15,7 @@ export const NavbarUser: React.FC<RouteComponentProps> = () => {
   function disconnect()
   {
     localStorage.clear();
+    sessionStorage.clear();
   }
 
 return (

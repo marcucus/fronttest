@@ -8,10 +8,12 @@ export const Login: React.FC<RouteComponentProps> = (props) => {
   const OnSuccess = async(res:any) => {
     console.log('Login Success: currentUser:', res.profileObj);
     axios
-      .post('http://127.0.0.1:3333/authentication/auth', { token: res.tokenId })
+      .post('https://backranking.herokuapp.com/authentication/auth', { token: res.tokenId })
       .then(async response => {
         localStorage.setItem('userToken',response.data);
         localStorage.setItem('picture',res.profileObj.imageUrl);
+        sessionStorage.setItem("userToken", response.data);
+        sessionStorage.setItem("picture", res.profileObj.imageUrl);
         await navigate('/ranking')
       })
       .catch((err: any) => {
