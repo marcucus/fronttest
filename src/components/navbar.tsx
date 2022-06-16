@@ -3,8 +3,6 @@ import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { MenuIcon, XIcon } from '@heroicons/react/outline'
 import { Link, RouteComponentProps } from '@reach/router'
 import Logo from '../assets/logo/logo.svg'
-import { ReactSession } from 'react-client-session';
-import { sessionService } from 'redux-react-session'
 
 const navigation = [
   { name: 'Home', href: '/', current: false },
@@ -16,15 +14,6 @@ const navigation = [
 function classNames(...classes: any[]) {
   return classes.filter(Boolean).join(' ')
 }
-
-const Item: React.FC<{ to: string }> = (props) => (
-  <Link
-    to={props.to}
-    className="px-2 py-1 text-gray-400 transition-all duration-300 ease-in-out border-b-2 border-transparent hover:border-yellow-400 hover:text-white"
-  >
-    {props.children}
-  </Link>
-)
 
 export const Navbar: React.FC<RouteComponentProps> = () => {
 return (

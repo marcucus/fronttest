@@ -185,20 +185,6 @@ export const Ranking: React.FC<RouteComponentProps> = () => {
       axios.delete(`http://127.0.0.1:3333/keywords/delete/${id}`, requestOptions);
       window.location.reload();
     }
-
-    /**
-     * Mise en forme de la date
-     * @param date 
-     * @returns newdate
-     */
-      function cut(date:any){
-        const dateRepl=date.replace('T', ' ');
-        const year=date.slice(0, 4);
-        const month=date.slice(4,8);
-        const day=date.slice(8,10);
-        const newdate=day+month+year+' à '+dateRepl.slice(11,19);
-        return newdate;
-      }
     
     /**
      * Mise en forme de la date
@@ -763,7 +749,9 @@ return(
                               {key.map((one: any) => (
                                 <tr>
                                   <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{name(one.keywords)}</td>
-                                  <td className="pl-7 whitespace-nowrap py-4 pr-3 text-sm text-gray-900">{one.position}</td>
+                                  <td className="pl-7 whitespace-nowrap py-4 pr-3 text-sm text-gray-900">{one.position == "NaN" ? (
+                                    "-"
+                                  ):one.position}</td>
                                 {one.lastcheck ? ( 
                                   <>
                                     <td className="pl-3 whitespace-nowrap py-4 pr-3 text-sm text-yellow-500">

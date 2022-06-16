@@ -6,11 +6,11 @@ import { ExclamationIcon, XIcon } from "@heroicons/react/outline";
 
 export const Profil: React.FC<RouteComponentProps> = () => {
 
- /**
-   * Infos utilisateurs
-   */
-    const token = "Bearer "+ localStorage.getItem('userToken');
-    const userToken:any = localStorage.getItem('userToken');
+/**
+ * Infos utilisateurs
+ */
+  const token = "Bearer "+ localStorage.getItem('userToken');
+  const userToken:any = localStorage.getItem('userToken');
 
 /**
  * Récupère les infos utilisateur
@@ -47,10 +47,6 @@ export const Profil: React.FC<RouteComponentProps> = () => {
     setOpen(false);
     navigate('/');
   }
-
-    function classNames(...classes: any[]) {
-      return classes.filter(Boolean).join(' ');
-    }
 
 return(
 <>
